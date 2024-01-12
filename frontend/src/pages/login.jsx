@@ -1,9 +1,9 @@
 import React from 'react';
 // import { useState } from 'react';
-import {Navigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const Login = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const [email, setEmail] = useState('');
   // const [password, setPassword] = useState('');
 
@@ -16,7 +16,7 @@ const Login = () => {
 
     if (isAuthenticated) {
       // Jika otentikasi berhasil, arahkan ke halaman dashboard
-      Navigate('/dashboard/Accounts');
+      navigate('/dashboard/Accounts');
     } else {
       // Jika otentikasi gagal, mungkin tampilkan pesan kesalahan atau lakukan tindakan lain
       console.log('Login failed');

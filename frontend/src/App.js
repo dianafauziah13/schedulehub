@@ -11,14 +11,13 @@ import ValidasiJumat from './pages/ValidasiJumat';
 
 function App() {
   const isLoggedIn = true; 
-
   return (    
       <Router>
         <Routes>
           {/* Rute untuk halaman login */}
           <Route path="/" element={<Navigate to="/login" />} />
           <Route path="/login" element={<Login />} />
-
+          
           {/* Rute untuk halaman dashboard */}
           <Route
             path="/dashboard/*"
