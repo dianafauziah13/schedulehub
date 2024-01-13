@@ -35,7 +35,7 @@ const routes = [
     icon: <MdMosque />,
   },
   {
-    path: "/dashboard/analytics",
+    path: "/dashboard/mubaligh",
     name: "Mubaligh",
     icon: <FaUser />,
   },

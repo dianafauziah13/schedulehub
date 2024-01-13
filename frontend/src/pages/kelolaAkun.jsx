@@ -17,7 +17,7 @@ const KelolaAkun = () => {
                     <ModalAddAccount />
                     </button>
                 </div>
-                <div className="flex flex-col items-center w-[98%] bg-white px-5 py-3 shadow-md font-montserrat rounded-md">
+                <div className="flex flex-col items-center w-[100%] bg-white px-5 py-3 shadow-md font-montserrat rounded-md">
                     <div className=" w-full">
                         <table className="table-auto w-full border-separate border-spacing-y-3">
                             <thead>
