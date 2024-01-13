@@ -27,7 +27,6 @@ function App() {
                   <div className='AppGlass'>
                     <SideBar />
                     <Routes>
-                      <Route path="/" element={<Navigate to="/dashboard/Accounts" />} />
                       <Route path="/Accounts" element={<KelolaAkun />} />
                       <Route path="/JadwalJumat" element={<JadwalJumat />} />
                       <Route path="/PimpinanJemaah" element={<KelolaPimpinanJemaah />} />

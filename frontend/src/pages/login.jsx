@@ -16,7 +16,7 @@ const Login = () => {
 
     if (isAuthenticated) {
       // Jika otentikasi berhasil, arahkan ke halaman dashboard
-      navigate('/dashboard/Accounts');
+      navigate("/dashboard");
     } else {
       // Jika otentikasi gagal, mungkin tampilkan pesan kesalahan atau lakukan tindakan lain
       console.log('Login failed');

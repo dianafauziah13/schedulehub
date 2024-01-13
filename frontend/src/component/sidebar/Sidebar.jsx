@@ -13,61 +13,61 @@ const routes = [
     icon: <FaCalendarAlt />,
     subRoutes: [
       {
-        path: "/JadwalJumat",
+        path: "/dashboard/JadwalJumat",
         name: "Khutbah Jum'at ",
         // icon: <FaUser />,
       },
       {
-        path: "/settings/2fa",
+        path: "/dashboard/settings/2fa",
         name: "Pengajian Rutin",
         // icon: <FaLock />,
       },
     ],
   },
   {
-    path: "/accounts",
+    path: "/dashboard/accounts",
     name: "Kelola Akun",
     icon: <FaUserGroup />,
   },
   {
-    path: "/PimpinanJemaah",
+    path: "/dashboard/PimpinanJemaah",
     name: "Pimpinan Jemaah",
     icon: <MdMosque />,
   },
   {
-    path: "/analytics",
+    path: "/dashboard/analytics",
     name: "Mubaligh",
     icon: <FaUser />,
   },
   {
-    path: "/generate-jadwal",
+    path: "/dashboard/generate-jadwal",
     name: "Generate Jadwal",
     icon: <AiTwotoneFileExclamation />,
     subRoutes: [
       {
-        path: "/jadwal/jumat",
+        path: "/dashboard/jadwal/jumat",
         name: "Khutbah Jum'at ",
         // icon: <FaUser />,
       },
       {
-        path: "/jadwal/pengajian",
+        path: "/dashboard/jadwal/pengajian",
         name: "Pengajian Rutin",
         // icon: <FaLock />,
       },
     ],
   },
   {
-    path: "/validate",
+    path: "/dashboard/validate",
     name: "Validasi Jadwal",
     icon: <FaCalendarCheck />,
     subRoutes: [
       {
-        path: "/validate/jumat",
+        path: "/dashboard/validate/jumat",
         name: "Khutbah Jum'at ",
         // icon: <FaUser />,
       },
       {
-        path: "/settings/2fa",
+        path: "/dashboard/settings/2fa",
         name: "Pengajian Rutin",
         // icon: <FaLock />,
       },
