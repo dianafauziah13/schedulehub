@@ -20,7 +20,7 @@
     #b1ff79 51.55%,
     #d4f3c6 90.85%
   );
-  height: 100vh;
+  height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
