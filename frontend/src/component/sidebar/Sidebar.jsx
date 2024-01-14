@@ -73,7 +73,7 @@ const routes = [
         // icon: <FaUser />,
       },
       {
-        path: "/dashboard/settings/2fa",
+        path: "/dashboard/validate/pengajian",
         name: "Pengajian Rutin",
         // icon: <FaLock />,
       },
@@ -143,7 +143,7 @@ const SideBar = ({ children }) => {
                   exit="hidden"
                   className="logo"
                 >
-                  DoSomeCoding
+                  SCHEDULEHUB
                 </motion.h1>
               )}
             </AnimatePresence>

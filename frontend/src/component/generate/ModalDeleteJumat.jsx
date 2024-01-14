@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaRegTrashAlt } from 'react-icons/fa';
 
-const ModalDeleteMubaligh = () => {
+const ModalDeleteJumat = () => {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
   
     return (
@@ -18,8 +18,8 @@ const ModalDeleteMubaligh = () => {
           <>
             <div className="flex items-center justify-center fixed inset-0 z-50 outline-none focus:outline-none">
               <div className="bg-white p-8 rounded-lg shadow-md">
-                <h3 className="text-lg font-semibold mb-4">Hapus Mubaligh</h3>
-                <p>Anda yakin ingin menghapus mubaligh ini?</p>
+                <h3 className="text-lg font-semibold mb-4">Hapus Jadwal Khutbah Jum'at</h3>
+                <p>Anda yakin ingin menghapus jadwal ini?</p>
                 <div className="flex justify-center mt-6">
                   <button
                     className="text-white bg-[#FA8072] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
@@ -52,4 +52,4 @@ const ModalDeleteMubaligh = () => {
     );
   };
 
-  export {ModalDeleteMubaligh};
+  export default ModalDeleteJumat;

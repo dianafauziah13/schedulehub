@@ -9,6 +9,8 @@ import GeneratePengajian from './pages/GeneratePengajian';
 import ValidasiJumat from './pages/ValidasiJumat';
 import KelolaMubaligh from './pages/kelolaMubaligh';
 import RekapMubaligh from './pages/rekapMubaligh';
+import ValidasiPengajian from './pages/ValidasiPengajian';
+import GenerateJumat from './pages/GenerateJumat';
 
 
 function App() {
@@ -34,8 +36,10 @@ function App() {
                       <Route path="/PimpinanJemaah" element={<KelolaPimpinanJemaah />} />
                       <Route path="/mubaligh" element={<KelolaMubaligh />} />
                       <Route path="/rekapMubaligh" element={<RekapMubaligh/>} />
+                      <Route path="/jadwal/jumat" element={<GenerateJumat />} />
                       <Route path="/jadwal/pengajian" element={<GeneratePengajian />} />
                       <Route path="/Validate/jumat" element={<ValidasiJumat />} />
+                      <Route path="/Validate/pengajian" element={<ValidasiPengajian />} />
                     </Routes>
                   </div>
                 </div>
