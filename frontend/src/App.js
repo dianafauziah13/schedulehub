@@ -11,6 +11,7 @@ import KelolaMubaligh from './pages/kelolaMubaligh';
 import RekapMubaligh from './pages/rekapMubaligh';
 import ValidasiPengajian from './pages/ValidasiPengajian';
 import GenerateJumat from './pages/GenerateJumat';
+import JadwalPengajian from './pages/JadwalPengajian';
 
 
 function App() {
@@ -33,6 +34,7 @@ function App() {
                     <Routes>
                       <Route path="/Accounts" element={<KelolaAkun />} />
                       <Route path="/JadwalJumat" element={<JadwalJumat />} />
+                      <Route path="/JadwalPengajian" element={<JadwalPengajian />} />
                       <Route path="/PimpinanJemaah" element={<KelolaPimpinanJemaah />} />
                       <Route path="/mubaligh" element={<KelolaMubaligh />} />
                       <Route path="/rekapMubaligh" element={<RekapMubaligh/>} />

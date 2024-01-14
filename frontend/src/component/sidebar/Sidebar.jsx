@@ -19,7 +19,7 @@ const routes = [
         // icon: <FaUser />,
       },
       {
-        path: "/dashboard/settings/2fa",
+        path: "/dashboard/JadwalPengajian",
         name: "Pengajian Rutin",
         // icon: <FaLock />,
       },
