@@ -52,4 +52,4 @@ const ModalDeleteMubaligh = () => {
     );
   };
 
-  export {ModalDeleteMubaligh};
+export default ModalDeleteMubaligh;

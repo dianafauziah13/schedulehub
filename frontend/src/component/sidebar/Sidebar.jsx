@@ -3,7 +3,6 @@ import { FaBars, FaCalendarAlt, FaCalendarCheck, FaUser } from "react-icons/fa";
 import {FaUserGroup} from "react-icons/fa6"
 import { MdMosque } from "react-icons/md";
 import { AiTwotoneFileExclamation } from "react-icons/ai";
-import { CgAlbum } from "react-icons/cg";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
@@ -39,11 +38,23 @@ const routes = [
     path: "/dashboard/mubaligh",
     name: "Mubaligh",
     icon: <FaUser />,
-  },
-  {
-    path: "/dashboard/rekapMubaligh",
-    name: "Rekap Mubaligh",
-    icon: <CgAlbum />,
+    subRoutes: [
+      {
+        path: "/dashboard/kelolaMubaligh",
+        name: "Kelola Mubaligh",
+        // icon: <FaUser />,
+      },
+      {
+        path: "/dashboard/rekapMubaligh",
+        name: "Rekap Mubaligh",
+        // icon: <FaLock />,
+      },
+      {
+        path: "/dashboard/penugasanMubaligh",
+        name: "Penugasan Mubaligh",
+        // icon: <FaLock />,
+      },
+    ],
   },
   {
     path: "/dashboard/generate-jadwal",

@@ -72,19 +72,6 @@ return (
                                         />
                                     </form>
                                 </div>
-                                <div className="w-full lg:w-1/2 px-4 mb-4">
-                                    <form className="rounded w-full">
-                                        <label className="flex justify-start text-black text-sm mt-4 mb-1">
-                                            Penugasan
-                                        </label>
-                                        <Select
-                                            required
-                                            className=" appearance-none rounded w-full text-black"
-                                            placeholder="Banjaran,Cintaasih,Ciapus, ..."
-                                        />
-                                    </form>
-                                </div>
-            
                             </div>
                             <div className="flex items-center justify-between p-6 rounded-b">
                                 <button
