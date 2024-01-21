@@ -46,16 +46,17 @@ const GeneratePengajian = () => {
         // <div className='bg-bg h-screen w-screen overflow-hidden'>
             <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
                 <h1 className='text-[30px] font-montserrat mb-7'>Generate Pengajian Rutin</h1>
-                <div  className='flex justify-start w-[100%] pb-10'>  
+                <div  className='flex items-center w-[98%] pb-10'>  
                     <DatePicker
+                        className="rounded mx-auto text-center"
                         selected={startDate}
                         onChange={(date) => setStartDate(date)}
                         dateFormat="MM/yyyy"
                         showMonthYearPicker
                     />
-                        <FaCalendarAlt/>
+                        <FaCalendarAlt className="ml-2"/>
                 </div>
-                <div className='flex justify-start py-5 ml-80'>
+                <div className='flex justify-end py-5 items-center w-[98%]'>
                     <button
                         type="button"
                         className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
