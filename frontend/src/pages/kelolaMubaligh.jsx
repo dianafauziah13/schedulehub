@@ -3,7 +3,7 @@
 // import styles from '../index.css';
 import ModalAddMubaligh from "../component/mubaligh/ModalAddMubaligh";
 import ModalUpdateMubaligh from "../component/mubaligh/ModalUpdateMubaligh";
-import { ModalDeleteMubaligh } from "../component/mubaligh/ModalDeleteMubaligh";
+import ModalDeleteMubaligh from "../component/mubaligh/ModalDeleteMubaligh";
 
 const KelolaMubaligh = () => {
 
@@ -27,7 +27,6 @@ const KelolaMubaligh = () => {
                                     <th className="px-30 py-1 border-line border-b-2 text-line font-normal">Lingkup Dakwah</th>
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Asal PJ</th>
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Ketersediaan Waktu</th>
-                                    <th className="px-11 py-1 border-line border-b-2 text-line font-normal">Penugasan</th>
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Actions</th>
 
                                 </tr>
@@ -41,7 +40,6 @@ const KelolaMubaligh = () => {
                                             <td className="text-center w-36 px-4 py-2 rounded-l-lg">Cabang</td>
                                             <td className="text-center px-4 py-2 max-w-[200px]">Banjaran</td>
                                             <td className="text-center px-4 py-2">2,3,4</td>
-                                            <td className="text-center px-4 py-2 max-w-[200px]">Banjaran, Cintaasih, Ciapus, Curug</td>
                                             <td className=" relative items-center px-4 py-2 rounded-r-lg">
                                                 <div className='flex justify-center m-2'>
                                                     <ModalUpdateMubaligh/>

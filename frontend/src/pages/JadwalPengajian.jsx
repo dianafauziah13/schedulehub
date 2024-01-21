@@ -8,7 +8,7 @@ const JadwalPengajian = () => {
     return (
         // <div className='bg-bg h-screen w-screen overflow-hidden'>
             <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
-                <h1 className='text-[30px] font-montserrat mb-7'>Jadwal Pengajian</h1>
+                <h1 className='text-[30px] font-montserrat mb-7'>Jadwal Pengajian Rutin</h1>
                 <div className='flex items-center w-[98%] pb-10'>
                     <DatePicker
                         className="rounded mx-auto text-center"

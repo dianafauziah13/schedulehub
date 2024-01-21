@@ -9,6 +9,7 @@ import GeneratePengajian from './pages/GeneratePengajian';
 import ValidasiJumat from './pages/ValidasiJumat';
 import KelolaMubaligh from './pages/kelolaMubaligh';
 import RekapMubaligh from './pages/rekapMubaligh';
+import PenugasanMubaligh from './pages/PenugasanMubaligh';
 import ValidasiPengajian from './pages/ValidasiPengajian';
 import GenerateJumat from './pages/GenerateJumat';
 import JadwalPengajian from './pages/JadwalPengajian';
@@ -36,8 +37,9 @@ function App() {
                       <Route path="/JadwalJumat" element={<JadwalJumat />} />
                       <Route path="/JadwalPengajian" element={<JadwalPengajian />} />
                       <Route path="/PimpinanJemaah" element={<KelolaPimpinanJemaah />} />
-                      <Route path="/mubaligh" element={<KelolaMubaligh />} />
+                      <Route path="/kelolaMubaligh" element={<KelolaMubaligh />} />
                       <Route path="/rekapMubaligh" element={<RekapMubaligh/>} />
+                      <Route path="/penugasanMubaligh" element={<PenugasanMubaligh/>} />
                       <Route path="/jadwal/jumat" element={<GenerateJumat />} />
                       <Route path="/jadwal/pengajian" element={<GeneratePengajian />} />
                       <Route path="/Validate/jumat" element={<ValidasiJumat />} />
