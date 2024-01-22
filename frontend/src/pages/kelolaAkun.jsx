@@ -1,9 +1,10 @@
 // import React, { useState, useEffect } from 'react';
 // import axios from "../axiosConfig";
 // import styles from '../index.css';
-import { FaRegTrashAlt } from "react-icons/fa";
 import ModalAddAccount from "../component/account/ModalAddAccount";
 import ModalUpdateAccount from "../component/account/ModalUpdateAccount";
+import ModalDeleteAccount from "../component/account/ModalDeleteAccount";
+
 
 const KelolaAkun = () => {
 
@@ -44,7 +45,7 @@ const KelolaAkun = () => {
                                                 <div className='flex justify-center m-2'>
                                                     <ModalUpdateAccount/>
                                                     <button>
-                                                       <FaRegTrashAlt/>
+                                                    <ModalDeleteAccount/>
                                                     </button>
                                                 </div>
                                             </td>
