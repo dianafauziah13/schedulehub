@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 // import axios from "../axiosConfig";
 // import styles from '../index.css';
-import { FaRegTrashAlt, FaCalendarAlt} from "react-icons/fa";
+import {FaCalendarAlt} from "react-icons/fa";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import ModalPreviewPengajian from '../component/generate/PreviewPengajian';
+import ModalDeletePengajian from '../component/generate/ModalDeletePengajian';
+
 function createData(status) {
     return { status };
 }
@@ -99,7 +101,7 @@ const GeneratePengajian = () => {
                                                 <div className='flex justify-center m-2'>
 
                                                     <button>
-                                                       <FaRegTrashAlt/>
+                                                       <ModalDeletePengajian/>
                                                     </button>
                                                 </div>
                                             </td>
