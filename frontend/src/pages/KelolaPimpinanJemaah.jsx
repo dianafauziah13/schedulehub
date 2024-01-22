@@ -1,9 +1,9 @@
 // import React, { useState, useEffect } from 'react';
 // import axios from "../axiosConfig";
 // import styles from '../index.css';
-import { FaRegTrashAlt } from "react-icons/fa";
 import ModalAddPJ from "../component/pimpinanJemaah/ModalAddPJ";
 import { TERipple } from 'tw-elements-react';
+import ModalDeletePJ from "../component/pimpinanJemaah/ModalDeletePJ";
 
 const KelolaPimpinanJemaah = () => {
 
@@ -78,7 +78,7 @@ const KelolaPimpinanJemaah = () => {
                                                 <div className='flex justify-center m-2'>
 
                                                     <button>
-                                                       <FaRegTrashAlt/>
+                                                       <ModalDeletePJ/>
                                                     </button>
                                                 </div>
                                             </td>
