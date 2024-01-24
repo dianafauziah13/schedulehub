@@ -1,3 +1,5 @@
+import DetailPengajian from "../component/validasiJadwal/Pengajian";
+
 function createData(status) {
     return { status };
 }
@@ -61,7 +63,7 @@ const ValidasiPengajian = () => {
                                             </div>
                                             <td className="text-sky-300 relative items-center px-4 py-2 rounded-r-lg"> 
                                                     <button className="underline">
-                                                        Detail
+                                                       <DetailPengajian/>
                                                     </button>
                                             </td>
                                         </tr>
