@@ -10,6 +10,16 @@ const addPJ = async (req, res) => {
     }
 };
 
+const getAllPJ = async (req, res) => {
+    try{
+        const PJ = await PimpinanJemaah.find();
+        res.status(201).json(PJ);
+    }catch (err){
+        res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
 module.exports = {
     addPJ,
+    getAllPJ,
 };
