@@ -1,5 +1,6 @@
 const PimpinanJemaah = require('../models/pimpinanJemaah');
 
+// Menambahkan data pimpinan jemaah
 const addPJ = async (req, res) => {
     const { mosqueName, address, scopeDakwah} = req.body;
     try{
@@ -10,6 +11,7 @@ const addPJ = async (req, res) => {
     }
 };
 
+// Menampilkan semua data pimpinan jemaah
 const getAllPJ = async (req, res) => {
     try{
         const PJ = await PimpinanJemaah.find();
@@ -19,7 +21,24 @@ const getAllPJ = async (req, res) => {
     }
 }
 
+// Menghapus data pimpinan jemaah berdasarkan ID Pimpinan Jemaah
+const deletePJByID = async (req, res) => {
+    try{
+        const pjID = req.params.id;
+        const PJ = await PimpinanJemaah.findById(pjID);
+
+        if (!PJ){
+            return res.status(404).json({message: "Pimpinan Jemaah Not Found"});
+        }
+        await PimpinanJemaah.findByIdAndDelete(pjID);
+        res.status(200).json({message: "Pimpinan Jemaah Deleted Successfully"});
+    }catch(err){
+        res.status(400).json({ message: error.message });
+    }
+}
+
 module.exports = {
     addPJ,
     getAllPJ,
+    deletePJByID,
 };
