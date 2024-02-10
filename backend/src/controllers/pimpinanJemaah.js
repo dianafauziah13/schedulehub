@@ -19,7 +19,33 @@ const getAllPJ = async (req, res) => {
     }catch (err){
         res.status(500).json({ message: 'Internal server error' });
     }
-}
+};
+
+// Memperbarui data pimpinan jemaah berdasarkan ID pimpinan Jemaah
+const updatePJById = async (req, res) => {
+    const PJID = req.params.id;
+    const { mosqueName, address, scopeDakwah } = req.body;
+  
+    try {
+
+      // Periksa apakah produk dengan ID yang diberikan ada dalam database
+      const existingPJ = await PimpinanJemaah.findById(PJID);
+      if (!existingPJ) {
+        return res.status(404).json({ message: 'Pimpinan Jemaah not found' });
+      }
+      // Update pimpinan jemaah dengan data yang baru
+      existingPJ.mosqueName = mosqueName;
+      existingPJ.address = address;
+      existingPJ.scopeDakwah = scopeDakwah;
+      
+      // Simpan perubahan ke database
+      await existingPJ.save();
+      res.status(200).json(existingPJ);
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
+  };
+  
 
 // Menghapus data pimpinan jemaah berdasarkan ID Pimpinan Jemaah
 const deletePJByID = async (req, res) => {
@@ -35,10 +61,11 @@ const deletePJByID = async (req, res) => {
     }catch(err){
         res.status(400).json({ message: error.message });
     }
-}
+};
 
 module.exports = {
     addPJ,
     getAllPJ,
+    updatePJById,
     deletePJByID,
 };
