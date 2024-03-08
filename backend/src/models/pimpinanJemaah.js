@@ -4,11 +4,11 @@ const pimpinanjemaahSchema = new mongoose.Schema({
     mosqueName:{
         type: String,
     },
-    address:{
+    topicOfKajian:{
         type: String,
     },
     scopeDakwah:{
-        type: String,
+        type: mongoose.Schema.Types.ObjectId, ref: 'ScopeDakwah',
     }
 
 });
