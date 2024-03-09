@@ -10,7 +10,7 @@ const mubalighSchema = new mongoose.Schema({
     khutbahJumatAvailable:[{type: Number}],
     pengajianAvailable:[
         {
-            minggu_ke:{type:Number},
+            minggu_ke:[{type:Number}],
             days:[{type: String}]
         }
     ],
