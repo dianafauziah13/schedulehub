@@ -13,7 +13,15 @@ const pimpinanjemaahSchema = new mongoose.Schema({
             Minggu_ke: {type:Number},
             scopeDakwah: {type: mongoose.Schema.Types.ObjectId, ref: 'ScopeDakwah'},
         }
+    ],
+    ScopeDakwahPengajian:[
+        {
+            hari: {type:String},
+	        detailWaktu: {type:String},
+	        TopicOfKajian : {type:String}
+        }
     ]
+
 });
 
 const  PimpinanJemaah= mongoose.model('PimpinanJemaah', pimpinanjemaahSchema);
