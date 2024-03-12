@@ -2,9 +2,9 @@ const PimpinanJemaah = require('../models/pimpinanJemaah');
 
 // Menambahkan data pimpinan jemaah
 const addPJ = async (req, res) => {
-    const { mosqueName, address, scopeDakwah} = req.body;
+    const pimpinanjemaah = req.body;
     try{
-        const newPJ = await PimpinanJemaah.create({mosqueName, address, scopeDakwah});
+        const newPJ = await PimpinanJemaah.create(pimpinanjemaah);
         res.status(201).json(newPJ);
     }catch(err){
         res.status(400).json({message: err.message});
