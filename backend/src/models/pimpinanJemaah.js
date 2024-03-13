@@ -13,6 +13,7 @@ const pimpinanjemaahSchema = new mongoose.Schema({
     ],
     ScopeDakwahPengajian:[
         {
+            Minggu_ke: {type:Number},
             hari: {type:String},
 	        detailWaktu: {type:String},
 	        TopicOfKajian : {type:String}
