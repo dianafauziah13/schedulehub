@@ -5,9 +5,12 @@ const pimpinanjemaahSchema = new mongoose.Schema({
     mosqueName:{
         type: String,
     },
+<<<<<<< HEAD
     topicOfKajian:{
         type: String,
     },
+=======
+>>>>>>> 9ba05b11b00e68e8194d5906e65254efcdba310f
     scopeDakwahJumat:[
         {
             Minggu_ke: {type:Number},
