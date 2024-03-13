@@ -6,12 +6,8 @@ const penugasanSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    ListOfMubaligh:[
-        {
-            KhutbahJumat:[{type: mongoose.Schema.Types.ObjectId, ref: 'mubaligh'}],
-            Pengajian:[{type: mongoose.Schema.Types.ObjectId, ref: 'mubaligh'}]
-        }
-    ]
+    MubalighKhutbahJumat:[{type: mongoose.Schema.Types.ObjectId, ref: 'mubaligh'}],
+    MubalighPengajian:[{type: mongoose.Schema.Types.ObjectId, ref: 'mubaligh'}]
 });
 
 const  penugasan= mongoose.model('penugasan', penugasanSchema);
