@@ -9,7 +9,7 @@ export class KeahlianController {
   constructor(private readonly keahlianService: KeahlianService) {}
 
   @Post()
-  async createKnowledge(@Body() keahlianDTO: keahlianDTO): Promise<keahlianDTO> {
+  async createKnowledge(@Body() keahlianDTO: keahlianDTO): Promise<KeahlianSchema> {
     const createdKnowledge = await this.keahlianService.createKnowledge(keahlianDTO);
     return createdKnowledge;
   }
