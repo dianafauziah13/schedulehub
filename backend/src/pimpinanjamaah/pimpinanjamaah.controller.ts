@@ -1,6 +1,6 @@
 import { Body, Controller, Post,  Get, Param, Put } from '@nestjs/common';
 import { PimpinanjemaanService } from './pimpinanjamaah.service'
-import { PimpinanjemaahSchemaDTO } from './dto/create-pj.dto';
+import { PimpinanjemaahSchemaDto } from './dto/create-pj.dto';
 import { PimpinanjemaahSchema } from './schemas/pimpinanjamaah.schema';
 
 @Controller('pimpinanjemaah')
@@ -8,7 +8,7 @@ export class PimpinanjemaanController {
   constructor(private readonly pimpinanjemaanService: PimpinanjemaanService) {}
 
   @Post()
-  async createPimpinanjemaan(@Body() pimpinanjemaanDTO: PimpinanjemaahSchemaDTO): Promise<PimpinanjemaahSchemaDTO> {
+  async createPimpinanjemaan(@Body() pimpinanjemaanDTO: PimpinanjemaahSchemaDto): Promise<PimpinanjemaahSchema> {
     const createdPimpinanjemaan = await this.pimpinanjemaanService.createPimpinanjemaan(pimpinanjemaanDTO);
     return createdPimpinanjemaan;
   }
@@ -26,7 +26,7 @@ export class PimpinanjemaanController {
   @Put(':id')
   async updatePimpinanjemaan(
     @Param('id') id: string,
-    @Body() pimpinanjemaanDTO: PimpinanjemaahSchemaDTO,
+    @Body() pimpinanjemaanDTO: PimpinanjemaahSchemaDto,
   ): Promise<PimpinanjemaahSchema> {
     return await this.pimpinanjemaanService.updatePimpinanjemaan(id, pimpinanjemaanDTO);
   }

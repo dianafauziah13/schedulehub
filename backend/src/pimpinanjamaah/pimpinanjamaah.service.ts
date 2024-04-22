@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { PimpinanjemaahSchema } from './schemas/pimpinanjamaah.schema';
-import { PimpinanjemaahSchemaDTO } from './dto/create-pj.dto';
+import { PimpinanjemaahSchemaDto } from './dto/create-pj.dto';
 
 @Injectable()
 export class PimpinanjemaanService {
@@ -11,7 +11,7 @@ export class PimpinanjemaanService {
     private pimpinanjemaahModel: Model<PimpinanjemaahSchema>,
   ) {}
 
-  async createPimpinanjemaan(pimpinanjemaanDTO: PimpinanjemaahSchemaDTO): Promise<PimpinanjemaahSchema> {
+  async createPimpinanjemaan(pimpinanjemaanDTO: PimpinanjemaahSchemaDto): Promise<PimpinanjemaahSchema> {
     const newPimpinanjemaan = new this.pimpinanjemaahModel(pimpinanjemaanDTO);
     return await newPimpinanjemaan.save();
   }
@@ -24,7 +24,7 @@ export class PimpinanjemaanService {
     return await this.pimpinanjemaahModel.findById(id).exec();
   }
 
-  async updatePimpinanjemaan(id: string, pimpinanjemaanDTO: PimpinanjemaahSchemaDTO): Promise<PimpinanjemaahSchema> {
+  async updatePimpinanjemaan(id: string, pimpinanjemaanDTO: PimpinanjemaahSchemaDto): Promise<PimpinanjemaahSchema> {
     return await this.pimpinanjemaahModel.findByIdAndUpdate(id, pimpinanjemaanDTO, { new: true }).exec();
   }
 

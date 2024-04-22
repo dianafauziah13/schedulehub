@@ -5,7 +5,7 @@ import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
 @Schema()
 export class KeahlianSchema extends Document {
   @Prop({ type: String })
-  NameOfKnowlegde: string;
+  NamaKeahlian: string;
 }
 
 export const KeahlianSchemaModel = SchemaFactory.createForClass(KeahlianSchema);
