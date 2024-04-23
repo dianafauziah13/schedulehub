@@ -7,6 +7,8 @@ import { Logger } from '@nestjs/common';
 import { PimpinanJemaahModule } from './pimpinanjamaah/pimpinanjamaah.module';
 import { ScopeDakwahModule } from './scopeDakwah/scopedakwah.module';
 import { KeahlianModule } from './keahlian/keahlian.module';
+import { MubalighModule } from './mubaligh/mubaligh.module';
+
 
 
 @Module({
@@ -33,7 +35,7 @@ import { KeahlianModule } from './keahlian/keahlian.module';
 
       return connection;
     },
-  }), PimpinanJemaahModule, ScopeDakwahModule, KeahlianModule
+  }), PimpinanJemaahModule, ScopeDakwahModule, KeahlianModule, MubalighModule
 ],
 
   controllers: [AppController],
