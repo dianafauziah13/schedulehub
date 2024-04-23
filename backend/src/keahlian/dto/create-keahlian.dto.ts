@@ -1,3 +1,3 @@
 export class keahlianDTO {
-    NameOfKnowlegde: string;
+    NamaKeahlian: string;
 }

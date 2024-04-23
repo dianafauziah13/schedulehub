@@ -7,7 +7,7 @@ export interface ScopeDakwahJumat {
 
 export interface IKeahlian {
   idKeahlian: MongooseSchema.Types.ObjectId;
-  MinimalKeahlian: string;
+  MinimalKeahlian: Number;
 }
 
 export interface ScopeDakwahPengajian {

@@ -1,3 +1,3 @@
 export interface KeahlianSchema {
-    NameOfKnowlegde: string;
+    NamaKeahlian: string;
 }
