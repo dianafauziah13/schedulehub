@@ -20,7 +20,7 @@ export class ScopeDakwahPengajianDto {
 
 export class PimpinanjemaahSchemaDto {
   // KetuaPJ: MongooseSchema.Types.ObjectId;
-  mosqueName: string;
+  Nama: string;
   scopeDakwahJumat: ScopeDakwahJumatDto[];
   ScopeDakwahPengajian: ScopeDakwahPengajianDto[];
 }
