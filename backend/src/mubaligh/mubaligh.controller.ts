@@ -30,5 +30,4 @@ export class MubalighController {
   ): Promise<MubalighSchema> {
     return await this.mubalighService.updateMubaligh(id, MubalighDto);
   }
-  // Add other CRUD methods as needed
 }

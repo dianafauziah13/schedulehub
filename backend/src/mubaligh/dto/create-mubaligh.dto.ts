@@ -1,11 +1,11 @@
 import mongoose, { Schema as MongooseSchema } from 'mongoose';
 
 export class AvailableKhutbahJumatDto {
-    Minggu_ke : number;
+    Minggu_ke : [number];
 }
 
 export class AvailablePengajianRutinDto {
-    Minggu_ke : number;
+    Minggu_ke : [number];
     Hari : string;
 }
 
