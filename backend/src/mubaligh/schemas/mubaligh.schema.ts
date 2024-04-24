@@ -31,6 +31,9 @@ export class MubalighSchema extends Document {
 
   @Prop({ type: [AvailablePengajianRutin] })
   AvailablePengajianRutin : AvailablePengajianRutin[];
+
+  @Prop({ type: [ListKeahlian] })
+  ListKeahlian : ListKeahlian[];  
 }
 
 export const MubalighSchemaModel = SchemaFactory.createForClass(MubalighSchema);
