@@ -1,21 +1,21 @@
-import { Schema as MongooseSchema } from 'mongoose';
+import mongoose, { Mongoose, Schema as MongooseSchema } from 'mongoose';
 
 export interface AvailableKhutbahJumat {
-    Minggu_ke : number;
+    Minggu_ke : [number];
 }
 
 export interface AvailablePengajianRutin {
-    Minggu_ke : number;
+    Minggu_ke : [number];
     Hari : string;
 }
 
 export interface ListKeahlian {
-    idListKeahlian : MongooseSchema.Types.ObjectId;
+    idListKeahlian : mongoose.Schema.Types.ObjectId;
     Rating : number;
 }
 
 export interface Mubaligh {
-    idScopeDakwah :MongooseSchema.Types.ObjectId, ref: 'ScopeDakwah';
+    idScopeDakwah :mongoose.Schema.Types.ObjectId, ref: 'ScopeDakwah';
     mubalighName : string;
     AvailableKhutbahJumat : AvailableKhutbahJumat [];
     AvailablePengajianRutin : AvailablePengajianRutin [];

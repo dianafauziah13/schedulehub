@@ -3,17 +3,17 @@ import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
 
 @Schema()
 export class AvailableKhutbahJumat extends Document {
-  @Prop({ type: Number })
-  Minggu_ke: Number;
+  @Prop({ type: [Number] })
+  Minggu_ke: [Number];
 }
 
 @Schema()
 export class AvailablePengajianRutin extends Document {
-  @Prop({ type: Number })
-  Minggu_ke: Number;
+  @Prop({ type: [Number] })
+  Minggu_ke: [Number];
  
-  @Prop({ type: String })
-  Hari: String;
+  @Prop({ type: [String] })
+  Hari: [String];
 }
 
 @Schema()
@@ -27,8 +27,6 @@ export class ListKeahlian extends Document {
 
 @Schema()
 export class MubalighSchema extends Document {
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'mubaligh' })
-  // KetuaPJ: mongoose.Schema.Types.ObjectId;
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ScopeDakwah' })
   idScopeDakwah : mongoose.Schema.Types.ObjectId;
 
