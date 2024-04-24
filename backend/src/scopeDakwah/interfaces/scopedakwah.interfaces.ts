@@ -1,5 +1,3 @@
-import { Schema as MongooseSchema } from 'mongoose';
-
-export interface ScopeDakwah {
+export interface ScopeDakwahSchema {
   LingkupDakwah: string;
 }
