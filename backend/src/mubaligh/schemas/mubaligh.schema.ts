@@ -1,12 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
-
-@Schema()
-export class AvailableKhutbahJumat extends Document {
-  @Prop({ type: [Number] })
-  Minggu_ke: [Number];
-}
-
 @Schema()
 export class AvailablePengajianRutin extends Document {
   @Prop({ type: [Number] })
@@ -33,11 +26,11 @@ export class MubalighSchema extends Document {
   @Prop({ type: String })
   mubalighName: string;  
 
-  @Prop({ type: [AvailableKhutbahJumat] })
-  availableKhutbahJumat: AvailableKhutbahJumat[];
+  @Prop({ type: [Number] })
+  AvailableKhutbahJumat: number[];
 
   @Prop({ type: [AvailablePengajianRutin] })
-  availablePengajianRutin : AvailablePengajianRutin[];
+  AvailablePengajianRutin : AvailablePengajianRutin[];
 }
 
 export const MubalighSchemaModel = SchemaFactory.createForClass(MubalighSchema);

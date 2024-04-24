@@ -12,7 +12,9 @@ export class MubalighService {
   ) {}
 
   async createMubaligh(mubalighDto: MubalighSchemaDto): Promise<MubalighSchema> {
+    console.log(mubalighDto)
     const newMubaligh = new this.mubalighModel(mubalighDto);
+    console.log(newMubaligh)
     return await newMubaligh.save();
   }
 

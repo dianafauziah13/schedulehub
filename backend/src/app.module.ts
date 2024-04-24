@@ -12,20 +12,23 @@ import { MubalighModule } from './mubaligh/mubaligh.module';
 
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb://127.0.0.1:27017/myScheduleHub', {
+  imports: [MongooseModule.forRoot('mongodb+srv://aziztaufiqurrahman:Doq22486@atlascluster.2lyt9lm.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster', {
     
     connectionFactory: (connection) => {
       const logger = new Logger('MongooseConnection');
 
       connection.on('connecting', () => {
+        console.log("test")
         logger.log('Connecting to MongoDB...');
       });
 
       connection.on('connected', () => {
+        console.log("test")
         logger.log('Connected to MongoDB');
       });
 
       connection.on('error', (err) => {
+        console.log("test")
         logger.error('Error connecting to MongoDB', err);
       });
 
