@@ -1,4 +1,4 @@
-import { Body, Controller, Post,  Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Post,  Get, Param, Put, Delete } from '@nestjs/common';
 import { MubalighService } from './mubaligh.service'
 import { MubalighSchemaDto } from './dto/create-mubaligh.dto';
 import { MubalighSchema } from './schemas/mubaligh.schema';
@@ -29,5 +29,10 @@ export class MubalighController {
     @Body() MubalighDto: MubalighSchemaDto,
   ): Promise<MubalighSchema> {
     return await this.mubalighService.updateMubaligh(id, MubalighDto);
+  }
+
+  @Delete(':id')
+  async deletePimpinanjemaan(@Param('id') id: string): Promise<void> {
+    await this.mubalighService.deleteMubaligh(id);
   }
 }

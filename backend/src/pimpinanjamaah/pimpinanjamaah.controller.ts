@@ -1,4 +1,4 @@
-import { Body, Controller, Post,  Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Post,  Get, Param, Put, Delete } from '@nestjs/common';
 import { PimpinanjemaanService } from './pimpinanjamaah.service'
 import { PimpinanjemaahSchemaDto } from './dto/create-pj.dto';
 import { PimpinanjemaahSchema } from './schemas/pimpinanjamaah.schema';
@@ -29,6 +29,11 @@ export class PimpinanjemaanController {
     @Body() pimpinanjemaanDTO: PimpinanjemaahSchemaDto,
   ): Promise<PimpinanjemaahSchema> {
     return await this.pimpinanjemaanService.updatePimpinanjemaan(id, pimpinanjemaanDTO);
+  }
+
+  @Delete(':id')
+  async deletePimpinanjemaan(@Param('id') id: string): Promise<void> {
+    await this.pimpinanjemaanService.deletePimpinanjemaan(id);
   }
   // Add other CRUD methods as needed
 }
