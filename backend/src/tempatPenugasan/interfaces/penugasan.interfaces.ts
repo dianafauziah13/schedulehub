@@ -7,7 +7,6 @@ export interface IPenugasan {
 }
 
 export interface TempatPenugasan {
-    idTempatPenugasan :mongoose.Schema.Types.ObjectId;
     tgl_awal : Date;
     tgl_akhir : Date;
     Penugasan : IPenugasan [];
