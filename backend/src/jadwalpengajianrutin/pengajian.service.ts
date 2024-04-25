@@ -13,7 +13,8 @@ export class PengajianService {
   ) {}
 
   async GenerateJadwalPengajian(pengajianDTO: PengajianSchemaDTO): Promise<PengajianSchema> {
-    const newPimpinanjemaan = new this.pengajianModel(PengajianSchemaDTO);
-    return await newPimpinanjemaan.save();
+    
+    const newJadwalJumat = new this.pengajianModel(PengajianSchemaDTO);
+    return await newJadwalJumat.save();
   }
 }
