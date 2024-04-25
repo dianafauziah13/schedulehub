@@ -1,43 +1,28 @@
-// import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-// import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
 
-// @Schema()
-// export class Penugasan extends Document {
-//   @Prop({ type: mongoose.Schema.Types.ObjectId })
-//   Minggu_ke: [Number];
-// }
+@Schema()
+export class Penugasan extends Document {
+  @Prop({ type: mongoose.Schema.Types.ObjectId })
+  idPimpinanJemaah: mongoose.Schema.Types.ObjectId; 
 
-// @Schema()
-// export class AvailablePengajianRutin extends Document {
-//   @Prop({ type: [Number] })
-//   Minggu_ke: [Number];
- 
-//   @Prop({ type: [String] })
-//   Hari: [String];
-// }
+  @Prop({ type: [mongoose.Schema.Types.ObjectId] })
+  Mubaligh_KhutbahJumat: [mongoose.Schema.Types.ObjectId]; 
 
-// @Schema()
-// export class ListKeahlian extends Document {
-//   @Prop({ type: mongoose.Schema.Types.ObjectId })
-//   idListKeahlian: mongoose.Schema.Types.ObjectId;
- 
-//   @Prop({ type: Number })
-//   Rating : number;
-// }
+  @Prop({ type: [mongoose.Schema.Types.ObjectId] })
+  Mubaligh_KhutbahPengajian: [mongoose.Schema.Types.ObjectId];
+}
 
-// @Schema()
-// export class MubalighSchema extends Document {
-//   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ScopeDakwah' })
-//   idScopeDakwah : mongoose.Schema.Types.ObjectId;
+@Schema()
+export class TempatPenugasanSchema extends Document {
+  @Prop({ type: Date})
+  tgl_awal : Date;
 
-//   @Prop({ type: String })
-//   mubalighName: string;  
+  @Prop({ type: Date })
+  tgl_akhir : Date;  
 
-//   @Prop({ type: [AvailableKhutbahJumat] })
-//   availableKhutbahJumat: AvailableKhutbahJumat[];
+  @Prop({ type: [Penugasan] })
+  Penugasan : Penugasan[];
+}
 
-//   @Prop({ type: [AvailablePengajianRutin] })
-//   availablePengajianRutin : AvailablePengajianRutin[];
-// }
-
-// export const MubalighSchemaModel = SchemaFactory.createForClass(MubalighSchema);
+export const TempatPenugasanSchemaModel = SchemaFactory.createForClass(TempatPenugasanSchema);

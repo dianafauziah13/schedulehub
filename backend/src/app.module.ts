@@ -8,7 +8,7 @@ import { PimpinanJemaahModule } from './pimpinanjamaah/pimpinanjamaah.module';
 import { ScopeDakwahModule } from './scopeDakwah/scopedakwah.module';
 import { KeahlianModule } from './keahlian/keahlian.module';
 import { MubalighModule } from './mubaligh/mubaligh.module';
-
+import { TempatPenugasanModule } from './tempatpenugasan/penugasan.module';
 
 
 @Module({
@@ -38,7 +38,7 @@ import { MubalighModule } from './mubaligh/mubaligh.module';
 
       return connection;
     },
-  }), PimpinanJemaahModule, ScopeDakwahModule, KeahlianModule, MubalighModule
+  }), PimpinanJemaahModule, ScopeDakwahModule, KeahlianModule, MubalighModule, TempatPenugasanModule
 ],
 
   controllers: [AppController],

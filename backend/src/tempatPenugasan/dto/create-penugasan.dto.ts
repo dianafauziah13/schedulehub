@@ -6,8 +6,7 @@ export class PenugasanDto {
     Mubaligh_KhutbahPengajian : [mongoose.Schema.Types.ObjectId];
 }
 
-export class TempatPenugasan {
-    idTempatPenugasan :mongoose.Schema.Types.ObjectId;
+export class TempatPenugasanSchemaDto {
     tgl_awal : Date;
     tgl_akhir : Date;
     Penugasan : PenugasanDto [];
