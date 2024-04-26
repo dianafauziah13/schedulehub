@@ -4,6 +4,13 @@ import { Model } from 'mongoose';
 import { PengajianSchema } from './schemas/pengajian.schema';
 import { PengajianSchemaDTO } from './dto/create-pengajian.dto';
 
+import { TempatPenugasanService } from 'src/tempatpenugasan/penugasan.service';
+import { TempatPenugasanSchema } from 'src/tempatpenugasan/schemas/penugasan.schema';
+import { ProfileMatchingService } from './profileMatching.service';
+TempatPenugasanSchema
+TempatPenugasanService
+ProfileMatchingService
+
 
 @Injectable()
 export class PengajianService {

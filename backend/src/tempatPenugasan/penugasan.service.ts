@@ -21,7 +21,12 @@ export class TempatPenugasanService {
   }
 
   async findTempatPenugasanById(id: string): Promise<TempatPenugasanSchema> {
-    return await this.tempatPenugasanModel.findById(id).exec();
+    // return await this.tempatPenugasanModel.findById(id).exec();
+    return await this.tempatPenugasanModel.findById(id)
+    .populate('Penugasan.idPimpinanJemaah')
+    .populate('Penugasan.Mubaligh_KhutbahJumat')
+    .populate('Penugasan.Mubaligh_KhutbahPengajian')
+    .exec();
   }
 
   async updateTempatPenugasan(id: string, tempatPenugasanDto: TempatPenugasanSchemaDto): Promise<TempatPenugasanSchema> {

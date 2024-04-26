@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { MubalighSchema } from './schemas/mubaligh.schema';
 import { MubalighSchemaDto } from './dto/create-mubaligh.dto';
 
+
 @Injectable()
 export class MubalighService {
   constructor(
@@ -19,11 +20,20 @@ export class MubalighService {
   }
 
   async findAllMubaligh(): Promise<MubalighSchema[]> {
-    return await this.mubalighModel.find().exec();
+    return await this.mubalighModel.find()
+    .populate('idScopeDakwah')
+    .populate('ListKeahlian.idListKeahlian')
+    .exec();
   }
 
   async findMubalighById(id: string): Promise<MubalighSchema> {
-    return await this.mubalighModel.findById(id).exec();
+    // return await (await this.mubalighModel.findById(id)).populated('idScopeDakwah').exec();
+    const mubaligh = await (await this.mubalighModel.findById(id)).populate({
+      path: 'ListKeahlian',
+      populate: {path: 'idListKeahlian'}
+    });
+    console.log(mubaligh);
+    return mubaligh;
   }
 
   async updateMubaligh(id: string, mubalighDto: MubalighSchemaDto): Promise<MubalighSchema> {

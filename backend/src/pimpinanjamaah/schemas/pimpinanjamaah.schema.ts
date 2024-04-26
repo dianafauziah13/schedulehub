@@ -1,19 +1,23 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
+import { KeahlianSchema } from 'src/keahlian/schemas/keahlian.schema';
+import { MubalighSchema } from 'src/mubaligh/schemas/mubaligh.schema';
+import { ScopeDakwahSchema } from 'src/scopeDakwah/schemas/scopedakwah.schema';
+
 
 @Schema()
 export class ScopeDakwahJumat extends Document {
   @Prop({ type: Number })
   Minggu_ke: number;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ScopeDakwah' })
-  scopeDakwah: mongoose.Schema.Types.ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ScopeDakwahSchema' })
+  scopeDakwah: ScopeDakwahSchema;
 }
 
 @Schema()
 export class ScopeDakwahPengajian extends Document {
-  @Prop({ type: [{ idKeahlian: { type: mongoose.Schema.Types.ObjectId, ref: 'Keahlian' }, MinimalKeahlian: { type: Number } }] })
-  Keahlian: { idKeahlian: mongoose.Schema.Types.ObjectId; MinimalKeahlian: Number }[];
+  @Prop({ type: [{ idKeahlian: { type: mongoose.Schema.Types.ObjectId, ref: 'KeahlianSchema' }, MinimalKeahlian: { type: Number } }] })
+  Keahlian: { idKeahlian: KeahlianSchema; MinimalKeahlian: Number }[];
  
   @Prop({ type: Number })
   Minggu_ke: Number;
@@ -30,8 +34,8 @@ export class ScopeDakwahPengajian extends Document {
 
 @Schema()
 export class PimpinanjemaahSchema extends Document {
-  // @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'mubaligh' })
-  // KetuaPJ: mongoose.Schema.Types.ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'MubalighSchema' })
+  KetuaPJ: MubalighSchema;
 
   @Prop({ type: String })
   Nama: string;
