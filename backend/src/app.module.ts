@@ -10,6 +10,7 @@ import { KeahlianModule } from './keahlian/keahlian.module';
 import { MubalighModule } from './mubaligh/mubaligh.module';
 import { TempatPenugasanModule } from './tempatpenugasan/penugasan.module';
 import { HitungKhutbahModule } from './hitungjumlahkhutbah/hitungkhutbah.module';
+import { JadwalJumatModule } from './jadwalkhutbahjumat/jumat.module';
 
 @Module({
   imports: [MongooseModule.forRoot('mongodb+srv://aziztaufiqurrahman:Doq22486@atlascluster.2lyt9lm.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster', {
@@ -38,7 +39,7 @@ import { HitungKhutbahModule } from './hitungjumlahkhutbah/hitungkhutbah.module'
 
       return connection;
     },
-  }), PimpinanJemaahModule, ScopeDakwahModule, KeahlianModule, MubalighModule, TempatPenugasanModule, HitungKhutbahModule
+  }), PimpinanJemaahModule, ScopeDakwahModule, KeahlianModule, MubalighModule, TempatPenugasanModule, HitungKhutbahModule, JadwalJumatModule
 ],
 
   controllers: [AppController],
