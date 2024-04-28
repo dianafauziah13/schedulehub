@@ -17,7 +17,11 @@ export class TempatPenugasanService {
   }
 
   async findAllTempatPenugasan(): Promise<TempatPenugasanSchema[]> {
-    return await this.tempatPenugasanModel.find().exec();
+    return await this.tempatPenugasanModel.find()
+    .populate('Penugasan.idPimpinanJemaah')
+    .populate('Penugasan.Mubaligh_KhutbahJumat')
+    .populate('Penugasan.Mubaligh_KhutbahPengajian')
+    .exec();
   }
 
   async findTempatPenugasanById(id: string): Promise<TempatPenugasanSchema> {

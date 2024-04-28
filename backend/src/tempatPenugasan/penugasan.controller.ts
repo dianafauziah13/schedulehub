@@ -1,4 +1,4 @@
-import { Body, Controller, Post,  Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Post,  Get, Param, Put, HttpException, HttpStatus  } from '@nestjs/common';
 import { TempatPenugasanService } from './penugasan.service'
 import { TempatPenugasanSchemaDto } from './dto/create-penugasan.dto';
 import { TempatPenugasanSchema } from './schemas/penugasan.schema';
@@ -20,7 +20,11 @@ export class TempatPenugasanController {
 
   @Get(':id')
   async getTempatPenugasanById(@Param('id') id: string): Promise<TempatPenugasanSchema> {
-    return await this.tempatPenugasanService.findTempatPenugasanById(id);
+    const penugasan = await this.tempatPenugasanService.findTempatPenugasanById(id);
+    if (!penugasan)
+      throw new HttpException('Data Penugasan Tidak Ditemukan', HttpStatus.NOT_FOUND);
+
+    return penugasan;
   }
 
   @Put(':id')

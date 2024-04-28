@@ -1,7 +1,9 @@
-import { Body, Controller, Post,  Get, Param, Put, Delete } from '@nestjs/common';
+import { Body, Controller, Post,  Get, Param, Put, Delete,  HttpException, HttpStatus } from '@nestjs/common';
 import { PimpinanjemaanService } from './pimpinanjamaah.service'
 import { PimpinanjemaahSchemaDto } from './dto/create-pj.dto';
 import { PimpinanjemaahSchema } from './schemas/pimpinanjamaah.schema';
+
+import mongoose from 'mongoose';
 
 @Controller('pimpinanjemaah')
 export class PimpinanjemaanController {
@@ -20,7 +22,12 @@ export class PimpinanjemaanController {
 
   @Get(':id')
   async getPimpinanjemaanById(@Param('id') id: string): Promise<PimpinanjemaahSchema> {
-    return await this.pimpinanjemaanService.findPimpinanjemaanById(id);
+    const isPimpinanJamaah = await this.pimpinanjemaanService.findPimpinanjemaanById(id);
+
+    if (!isPimpinanJamaah)
+      throw new HttpException('Data Pimpinan Jamaah Tidak Ditemukan', HttpStatus.NOT_FOUND);
+
+    return isPimpinanJamaah;
   }
 
   @Put(':id')
@@ -33,7 +40,11 @@ export class PimpinanjemaanController {
 
   @Delete(':id')
   async deletePimpinanjemaan(@Param('id') id: string): Promise<void> {
-    await this.pimpinanjemaanService.deletePimpinanjemaan(id);
+    const pimpinanjemaah = this.pimpinanjemaanService.deletePimpinanjemaan(id);
+    if (!pimpinanjemaah)
+      throw new HttpException('Data Pimpinan Jamaah Tidak Ditemukan', HttpStatus.NOT_FOUND);
+
+    await pimpinanjemaah;
   }
   // Add other CRUD methods as needed
 }
