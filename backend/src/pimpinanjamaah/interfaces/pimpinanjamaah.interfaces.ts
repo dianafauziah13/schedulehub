@@ -1,7 +1,8 @@
 import { Schema as MongooseSchema } from 'mongoose';
 
 export interface ScopeDakwahJumat {
-  Minggu_ke: number;
+  minggu_ke: number;
+  Nama: String;
   scopeDakwah: MongooseSchema.Types.ObjectId;
 }
 

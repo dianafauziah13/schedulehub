@@ -8,7 +8,7 @@ export class TempatPenugasanController {
   constructor(private readonly tempatPenugasanService: TempatPenugasanService) {}
 
   @Post()
-  async createTempatPenugasan(@Body() TempatPenugasanDto: TempatPenugasanSchemaDto): Promise<TempatPenugasanSchema> {
+  async createTempatPenugasan(@Body() TempatPenugasanDto: TempatPenugasanSchemaDto) {
     const createTempatPenugasan = await this.tempatPenugasanService.createTempatPenugasan(TempatPenugasanDto);
     return createTempatPenugasan;
   }
