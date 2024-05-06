@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
-import * as dayjs from 'dayjs';
+// import * as dayjs from 'dayjs';
 
 @Schema()
 export class jadwal extends Document {
