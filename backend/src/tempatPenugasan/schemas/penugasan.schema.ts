@@ -1,10 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
+import { PimpinanjemaahSchema } from 'src/pimpinanjamaah/schemas/pimpinanjamaah.schema';
 
 @Schema()
 export class Penugasan extends Document {
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  idPimpinanJemaah: mongoose.Schema.Types.ObjectId; 
+  @Prop({ type: PimpinanjemaahSchema })
+  idPimpinanJemaah: PimpinanjemaahSchema; 
 
   @Prop({ type: [mongoose.Schema.Types.ObjectId] })
   Mubaligh_KhutbahJumat: [mongoose.Schema.Types.ObjectId]; 
