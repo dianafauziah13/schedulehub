@@ -1,4 +1,4 @@
-import { Body, Controller, Post,  Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Post,  Get, Param, Put, Delete, HttpException, HttpStatus } from '@nestjs/common';
 import { MubalighService } from './mubaligh.service'
 import { MubalighSchemaDto } from './dto/create-mubaligh.dto';
 import { MubalighSchema } from './schemas/mubaligh.schema';
@@ -20,7 +20,11 @@ export class MubalighController {
 
   @Get(':id')
   async getMubalighById(@Param('id') id: string): Promise<MubalighSchema> {
-    return await this.mubalighService.findMubalighById(id);
+    const mubaligh = await this.mubalighService.findMubalighById(id);
+    if (!mubaligh)
+      throw new HttpException('Data Mubaligh Tidak Ditemukan', HttpStatus.NOT_FOUND);
+
+    return mubaligh;
   }
 
   @Put(':id')
@@ -29,5 +33,14 @@ export class MubalighController {
     @Body() MubalighDto: MubalighSchemaDto,
   ): Promise<MubalighSchema> {
     return await this.mubalighService.updateMubaligh(id, MubalighDto);
+  }
+
+  @Delete(':id')
+  async deletePimpinanjemaan(@Param('id') id: string): Promise<void> {
+    const mubaligh = this.mubalighService.deleteMubaligh(id);
+    if (!mubaligh)
+      throw new HttpException('Data Mubaligh Tidak Ditemukan', HttpStatus.NOT_FOUND);
+
+    await mubaligh;
   }
 }

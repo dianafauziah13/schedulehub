@@ -1,3 +1,3 @@
 export class ScopeDakwahDTO {
-    LingkupDakwah: string;
+  LingkupDakwah: string;
   }

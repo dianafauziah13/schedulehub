@@ -1,5 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
+import { KeahlianSchema } from 'src/keahlian/schemas/keahlian.schema';
+import { ScopeDakwahSchema } from 'src/scopeDakwah/schemas/scopedakwah.schema';
+
+
 @Schema()
 export class AvailablePengajianRutin extends Document {
   @Prop({ type: [Number] })
@@ -11,8 +15,8 @@ export class AvailablePengajianRutin extends Document {
 
 @Schema()
 export class ListKeahlian extends Document {
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  idListKeahlian: mongoose.Schema.Types.ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'KeahlianSchema'})
+  idListKeahlian: KeahlianSchema;
  
   @Prop({ type: Number })
   Rating : number;
@@ -20,8 +24,8 @@ export class ListKeahlian extends Document {
 
 @Schema()
 export class MubalighSchema extends Document {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ScopeDakwah' })
-  idScopeDakwah : mongoose.Schema.Types.ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ScopeDakwahSchema' })
+  idScopeDakwah : ScopeDakwahSchema;
 
   @Prop({ type: String })
   mubalighName: string;  

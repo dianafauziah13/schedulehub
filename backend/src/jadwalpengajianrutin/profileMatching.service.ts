@@ -1,7 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { TempatPenugasanService } from 'src/tempatpenugasan/penugasan.service';
+import { TempatPenugasanSchema} from 'src/tempatpenugasan/schemas/penugasan.schema';
+
 
 @Injectable()
 export class ProfileMatchingService {
+  constructor(
+    @InjectModel('TempatPenugasanSchema')
+    private readonly tempatPenugasanService: TempatPenugasanService,
+    private tempatPenugasanModel : Model<TempatPenugasanSchema>,
+  ) {}
+
     //  Menghitung gap dengan nilai alternatif - nilai kriteria
     calculateGap(alternativeValue: number, criteriaValue: number): number{
         return alternativeValue - criteriaValue;
@@ -64,5 +75,21 @@ export class ProfileMatchingService {
 
     return cfScore + sfScore;
   }
+
+  async matchProfilePengajian(): Promise<void>{
+    /* Mendapatkan semua penugasan pimpinan jamaah */
+    // const penugasan = await this.tempatPenugasanService.findAllTempatPenugasan();
+    const penugasan = await this.tempatPenugasanModel.find().populate('Penugasan.idPimpinanJemaah');
+    
+    // Access idPimpinanJemaah from Penugasan and populate Pimpinanjemaah
+    // const pimpinanJemaah = await this.tempatPenugasanModel.findById().exec();
+    /* Iterasi Perhitungan GAP */
+    // for (const PJ of penugasan) {
+    //   PJ.Penugasan
+    //   const suitableOwner = await this.calculateGap
+    // }
+
+  }
+
 
 }
