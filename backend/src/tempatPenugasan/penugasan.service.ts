@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { TempatPenugasanSchema } from './schemas/penugasan.schema';
+import { TempatPenugasanSchema, pimpinan } from './schemas/penugasan.schema';
 import { TempatPenugasanSchemaDto } from './dto/create-penugasan.dto';
 import { PimpinanjemaahSchema } from 'src/pimpinanjamaah/schemas/pimpinanjamaah.schema';
 import { MubalighSchema } from 'src/mubaligh/schemas/mubaligh.schema';
@@ -11,17 +11,25 @@ export class TempatPenugasanService {
   constructor(
     @InjectModel('TempatPenugasanSchema')
     private tempatPenugasanModel: Model<TempatPenugasanSchema>,
+    @InjectModel('MubalighSchema')
     private mubalighModel: Model<MubalighSchema>,
+    @InjectModel('PimpinanjemaahSchema')
     private pimpinanjemaahModel: Model<PimpinanjemaahSchema>,
   ) {}
 
   async createTempatPenugasan(tempatPenugasanDto: TempatPenugasanSchemaDto): Promise<TempatPenugasanSchema> {
-    const pimpinanjemaah = await this.pimpinanjemaahModel.find().exec();
-    const penugasan = await this.tempatPenugasanModel.find().exec();
-    const mubaligh = await this.mubalighModel.find().exec();
+    const pimpinanjemaah = await this.pimpinanjemaahModel.findById(tempatPenugasanDto.Penugasan.pimpinan._id).exec();
+    //  console.log(pimpinanjemaah);
+    const Tempatpenugasan = await this.tempatPenugasanModel.find().exec();
+    // const mubaligh = await this.mubalighModel.find().exec();
+
     // manipulasi data
+    // tempatPenugasanDto.Penugasan.pimpinan.Nama = pimpinanjemaah.Nama;
+    // tempatPenugasanDto.Penugasan.pimpinan.scope_dakwah_jumat = pimpinanjemaah.scopeDakwahJumat
 
     const newTempatPenugasan = new this.tempatPenugasanModel(tempatPenugasanDto);
+    newTempatPenugasan.Penugasan.pimpinan.scope_dakwah_jumat = pimpinanjemaah.scope_dakwah_jumat;
+    console.log(newTempatPenugasan)
     return await newTempatPenugasan.save();
   }
 

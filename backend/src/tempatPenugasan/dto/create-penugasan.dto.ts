@@ -1,7 +1,9 @@
 import mongoose, { Schema as MongooseSchema } from 'mongoose';
+import { Type } from 'class-transformer';
+import { IsArray, ValidateNested, isArray } from 'class-validator';
 
 export class ScopedakwahJumatDto {
-    nama: String;
+    Nama: String;
     minggu_ke: number;
   }
   
@@ -15,7 +17,7 @@ export class ScopedakwahJumatDto {
   
   export class PimpinanDto {
     _id: mongoose.Schema.Types.ObjectId;
-    nama: string;
+    Nama: string;
     scope_dakwah_jumat: ScopedakwahJumatDto[];
     scope_dakwah_pengajian: ScopedakwahPengajianDto[];
   }
@@ -45,6 +47,6 @@ export class ScopedakwahJumatDto {
   export class TempatPenugasanSchemaDto {
     tgl_awal: Date;
     tgl_akhir: Date;
-    Penugasan: PenugasanDto[];
+    Penugasan: PenugasanDto;
   }
   

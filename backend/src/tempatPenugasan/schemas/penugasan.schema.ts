@@ -6,7 +6,7 @@ import { MubalighSchema } from 'src/mubaligh/schemas/mubaligh.schema';
 @Schema()
 export class scopedakwahjumat extends Document{
   @Prop({ type: String })
-  nama: String; 
+  Nama: String; 
 
   @Prop({ type: Number })
   minggu_ke: Number;
@@ -35,7 +35,7 @@ export class pimpinan extends Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'PimpinanjemaahSchema' })
   _id: PimpinanjemaahSchema; 
   @Prop({ type: String })
-  nama: String; 
+  Nama: String; 
   @Prop({ type: [scopedakwahjumat] })
   scope_dakwah_jumat: scopedakwahjumat[];
   @Prop({ type: [scopedakwahpengajian]})
@@ -61,7 +61,7 @@ export class mubaligh_pengajian extends Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'MubalighSchema' })
   _id: MubalighSchema; 
   @Prop({ type: String })
-  nama: String; 
+  Nama: String; 
   @Prop({ type: String })
   scope_dakwah: String;
   @Prop({ type: [{ minggu_ke: {type: String}, hari: {type:String} }] })
@@ -89,8 +89,8 @@ export class TempatPenugasanSchema extends Document {
   @Prop({ type: Date })
   tgl_akhir : Date;  
 
-  @Prop({ type: [Penugasan] })
-  Penugasan : Penugasan[];
+  @Prop({ type: Penugasan })
+  Penugasan : Penugasan;
 }
 
 export const TempatPenugasanSchemaModel = SchemaFactory.createForClass(TempatPenugasanSchema);

@@ -8,10 +8,13 @@ import { ScopeDakwahSchema } from 'src/scopeDakwah/schemas/scopedakwah.schema';
 @Schema()
 export class ScopeDakwahJumat extends Document {
   @Prop({ type: Number })
-  Minggu_ke: number;
+  minggu_ke: number;
+
+  @Prop({ type: String })
+  Nama: String;
 
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ScopeDakwahSchema' })
-  scopeDakwah: ScopeDakwahSchema;
+  _id: ScopeDakwahSchema;
 }
 
 @Schema()
@@ -41,10 +44,10 @@ export class PimpinanjemaahSchema extends Document {
   Nama: string;
 
   @Prop({ type: [ScopeDakwahJumat] })
-  scopeDakwahJumat: ScopeDakwahJumat[];
+  scope_dakwah_jumat: ScopeDakwahJumat[];
 
   @Prop({ type: [ScopeDakwahPengajian] })
-  ScopeDakwahPengajian: ScopeDakwahPengajian[];
+  scope_dakwah_pengajian: ScopeDakwahPengajian[];
 }
 
 export const PimpinanjemaahSchemaModel = SchemaFactory.createForClass(PimpinanjemaahSchema);

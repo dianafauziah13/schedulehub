@@ -1,7 +1,7 @@
 import { Schema as MongooseSchema } from 'mongoose';
 
 export interface ScopedakwahJumat {
-  nama: String;
+  Nama: String;
   minggu_ke: number;
 }
 
@@ -45,5 +45,5 @@ export interface Penugasan  {
 export interface TempatPenugasanSchema  {
   tgl_awal: Date;
   tgl_akhir: Date;
-  Penugasan: Penugasan[];
+  Penugasan: Penugasan;
 }
