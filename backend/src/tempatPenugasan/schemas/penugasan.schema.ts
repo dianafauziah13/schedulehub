@@ -70,12 +70,11 @@ export class mubaligh_pengajian extends Document {
   Keahlian: { nama: String; rating: Number }[];
 }
 
-
 @Schema()
 export class Penugasan extends Document {
   @Prop({ type: pimpinan })
   pimpinan: pimpinan;
-
+  
   @Prop({ type: [mubaligh_jumat] })
   mubaligh_khutbah_jumat: mubaligh_jumat[];
 

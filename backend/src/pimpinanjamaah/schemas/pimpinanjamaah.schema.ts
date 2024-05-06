@@ -20,7 +20,7 @@ export class ScopeDakwahPengajian extends Document {
   Keahlian: { idKeahlian: KeahlianSchema; MinimalKeahlian: Number }[];
  
   @Prop({ type: Number })
-  Minggu_ke: Number;
+  Minggu_ke: number;
  
   @Prop({ type: String })
   hari: string;
