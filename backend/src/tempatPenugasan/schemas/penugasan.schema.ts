@@ -1,18 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { PimpinanjemaahSchema } from 'src/pimpinanjamaah/schemas/pimpinanjamaah.schema';
-
-@Schema()
-export class Penugasan extends Document {
-  @Prop({ type: PimpinanjemaahSchema })
-  idPimpinanJemaah: PimpinanjemaahSchema; 
-=======
-=======
->>>>>>> 35acdb3b3b579c842cfd74da1ba024b6e09c7314
 import { MubalighSchema } from 'src/mubaligh/schemas/mubaligh.schema';
-import { PimpinanjemaahSchema } from 'src/pimpinanjamaah/schemas/pimpinanjamaah.schema';
 
 @Schema()
 export class scopedakwahjumat extends Document{
@@ -85,12 +74,6 @@ export class mubaligh_pengajian extends Document {
 export class Penugasan extends Document {
   @Prop({ type: pimpinan })
   pimpinan: pimpinan;
-<<<<<<< HEAD
->>>>>>> 78b17b020c42d92dd57bbb0aacb7e133580d5fdd
-
-=======
-  
->>>>>>> 35acdb3b3b579c842cfd74da1ba024b6e09c7314
   @Prop({ type: [mubaligh_jumat] })
   mubaligh_khutbah_jumat: mubaligh_jumat[];
 
