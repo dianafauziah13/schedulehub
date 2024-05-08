@@ -8,6 +8,7 @@ export class ScopeDakwahJumatDto {
 
 export class KeahlianDto {
   idKeahlian: MongooseSchema.Types.ObjectId;
+  nama: String;
   MinimalKeahlian: Number;
 }
 
@@ -16,7 +17,7 @@ export class ScopeDakwahPengajianDto {
   Minggu_ke: Number;
   hari: string;
   detailWaktu: string;
-  TopicOfKajian: string;
+  TopikKajian: string;
 }
 
 export class PimpinanjemaahSchemaDto {

@@ -19,17 +19,24 @@ export class TempatPenugasanService {
 
   async createTempatPenugasan(tempatPenugasanDto: TempatPenugasanSchemaDto): Promise<TempatPenugasanSchema> {
     const pimpinanjemaah = await this.pimpinanjemaahModel.findById(tempatPenugasanDto.Penugasan.pimpinan._id).exec();
-    //  console.log(pimpinanjemaah);
-    const Tempatpenugasan = await this.tempatPenugasanModel.find().exec();
-    // const mubaligh = await this.mubalighModel.find().exec();
+    // const Tempatpenugasan = await this.tempatPenugasanModel.find().exec();
+
+    // const MubalighJumat = await this.mubalighModel.find({_id: [tempatPenugasanDto.Penugasan.mubaligh_khutbah_jumat[0]._id]}).exec();
+    const mubalighIds = tempatPenugasanDto.Penugasan.mubaligh_khutbah_jumat.map(item => item._id);
+    const MubalighJumat = await this.mubalighModel.find({ _id: { $in: mubalighIds } }).exec();
+    
+    // const MubalighPengajian = await this.mubalighModel.findById(tempatPenugasanDto.Penugasan.mubaligh_khutbah_pengajian[0]._id).exec();
+    const mubalighIds2 = tempatPenugasanDto.Penugasan.mubaligh_khutbah_pengajian.map(item=>item._id);
+    const MubalighPengajian = await this.mubalighModel.find({ _id: { $in: mubalighIds2 } }).exec();
 
     // manipulasi data
-    // tempatPenugasanDto.Penugasan.pimpinan.Nama = pimpinanjemaah.Nama;
-    // tempatPenugasanDto.Penugasan.pimpinan.scope_dakwah_jumat = pimpinanjemaah.scopeDakwahJumat
-
     const newTempatPenugasan = new this.tempatPenugasanModel(tempatPenugasanDto);
     newTempatPenugasan.Penugasan.pimpinan.scope_dakwah_jumat = pimpinanjemaah.scope_dakwah_jumat;
-    console.log(newTempatPenugasan)
+    newTempatPenugasan.Penugasan.pimpinan.scope_dakwah_pengajian = pimpinanjemaah.scope_dakwah_pengajian;
+    newTempatPenugasan.Penugasan.mubaligh_khutbah_jumat= MubalighJumat;
+    newTempatPenugasan.Penugasan.Mubaligh_Khutbah_pengajian = MubalighPengajian;
+
+    // console.log(newTempatPenugasan)
     return await newTempatPenugasan.save();
   }
 

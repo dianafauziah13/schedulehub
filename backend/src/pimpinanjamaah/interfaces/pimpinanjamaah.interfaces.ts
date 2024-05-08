@@ -8,6 +8,7 @@ export interface ScopeDakwahJumat {
 
 export interface IKeahlian {
   idKeahlian: MongooseSchema.Types.ObjectId;
+  nama: String;
   MinimalKeahlian: Number;
 }
 
@@ -16,7 +17,7 @@ export interface ScopeDakwahPengajian {
   Minggu_ke: Number;
   hari: string;
   detailWaktu: string;
-  TopicOfKajian: string;
+  TopikKajian: string;
 }
 
 export interface PimpinanjemaahSchema {

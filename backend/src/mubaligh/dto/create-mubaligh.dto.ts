@@ -16,4 +16,5 @@ export class MubalighSchemaDto {
     AvailableKhutbahJumat :  Number [];
     AvailablePengajianRutin : AvailablePengajianRutinDto [];
     ListKeahlian : ListKeahlianDto [];
+    scope_dakwah: String;
 }
