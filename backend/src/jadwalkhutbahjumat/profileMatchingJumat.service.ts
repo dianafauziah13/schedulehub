@@ -45,6 +45,9 @@ export class ProfileMatchingServiceJumat {
 
     return weightedScopes;
   }
+
+  
+
   /* Menghitung rata - rata nilai secondary factor */
   CalculateSecondaryFactor(secondaryFactor: number[]): number {
     let nilaiSecondary = 0;
