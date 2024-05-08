@@ -20,7 +20,7 @@ export class ScopeDakwahJumat extends Document {
 @Schema()
 export class ScopeDakwahPengajian extends Document {
   @Prop({ type: [{ idKeahlian: { type: mongoose.Schema.Types.ObjectId, ref: 'KeahlianSchema' }, MinimalKeahlian: { type: Number } }] })
-  Keahlian: { idKeahlian: KeahlianSchema; MinimalKeahlian: Number }[];
+  Keahlian: { idKeahlian: KeahlianSchema; nama: String; MinimalKeahlian: Number }[];
  
   @Prop({ type: Number })
   Minggu_ke: Number;

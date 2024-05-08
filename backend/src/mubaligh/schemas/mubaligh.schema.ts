@@ -17,7 +17,8 @@ export class AvailablePengajianRutin extends Document {
 export class ListKeahlian extends Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'KeahlianSchema'})
   idListKeahlian: KeahlianSchema;
- 
+  @Prop({ type: String })
+  nama : String;
   @Prop({ type: Number })
   Rating : number;
 }
@@ -38,6 +39,9 @@ export class MubalighSchema extends Document {
 
   @Prop({ type: [ListKeahlian] })
   ListKeahlian : ListKeahlian[];  
+
+  @Prop({ type: String })
+  scope_dakwah: String;
 }
 
 export const MubalighSchemaModel = SchemaFactory.createForClass(MubalighSchema);
