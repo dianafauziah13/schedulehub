@@ -14,7 +14,7 @@ import { PimpinanjemaahSchema } from 'src/pimpinanjamaah/schemas/pimpinanjamaah.
 @Schema()
 export class scopedakwahjumat extends Document{
   @Prop({ type: String })
-  nama: String; 
+  Nama: String; 
 
   @Prop({ type: Number })
   minggu_ke: Number;
@@ -22,20 +22,20 @@ export class scopedakwahjumat extends Document{
 
 @Schema()
 export class scopedakwahpengajian extends Document{
-  @Prop({ type: [{ nama: { type: String}, minimal: { type: Number } }] })
-  Keahlian: { nama: String; minimal: Number }[];
+  @Prop({ type: [{ nama: { type: String}, MinimalKeahlian: { type: Number } }] })
+  Keahlian: { nama: String; MinimalKeahlian: Number }[];
 
   @Prop({ type: Number })
-  minggu_ke: Number;
+  Minggu_ke: Number;
 
   @Prop({ type: String })
   hari: String;
 
   @Prop({ type: String })
-  waktu: String;
+  detailWaktu: String;
 
   @Prop({ type: String })
-  topik_kajian: String;
+  TopikKajian: String;
 }
 
 @Schema()
@@ -43,7 +43,7 @@ export class pimpinan extends Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'PimpinanjemaahSchema' })
   _id: PimpinanjemaahSchema; 
   @Prop({ type: String })
-  nama: String; 
+  Nama: String; 
   @Prop({ type: [scopedakwahjumat] })
   scope_dakwah_jumat: scopedakwahjumat[];
   @Prop({ type: [scopedakwahpengajian]})
@@ -55,13 +55,20 @@ export class mubaligh_jumat extends Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'MubalighSchema' })
   _id: MubalighSchema; 
   @Prop({ type: String })
-  nama: String; 
+  mubalighName: String; 
   @Prop({ type: String })
   scope_dakwah: String;
   @Prop({ type: [Number]})
-  ketersediaan_waktu_jumat: Number[];
-  @Prop({ type: [{ nama: { type: String}, rating: { type: Number } }] })
-  Keahlian: { nama: String; rating: Number }[];
+  AvailableKhutbahJumat: Number[];
+}
+
+@Schema()
+export class AvailablePengajianRutin extends Document{
+  @Prop({ type: [Number] })
+  Minggu_ke: [Number];
+ 
+  @Prop({ type: [String] })
+  Hari: [String];
 }
 
 @Schema()
@@ -69,13 +76,13 @@ export class mubaligh_pengajian extends Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'MubalighSchema' })
   _id: MubalighSchema; 
   @Prop({ type: String })
-  nama: String; 
-  @Prop({ type: String })
-  scope_dakwah: String;
-  @Prop({ type: [{ minggu_ke: {type: String}, hari: {type:String} }] })
-  ketersediaan_waktu_pengajian: { minggu_ke: String; hari: String }[];
-  @Prop({ type: [{ nama: { type: String}, rating: { type: Number } }] })
-  Keahlian: { nama: String; rating: Number }[];
+  mubalighName: String; 
+
+  @Prop({ type: [AvailablePengajianRutin] })
+  AvailablePengajianRutin : AvailablePengajianRutin[];
+  
+  @Prop({ type: [{ nama: { type: String}, Rating: { type: Number } }] })
+  ListKeahlian: { nama: String; Rating: Number }[];
 }
 
 
@@ -89,7 +96,7 @@ export class Penugasan extends Document {
   mubaligh_khutbah_jumat: mubaligh_jumat[];
 
   @Prop({ type: [mubaligh_pengajian] })
-  Mubaligh_Khutbah_pengajian: [mubaligh_pengajian[]];
+  Mubaligh_Khutbah_pengajian: mubaligh_pengajian[];
 }
 
 @Schema()
@@ -100,8 +107,8 @@ export class TempatPenugasanSchema extends Document {
   @Prop({ type: Date })
   tgl_akhir : Date;  
 
-  @Prop({ type: [Penugasan] })
-  Penugasan : Penugasan[];
+  @Prop({ type: Penugasan })
+  Penugasan : Penugasan;
 }
 
 export const TempatPenugasanSchemaModel = SchemaFactory.createForClass(TempatPenugasanSchema);

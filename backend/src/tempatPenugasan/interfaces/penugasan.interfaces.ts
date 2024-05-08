@@ -1,16 +1,16 @@
 import { Schema as MongooseSchema } from 'mongoose';
 
 export interface ScopedakwahJumat {
-  nama: String;
+  Nama: String;
   minggu_ke: number;
 }
 
 export interface ScopedakwahPengajian  {
-  Keahlian: { nama: String; minimal: number }[];
-  minggu_ke: number;
-  hari: string;
-  waktu: string;
-  topik_kajian: string;
+  Keahlian: { nama: String; MinimalKeahlian: Number }[];
+  Minggu_ke: Number;
+  hari: String;
+  detailWaktu: String;
+  TopikKajian: String;
 }
 
 export interface Pimpinan {
@@ -22,18 +22,17 @@ export interface Pimpinan {
 
 export interface MubalighJumat {
   _id: MongooseSchema.Types.ObjectId;
-  nama: string;
-  scope_dakwah: string;
-  ketersediaan_waktu_jumat: number[];
-  Keahlian: { nama: String; rating: number }[];
+  mubalighName: String; 
+  scope_dakwah: String;
+  AvailableKhutbahJumat: Number[];
 }
 
 export interface MubalighPengajian {
   _id: MongooseSchema.Types.ObjectId;
-  nama: string;
-  scope_dakwah: string;
-  ketersediaan_waktu_pengajian: { minggu_ke: string; hari: string }[];
-  Keahlian: { nama: String; rating: number }[];
+  Nama: String; 
+  scope_dakwah: String;
+  AvailablePengajianRutin: { Minggu_ke: Number; Hari: String }[];
+  ListKeahlian: { nama: String; Rating: Number }[];
 }
 
 export interface Penugasan  {
@@ -45,5 +44,5 @@ export interface Penugasan  {
 export interface TempatPenugasanSchema  {
   tgl_awal: Date;
   tgl_akhir: Date;
-  Penugasan: Penugasan[];
+  Penugasan: Penugasan;
 }
