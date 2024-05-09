@@ -1,12 +1,14 @@
 import { Schema as MongooseSchema } from 'mongoose';
 
 export interface ScopeDakwahJumat {
-  Minggu_ke: number;
+  minggu_ke: number;
+  Nama: String;
   scopeDakwah: MongooseSchema.Types.ObjectId;
 }
 
 export interface IKeahlian {
   idKeahlian: MongooseSchema.Types.ObjectId;
+  nama: String;
   MinimalKeahlian: Number;
 }
 
@@ -15,7 +17,7 @@ export interface ScopeDakwahPengajian {
   Minggu_ke: Number;
   hari: string;
   detailWaktu: string;
-  TopicOfKajian: string;
+  TopikKajian: string;
 }
 
 export interface PimpinanjemaahSchema {

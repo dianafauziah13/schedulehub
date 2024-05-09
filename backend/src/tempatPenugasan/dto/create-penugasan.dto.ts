@@ -1,39 +1,44 @@
 import mongoose, { Schema as MongooseSchema } from 'mongoose';
+import { Type } from 'class-transformer';
+import { IsArray, ValidateNested, isArray } from 'class-validator';
 
 export class ScopedakwahJumatDto {
-    nama: String;
+    Nama: String;
     minggu_ke: number;
   }
   
   export class ScopedakwahPengajianDto {
-    Keahlian: { nama: String; minimal: number }[];
-    minggu_ke: number;
-    hari: string;
-    waktu: string;
-    topik_kajian: string;
+    Keahlian: { nama: String; MinimalKeahlian: Number }[];
+    Minggu_ke: Number;
+    hari: String;
+    detailWaktu: String;
+    TopikKajian: String;
   }
   
   export class PimpinanDto {
     _id: mongoose.Schema.Types.ObjectId;
-    nama: string;
+    Nama: string;
     scope_dakwah_jumat: ScopedakwahJumatDto[];
     scope_dakwah_pengajian: ScopedakwahPengajianDto[];
   }
   
   export class MubalighJumatDto {
     _id: mongoose.Schema.Types.ObjectId;
-    nama: string;
-    scope_dakwah: string;
-    ketersediaan_waktu_jumat: number[];
-    Keahlian: { nama: string; rating: number }[];
+    mubalighName: String; 
+    scope_dakwah: String;
+    AvailableKhutbahJumat: Number[];
+  }
+
+  export class AvailablePengajianRutin{
+    Minggu_ke : [number];
+    Hari : string;
   }
   
   export class MubalighPengajianDto {
-    _id: mongoose.Schema.Types.ObjectId;
-    nama: string;
-    scope_dakwah: string;
-    ketersediaan_waktu_pengajian: { minggu_ke: string; hari: string }[];
-    Keahlian: { nama: String; rating: number }[];
+    _id: MongooseSchema.Types.ObjectId;
+    mubalighName: String; 
+    AvailablePengajianRutin : AvailablePengajianRutin[];
+    ListKeahlian: { nama: String; Rating: Number }[];
   }
   
   export class PenugasanDto {
@@ -45,6 +50,6 @@ export class ScopedakwahJumatDto {
   export class TempatPenugasanSchemaDto {
     tgl_awal: Date;
     tgl_akhir: Date;
-    Penugasan: PenugasanDto[];
+    Penugasan: PenugasanDto;
   }
   

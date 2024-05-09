@@ -1,12 +1,14 @@
 import { Schema as MongooseSchema } from 'mongoose';
 
 export class ScopeDakwahJumatDto {
-  Minggu_ke: number;
-  scopeDakwah: MongooseSchema.Types.ObjectId;
+  Nama: String;
+  minggu_ke: number;
+  _id: MongooseSchema.Types.ObjectId;
 }
 
 export class KeahlianDto {
   idKeahlian: MongooseSchema.Types.ObjectId;
+  nama: String;
   MinimalKeahlian: Number;
 }
 
@@ -15,12 +17,12 @@ export class ScopeDakwahPengajianDto {
   Minggu_ke: Number;
   hari: string;
   detailWaktu: string;
-  TopicOfKajian: string;
+  TopikKajian: string;
 }
 
 export class PimpinanjemaahSchemaDto {
   // KetuaPJ: MongooseSchema.Types.ObjectId;
   Nama: string;
-  scopeDakwahJumat: ScopeDakwahJumatDto[];
-  ScopeDakwahPengajian: ScopeDakwahPengajianDto[];
+  scope_dakwah_jumat: ScopeDakwahJumatDto[];
+  scope_dakwah_pengajian: ScopeDakwahPengajianDto[];
 }
