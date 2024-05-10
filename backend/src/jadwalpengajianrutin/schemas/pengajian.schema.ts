@@ -11,8 +11,8 @@ export class jadwal extends Document {
   @Prop({ required: true })
   tanggal: Date;
 
-//   @Prop({  type: mongoose.Schema.Types.ObjectId, ref: 'mubaligh'  })
-//   idMubaligh: mongoose.Schema.Types.ObjectId;
+  @Prop({  type: mongoose.Schema.Types.ObjectId, ref: 'MubalighSchema'  })
+  idMubaligh: mongoose.Schema.Types.ObjectId;
 }
 
 @Schema()

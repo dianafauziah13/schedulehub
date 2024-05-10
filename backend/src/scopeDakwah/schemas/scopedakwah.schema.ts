@@ -5,7 +5,6 @@ import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
 @Schema()
 export class ScopeDakwahSchema extends Document {
   @Prop({ type: String })
-  @AutoMap()
   LingkupDakwah: string;  
 }
 
