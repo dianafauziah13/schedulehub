@@ -14,7 +14,7 @@ export interface ListKeahlian {
     Rating : number;
 }
 
-export interface Mubaligh {
+export interface MubalighSchema {
     idScopeDakwah :mongoose.Schema.Types.ObjectId, ref: 'ScopeDakwah';
     mubalighName : string;
     AvailableKhutbahJumat : AvailableKhutbahJumat [];
