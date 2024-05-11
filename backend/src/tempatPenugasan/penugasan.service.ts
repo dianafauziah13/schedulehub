@@ -31,6 +31,7 @@ export class TempatPenugasanService {
 
     // manipulasi data
     const newTempatPenugasan = new this.tempatPenugasanModel(tempatPenugasanDto);
+    newTempatPenugasan.Penugasan.pimpinan.Nama = pimpinanjemaah.Nama;
     newTempatPenugasan.Penugasan.pimpinan.scope_dakwah_jumat = pimpinanjemaah.scope_dakwah_jumat;
     newTempatPenugasan.Penugasan.pimpinan.scope_dakwah_pengajian = pimpinanjemaah.scope_dakwah_pengajian;
     newTempatPenugasan.Penugasan.mubaligh_khutbah_jumat= MubalighJumat;
