@@ -1,4 +1,7 @@
 import mongoose, { Schema as MongooseSchema } from 'mongoose';
+import { Type } from 'class-transformer';
+import { IsArray, ValidateNested, isArray } from 'class-validator';
+
 export class ScopedakwahJumatDto {
     Nama: String;
     minggu_ke: number;

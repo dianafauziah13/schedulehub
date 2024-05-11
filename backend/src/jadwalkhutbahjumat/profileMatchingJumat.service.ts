@@ -1,13 +1,38 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { JumatDto } from './dto/create-jumat.dto';
+import { JadwalJumatSchema } from './schemas/jumat.schema';
+import { TempatPenugasanService } from 'src/tempatpenugasan/penugasan.service';
+import { TempatPenugasanSchema } from 'src/tempatpenugasan/schemas/penugasan.schema';
 
 @Injectable()
 export class ProfileMatchingServiceJumat {
+  constructor(
+    // @InjectModel('TempatPenugasanSchema')
+    private readonly tempatPenugasanService: TempatPenugasanService,
+    // private tempatPenugasanModel : Model<TempatPenugasanSchema>,
+    // @InjectModel('PengajianSchema')
+    // private jumatModel: Model <JadwalJumatSchema>
+
+  ) {}
     //  Menghitung gap dengan nilai alternatif - nilai kriteria
     calculateGap(alternativeValue: number, criteriaValue: number): number{
         return alternativeValue - criteriaValue;
         // Alternative = mubaligh, kriteria = pimpinan jemaah.
     }
     
+    determinasiBobot(scope: String){
+      switch (true){
+        case scope === "Jemaah":
+          return 1;
+        case scope === "Ranting":
+          return 2;
+        case scope === "Cabang":
+          return 3;
+      }
+    }
+
     // Mapping nilai gap
     mapGapToScore(gap: number): number {
     switch (true) {
@@ -79,5 +104,33 @@ export class ProfileMatchingServiceJumat {
 
     return cfScore + sfScore;
   }
+
+
+async generateProfileJumat(){
+   /* Mendapatkan semua penugasan pimpinan jamaah */
+  const penugasan = await this.tempatPenugasanService.findAllTempatPenugasan();
+
+   // Access idPimpinanJemaah from Penugasan and populate Pimpinanjemaah
+   const pimpinanJemaah = penugasan[0].Penugasan.pimpinan;
+   const mubaligh = penugasan[0].Penugasan.mubaligh_khutbah_jumat;
+
+   const bobot_kriteria: number[] = [];
+   for (let i = 1; i <= 5; i++) {
+      const data = this.determinasiBobot(pimpinanJemaah.scope_dakwah_jumat.find(s => s.minggu_ke == i).Nama);
+      bobot_kriteria.push(data); 
+      console.log(bobot_kriteria);
+   }
+
+
+
+// /* Iterasi Perhitungan GAP */
+// //  for (const PJ of penugasan) {
+// //   PJ.Penugasan
+// //   const suitableOwner = await this.calculateGap
+// // }
+//   // const newPenugasan = new this.tempatPenugasanModel(pengajianDto);
+//   // return await newPenugasan.save();
+
+}
 
 }
