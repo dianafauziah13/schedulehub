@@ -3,7 +3,7 @@ import { JadwalJumatService } from './jumat.service'
 import { JadwalJumatSchemaDto } from './dto/create-jumat.dto';
 import { JadwalJumatSchema } from './schemas/jumat.schema';
 
-@Controller('jadwaljumat')
+@Controller('generatejadwaljumat')
 export class JadwalJumatController {
   constructor(private readonly jadwalJumatService: JadwalJumatService) {}
 

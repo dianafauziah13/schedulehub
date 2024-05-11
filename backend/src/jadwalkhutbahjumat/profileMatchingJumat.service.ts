@@ -1,11 +1,22 @@
 import { Injectable } from '@nestjs/common';
-
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { TempatPenugasanService } from 'src/tempatpenugasan/penugasan.service';
+import { TempatPenugasanSchema} from 'src/tempatpenugasan/schemas/penugasan.schema';
+import { JumatDto } from './dto/create-jumat.dto';
+import { JadwalJumatSchema } from './schemas/jumat.schema';
+TempatPenugasanService
 @Injectable()
-export class ProfileMatchingServiceJumat {
+export class ProfileMatchingService {
+  constructor(
+    @InjectModel('TempatPenugasanSchema')
+    private readonly tempatPenugasanService: TempatPenugasanService,
+    private tempatPenugasanModel : Model<TempatPenugasanSchema>,
+  ) {}
+
     //  Menghitung gap dengan nilai alternatif - nilai kriteria
     calculateGap(alternativeValue: number, criteriaValue: number): number{
         return alternativeValue - criteriaValue;
-        // Alternative = mubaligh, kriteria = pimpinan jemaah.
     }
     
     // Mapping nilai gap
@@ -34,20 +45,6 @@ export class ProfileMatchingServiceJumat {
     }
   }
 
-  calculateWeight(scopes: { scope: string; weight: number; subcriteria: number }[]): { [key: string]: number } {
-    const totalWeight = scopes.reduce((acc, { weight }) => acc + weight, 0);
-    const weightedScopes: { [key: string]: number } = {};
-
-    scopes.forEach(({ scope, weight, subcriteria }) => {
-      const weightedValue = (weight / totalWeight) * subcriteria * 100;
-      weightedScopes[scope] = weightedValue;
-    });
-
-    return weightedScopes;
-  }
-
-  
-
   /* Menghitung rata - rata nilai secondary factor */
   CalculateSecondaryFactor(secondaryFactor: number[]): number {
     let nilaiSecondary = 0;
@@ -68,6 +65,18 @@ export class ProfileMatchingServiceJumat {
       return nilaiSecondary / length;
     }
   }
+  
+  calculateWeight(scopes: { scope: string; weight: number; subcriteria: number }[]): { [key: string]: number } {
+    const totalWeight = scopes.reduce((acc, { weight }) => acc + weight, 0);
+    const weightedScopes: { [key: string]: number } = {};
+
+    scopes.forEach(({ scope, weight, subcriteria }) => {
+      const weightedValue = (weight / totalWeight) * subcriteria * 100;
+      weightedScopes[scope] = weightedValue;
+    });
+
+    return weightedScopes;
+  }
 
   // Analisis total nilai gap
   calculateTotalGap(gapCF: number, gapSF: number): number{
@@ -78,6 +87,21 @@ export class ProfileMatchingServiceJumat {
     const sfScore = mappingGapSF * 0.4;
 
     return cfScore + sfScore;
+  }
+
+  async generate(): Promise<void>{
+    /* Mendapatkan semua penugasan pimpinan jamaah */
+    // const penugasan = await this.tempatPenugasanService.findAllTempatPenugasan();
+    const penugasan = await this.tempatPenugasanModel.find().populate('Penugasan.idPimpinanJemaah');
+    
+    // Access idPimpinanJemaah from Penugasan and populate Pimpinanjemaah
+    // const pimpinanJemaah = await this.tempatPenugasanModel.findById().exec();
+    /* Iterasi Perhitungan GAP */
+    // for (const PJ of penugasan) {
+    //   PJ.Penugasan
+    //   const suitableOwner = await this.calculateGap
+    // }
+
   }
 
 }
