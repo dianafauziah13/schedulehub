@@ -1,11 +1,11 @@
 import mongoose, { Schema as MongooseSchema } from 'mongoose';
 export class JumatDto {
-    tgl : [Date];
-    idMubaligh : mongoose.Schema.Types.ObjectId;
+    tgl : Date;
+    Mubaligh : String;
 }
 
 export class JadwalDto {
-    idPimpinanJemaah : mongoose.Schema.Types.ObjectId;
+    PimpinanJemaah : String;
     Jumat : JumatDto[];
 }
 
