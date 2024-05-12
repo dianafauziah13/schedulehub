@@ -1,24 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { TempatPenugasanService } from 'src/tempatpenugasan/penugasan.service';
-import { TempatPenugasanSchema} from 'src/tempatpenugasan/schemas/penugasan.schema';
 import { JumatDto } from './dto/create-jumat.dto';
 import { JadwalJumatSchema } from './schemas/jumat.schema';
-TempatPenugasanService
-@Injectable()
-export class ProfileMatchingService {
-  constructor(
-    @InjectModel('TempatPenugasanSchema')
-    private readonly tempatPenugasanService: TempatPenugasanService,
-    private tempatPenugasanModel : Model<TempatPenugasanSchema>,
-  ) {}
+import { TempatPenugasanService } from 'src/tempatpenugasan/penugasan.service';
+import { TempatPenugasanSchema } from 'src/tempatpenugasan/schemas/penugasan.schema';
 
+@Injectable()
+export class ProfileMatchingServiceJumat {
+  constructor(
+    // @InjectModel('TempatPenugasanSchema')
+    private readonly tempatPenugasanService: TempatPenugasanService,
+    // private tempatPenugasanModel : Model<TempatPenugasanSchema>,
+    // @InjectModel('PengajianSchema')
+    // private jumatModel: Model <JadwalJumatSchema>
+
+  ) {}
     //  Menghitung gap dengan nilai alternatif - nilai kriteria
     calculateGap(alternativeValue: number, criteriaValue: number): number{
         return alternativeValue - criteriaValue;
     }
     
+    determinasiBobot(scope: String){
+      switch (true){
+        case scope === "Jemaah":
+          return 1;
+        case scope === "Ranting":
+          return 2;
+        case scope === "Cabang":
+          return 3;
+      }
+    }
+
     // Mapping nilai gap
     mapGapToScore(gap: number): number {
     switch (true) {
@@ -79,29 +92,83 @@ export class ProfileMatchingService {
   }
 
   // Analisis total nilai gap
-  calculateTotalGap(gapCF: number, gapSF: number): number{
-    const mappingGapCF = this.mapGapToScore(gapCF);
-    const mappingGapSF = this.mapGapToScore(gapSF);
-
-    const cfScore = mappingGapCF * 0.6;
-    const sfScore = mappingGapSF * 0.4;
-
-    return cfScore + sfScore;
+  calculateBobot(kriteria: number, mappingGapCF: number): number{
+    switch(true){
+      case kriteria === 1:
+        return mappingGapCF * 0.25;
+      case kriteria === 2:
+        return mappingGapCF * 0.35;
+      case mappingGapCF === 3:
+        return mappingGapCF * 0.40;
+    }
   }
 
-  async generate(): Promise<void>{
-    /* Mendapatkan semua penugasan pimpinan jamaah */
-    // const penugasan = await this.tempatPenugasanService.findAllTempatPenugasan();
-    const penugasan = await this.tempatPenugasanModel.find().populate('Penugasan.idPimpinanJemaah');
+
+async generateProfileJumat(){
+   /* Mendapatkan semua penugasan pimpinan jamaah */
+  const penugasan = await this.tempatPenugasanService.findAllTempatPenugasan();
+
+   // Access idPimpinanJemaah from Penugasan and populate Pimpinanjemaah
+   // looping untuk setiap pimpinan jemaah 
+  //  Looping untuk setiap mubaligh di pimpinan jemaah
+   const pimpinanJemaah = penugasan[0].Penugasan.pimpinan;
+   const mubaligh = penugasan[0].Penugasan.mubaligh_khutbah_jumat;
+
+   const bobot_alternatif: number[] = [];
+   mubaligh.forEach((mubalighdata) => {
+    const dataMubaligh = this.determinasiBobot(mubalighdata.scope_dakwah);
+    bobot_alternatif.push(dataMubaligh); 
+    // console.log(bobot_alternatif);
+  });
+
+   const bobot_kriteria: number[] = [];
+   for (let i = 1; i <= 5; i++) {
+      const data = this.determinasiBobot(pimpinanJemaah.scope_dakwah_jumat.find(s => s.minggu_ke == i).Nama);
+      bobot_kriteria.push(data); 
+      
+
+
+      // console.log(bobot_kriteria);
+   }
+
+  const Value_calculateGAP: number[]=[];
+  for (let i = 1; i <= 5; i++) {  //bagusnya pake foreach
+    const bobot_kriteria = this.determinasiBobot(pimpinanJemaah.scope_dakwah_jumat.find(s => s.minggu_ke == i).Nama);
+    bobot_alternatif.forEach((bobot)=>{
+      const result = this.calculateGap(bobot_kriteria, bobot);
+      Value_calculateGAP.push(result);
+
+    });
+  }
+  // console.log(Value_calculateGAP);
+  const Value_MappingGAP: number[]=[];
+  Value_calculateGAP.forEach((GAP)=>{
+    const result = this.mapGapToScore(GAP);
+    Value_MappingGAP.push(result);
     
-    // Access idPimpinanJemaah from Penugasan and populate Pimpinanjemaah
-    // const pimpinanJemaah = await this.tempatPenugasanModel.findById().exec();
-    /* Iterasi Perhitungan GAP */
-    // for (const PJ of penugasan) {
-    //   PJ.Penugasan
-    //   const suitableOwner = await this.calculateGap
-    // }
+  });
+  // console.log(Value_MappingGAP);
 
-  }
+  const totalBobot: number[]=[];
+  
+  bobot_kriteria.forEach((kriteria)=>{
+    for(let i= 0; i < mubaligh.length; i++){
+     const result = this.calculateBobot(kriteria, Value_MappingGAP[i]);
+     totalBobot.push(result);
+    }
+  });
+  console.log(Value_MappingGAP);
+  console.log(totalBobot);
+
+
+// /* Iterasi Perhitungan GAP */
+// //  for (const PJ of penugasan) {
+// //   PJ.Penugasan
+// //   const suitableOwner = await this.calculateGap
+// // }
+//   // const newPenugasan = new this.tempatPenugasanModel(pengajianDto);
+//   // return await newPenugasan.save();
+
+}
 
 }

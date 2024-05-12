@@ -1,14 +1,16 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
-import { MubalighSchema } from 'src/mubaligh/interfaces/mubaligh.interfaces';
+import { MubalighSchema } from 'src/mubaligh/schemas/mubaligh.schema';
+import { PimpinanjemaahSchema } from 'src/pimpinanjamaah/schemas/pimpinanjamaah.schema';
+
 
 @Schema()
 export class Jadwal extends Document {
-  @Prop({ type: mongoose.Schema.Types.ObjectId })
-  idPimpinanJemaah: mongoose.Schema.Types.ObjectId;
+  @Prop({ type: String  })
+  PimpinanJemaah: String;
 
-  @Prop({ type: [{ tgl: {Date}, idMubaligh: { type: mongoose.Schema.Types.ObjectId, ref: 'MubalighSchema'}}] })
-  Jumat: { tgl: Date; idMubaligh: mongoose.Schema.Types.ObjectId}[];
+  @Prop({ type: [{ tgl: {Date}, idMubaligh: { type: String}}] })
+  Jumat: { tgl: Date; Mubaligh: String}[];
 }
 
 @Schema()
