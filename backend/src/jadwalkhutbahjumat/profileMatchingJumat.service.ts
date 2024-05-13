@@ -98,76 +98,104 @@ export class ProfileMatchingServiceJumat {
         return mappingGapCF * 0.25;
       case kriteria === 2:
         return mappingGapCF * 0.35;
-      case mappingGapCF === 3:
-        return mappingGapCF * 0.40;
+      case kriteria === 3:
+        return mappingGapCF * 0.4;
     }
   }
 
+  sortDescending(values: number[]): number[] {
+    return values.slice().sort((a, b) => b - a);
+  }
+
+  findIndexHighest(values: number[]): number {
+    let highestIndices: number[] = [];
+    let maxValue = Number.MIN_SAFE_INTEGER;
+
+    values.forEach((value, index) => {
+      if (value > maxValue) {
+        highestIndices = [index];
+        maxValue = value;
+      } else if (value === maxValue) {
+        highestIndices.push(index);
+      }
+    });
+
+    const randomIndex = Math.floor(Math.random() * highestIndices.length);
+    return highestIndices[randomIndex];
+  }
 
 async generateProfileJumat(){
    /* Mendapatkan semua penugasan pimpinan jamaah */
   const penugasan = await this.tempatPenugasanService.findAllTempatPenugasan();
 
-   // Access idPimpinanJemaah from Penugasan and populate Pimpinanjemaah
-   // looping untuk setiap pimpinan jemaah 
-  //  Looping untuk setiap mubaligh di pimpinan jemaah
+   // Ambil PimpinanJemaah dan mubaligh dari Penugasan 
    const pimpinanJemaah = penugasan[0].Penugasan.pimpinan;
    const mubaligh = penugasan[0].Penugasan.mubaligh_khutbah_jumat;
+  //  const pj = penugasan.map(item=> item.Penugasan);
 
+  /**
+   * Determinasi Bobot Untuk Mubaligh
+   */
    const bobot_alternatif: number[] = [];
    mubaligh.forEach((mubalighdata) => {
     const dataMubaligh = this.determinasiBobot(mubalighdata.scope_dakwah);
     bobot_alternatif.push(dataMubaligh); 
-    // console.log(bobot_alternatif);
   });
+
+  /**
+   * Ambil jumlah khutbah
+   */
+    const Nkhutbah: number[] = [];
+    mubaligh.forEach((mubalighdata) => {
+     const result = mubalighdata.Nkhutbah;
+     Nkhutbah.push(result); 
+   });
 
    const bobot_kriteria: number[] = [];
+   const Value_calculateGAP: number[]=[];
+   const Value_MappingGAP: number[]=[];
+   const totalBobot: number[]=[];
+
    for (let i = 1; i <= 5; i++) {
-      const data = this.determinasiBobot(pimpinanJemaah.scope_dakwah_jumat.find(s => s.minggu_ke == i).Nama);
-      bobot_kriteria.push(data); 
-      
+      const kriteria = this.determinasiBobot(pimpinanJemaah.scope_dakwah_jumat.find(s => s.minggu_ke == i).Nama);
+      bobot_kriteria.push(kriteria);
+      bobot_alternatif.forEach((alternatif)=>{
+        const result = this.calculateGap(alternatif, kriteria );
+        Value_calculateGAP.push(result); 
+      });
+      Value_calculateGAP.forEach((GAP)=>{
+        const result = this.mapGapToScore(GAP);
+        Value_MappingGAP.push(result);
+      });
+      bobot_kriteria.forEach((kriteria)=>{
+        for(let i= 0; i < mubaligh.length; i++){
+         const result = this.calculateBobot(kriteria, Value_MappingGAP[i]);
+         const value = result-mubaligh[i].Nkhutbah[i];
+        //  console.log(Nkhutbah);
+         totalBobot.push(value);
+        }
+      });
 
+      // const ranking = this.sortDescending(totalBobot);
+      const Rankindx= this.findIndexHighest(totalBobot);
+      const mubalighName = mubaligh[Rankindx].mubalighName;
+      mubaligh[Rankindx].Nkhutbah = mubaligh[Rankindx].Nkhutbah[Rankindx]+1;
+      console.log(mubaligh[Rankindx]._id)
 
-      // console.log(bobot_kriteria);
+      // console.log(mubaligh[Rankindx].Nkhutbah);
+      console.log(bobot_kriteria);
+      console.log(bobot_alternatif);
+      console.log(Value_calculateGAP);
+      console.log(Value_MappingGAP);
+      console.log(totalBobot);
+      console.log(Rankindx);
+      console.log(mubalighName);
+
+      bobot_kriteria.length =0;
+      Value_calculateGAP.length = 0;
+      Value_MappingGAP.length = 0;
+      totalBobot.length =0;
    }
-
-  const Value_calculateGAP: number[]=[];
-  for (let i = 1; i <= 5; i++) {  //bagusnya pake foreach
-    const bobot_kriteria = this.determinasiBobot(pimpinanJemaah.scope_dakwah_jumat.find(s => s.minggu_ke == i).Nama);
-    bobot_alternatif.forEach((bobot)=>{
-      const result = this.calculateGap(bobot_kriteria, bobot);
-      Value_calculateGAP.push(result);
-
-    });
-  }
-  // console.log(Value_calculateGAP);
-  const Value_MappingGAP: number[]=[];
-  Value_calculateGAP.forEach((GAP)=>{
-    const result = this.mapGapToScore(GAP);
-    Value_MappingGAP.push(result);
-    
-  });
-  // console.log(Value_MappingGAP);
-
-  const totalBobot: number[]=[];
-  
-  bobot_kriteria.forEach((kriteria)=>{
-    for(let i= 0; i < mubaligh.length; i++){
-     const result = this.calculateBobot(kriteria, Value_MappingGAP[i]);
-     totalBobot.push(result);
-    }
-  });
-  console.log(Value_MappingGAP);
-  console.log(totalBobot);
-
-
-// /* Iterasi Perhitungan GAP */
-// //  for (const PJ of penugasan) {
-// //   PJ.Penugasan
-// //   const suitableOwner = await this.calculateGap
-// // }
-//   // const newPenugasan = new this.tempatPenugasanModel(pengajianDto);
-//   // return await newPenugasan.save();
 
 }
 
