@@ -34,6 +34,9 @@ export class MubalighSchema extends Document {
   @Prop({ type: [Number] })
   AvailableKhutbahJumat: number[];
 
+  @Prop({ type: Number })
+  Nkhutbah: number;
+
   @Prop({ type: [AvailablePengajianRutin] })
   AvailablePengajianRutin : AvailablePengajianRutin[];
 
