@@ -54,6 +54,21 @@ export class TempatPenugasanService {
     return await this.tempatPenugasanModel.findByIdAndUpdate(id, tempatPenugasanDto, { new: true }).exec();
   }
 
+  async updateNkhutbah(mubalighId: string, newNkhutbah: number): Promise<TempatPenugasanSchema>{
+    try {
+      const updatedMubaligh = await this.tempatPenugasanModel.findOneAndUpdate(
+        { _id: mubalighId },
+        { Nkhutbah: newNkhutbah },
+        { new: true }
+      );
+      return updatedMubaligh;
+    } catch (error) {
+      // Tangani kesalahan
+      console.error(error);
+      return null;
+    }
+  }
+
   async deleteTempatPenugasan(id: string): Promise<TempatPenugasanSchema> {
     return await this.tempatPenugasanModel.findByIdAndDelete(id).exec();
   }
