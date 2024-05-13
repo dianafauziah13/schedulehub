@@ -26,7 +26,7 @@ export class ListKeahlian extends Document {
 @Schema()
 export class MubalighSchema extends Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ScopeDakwahSchema' })
-  idScopeDakwah : ScopeDakwahSchema;
+  idScopeDakwah?: ScopeDakwahSchema;
 
   @Prop({ type: String })
   mubalighName: string;  

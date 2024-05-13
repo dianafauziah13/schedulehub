@@ -4,7 +4,6 @@ import { JadwalJumatSchemaDto } from './dto/create-jumat.dto';
 import { JadwalJumatSchema } from './schemas/jumat.schema';
 import { ProfileMatchingServiceJumat } from './profileMatchingJumat.service';
 
-
 @Controller('generatejadwaljumat')
 export class JadwalJumatController {
   constructor(
