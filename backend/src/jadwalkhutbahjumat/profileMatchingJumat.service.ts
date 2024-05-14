@@ -168,9 +168,9 @@ async generateProfileJumat(){
         Value_MappingGAP.push(result);
       });
       bobot_kriteria.forEach((kriteria)=>{
-        for(let i= 0; i < mubaligh.length; i++){
-         const result = this.calculateBobot(kriteria, Value_MappingGAP[i]);
-         const value = result-mubaligh[i].Nkhutbah[i];
+        for(let j= 0; j < mubaligh.length; j++){
+         const result = this.calculateBobot(kriteria, Value_MappingGAP[j]);
+         const value = result-mubaligh[j].Nkhutbah;
         //  console.log(Nkhutbah);
          totalBobot.push(value);
         }
@@ -179,10 +179,13 @@ async generateProfileJumat(){
       // const ranking = this.sortDescending(totalBobot);
       const Rankindx= this.findIndexHighest(totalBobot);
       const mubalighName = mubaligh[Rankindx].mubalighName;
-      mubaligh[Rankindx].Nkhutbah = mubaligh[Rankindx].Nkhutbah[Rankindx]+1;
-      console.log(mubaligh[Rankindx]._id)
+      mubaligh[Rankindx].Nkhutbah = mubaligh[Rankindx].Nkhutbah+1;
+      const idMubaligh = mubaligh[Rankindx]._id
+      // console.log(mubaligh[Rankindx]._id)
 
+      // const newNKhutbah = await this.tempatPenugasanService.updateNkhutbah(idMubaligh, mubaligh[Rankindx].Nkhutbah)
       // console.log(mubaligh[Rankindx].Nkhutbah);
+
       console.log(bobot_kriteria);
       console.log(bobot_alternatif);
       console.log(Value_calculateGAP);
