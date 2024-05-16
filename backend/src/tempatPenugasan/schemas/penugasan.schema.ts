@@ -50,10 +50,8 @@ export class mubaligh_jumat extends Document {
   mubalighName: String; 
   @Prop({ type: String })
   scope_dakwah: String;
-  @Prop({ type: Number })
-  Nkhutbah: number;
   @Prop({ type: [Number]})
-  AvailableKhutbahJumat: Number[];
+  AvailableKhutbahJumat: number[];
 }
 
 @Schema()

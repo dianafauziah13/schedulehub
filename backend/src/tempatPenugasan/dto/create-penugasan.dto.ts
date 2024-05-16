@@ -24,8 +24,7 @@ export class ScopedakwahJumatDto {
     _id: mongoose.Schema.Types.ObjectId;
     mubalighName: String; 
     scope_dakwah: String;
-    Nkhutbah: number;
-    AvailableKhutbahJumat: Number[];
+    AvailableKhutbahJumat: number[];
   }
 
   export class AvailablePengajianRutin{
