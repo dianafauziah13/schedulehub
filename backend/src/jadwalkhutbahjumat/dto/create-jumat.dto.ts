@@ -1,7 +1,7 @@
 import mongoose, { Schema as MongooseSchema } from 'mongoose';
 export class JumatDto {
-    tgl : Date;
-    Mubaligh : String;
+    minggu_ke: Number; 
+    Mubaligh: String
 }
 
 export class JadwalDto {

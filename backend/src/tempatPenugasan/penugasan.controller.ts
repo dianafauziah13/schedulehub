@@ -27,10 +27,10 @@ export class TempatPenugasanController {
     return penugasan;
   }
 
-  @Put(':mubalighId')
+  @Post(':_id')
   async updateNkhutbah(
-    @Param('mubalighId') mubalighId: string,
-    @Body('newNkhutbah') newNkhutbah: number
+    @Param('_id') mubalighId: string,
+    @Body('Nkhutbah') newNkhutbah: number
   ): Promise<TempatPenugasanSchema> {
     try {
       const updatedMubaligh = await this.tempatPenugasanService.updateNkhutbah(mubalighId, newNkhutbah);

@@ -12,19 +12,19 @@ export class JadwalJumatController {
      private readonly profileMatchingServiceJumat: ProfileMatchingServiceJumat
   ) {}
 
-  // @Post()
-  // async createJadwalJumat(@Body() jadwalJumatDTO: JadwalJumatSchemaDto): Promise<JadwalJumatSchema> {
-  //   const createdJadwalJumat = await this.jadwalJumatService.createJadwalJumat(jadwalJumatDTO);
-  //   return createdJadwalJumat;
-  // }
-
-  @Get()
-  async generateJadwalJumat() {
-    const generateJadwalJumat = await this.profileMatchingServiceJumat.generateProfileJumat();
-    const hello = "hello gaiss";
-    // console.log(generateJadwalJumat);
-    return generateJadwalJumat;
+  @Post()
+  async createJadwalJumat(@Body() jadwalJumatDTO: JadwalJumatSchemaDto): Promise<JadwalJumatSchema> {
+    const createdJadwalJumat = await this.profileMatchingServiceJumat.generateProfileJumat(jadwalJumatDTO);
+    return createdJadwalJumat;
   }
+
+  // @Get()
+  // async generateJadwalJumat() {
+  //   const generateJadwalJumat = await this.profileMatchingServiceJumat.generateProfileJumat();
+  //   const hello = "hello gaiss";
+  //   // console.log(generateJadwalJumat);
+  //   return generateJadwalJumat;
+  // }
 
   // @Get()
   // async getAllJadwalJumat(): Promise<JadwalJumatSchema[]> {

@@ -6,11 +6,14 @@ import { PimpinanjemaahSchema } from 'src/pimpinanjamaah/schemas/pimpinanjamaah.
 
 @Schema()
 export class Jadwal extends Document {
+  
   @Prop({ type: String  })
-  PimpinanJemaah: String;
+  PimpinanJemaah: String = '';
 
-  @Prop({ type: [{ tgl: {Date}, idMubaligh: { type: String}}] })
-  Jumat: { tgl: Date; Mubaligh: String}[];
+  @Prop({ type: [{ minggu_ke: { type: Number}, Mubaligh: { type: String } }] })
+  Jumat: { minggu_ke: Number ; Mubaligh: String }[] = [];
+
+
 }
 
 @Schema()
@@ -22,7 +25,8 @@ export class JadwalJumatSchema extends Document {
   tahun: number;
 
   @Prop({ type: [Jadwal] })
-  Jadwal : Jadwal[];
+  Jadwal : Jadwal[] = [];
 }
 
 export const JadwalJumatSchemaModel = SchemaFactory.createForClass(JadwalJumatSchema);
+export const jadwalModel = SchemaFactory.createForClass(Jadwal);
