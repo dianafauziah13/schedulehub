@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { ConsoleLogger, Injectable, RequestTimeoutException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { JumatDto } from './dto/create-jumat.dto';
-import { JadwalJumatSchema } from './schemas/jumat.schema';
 import { TempatPenugasanService } from 'src/tempatpenugasan/penugasan.service';
 import { TempatPenugasanSchema } from 'src/tempatpenugasan/schemas/penugasan.schema';
+import { Jadwal, JadwalJumatSchema } from './schemas/jumat.schema';
+import { JadwalJumatSchemaDto } from './dto/create-jumat.dto';
+import { jadwal } from 'src/jadwalpengajianrutin/schemas/pengajian.schema';
 
 @Injectable()
 export class ProfileMatchingServiceJumat {
@@ -12,9 +13,10 @@ export class ProfileMatchingServiceJumat {
     // @InjectModel('TempatPenugasanSchema')
     private readonly tempatPenugasanService: TempatPenugasanService,
     // private tempatPenugasanModel : Model<TempatPenugasanSchema>,
-    // @InjectModel('PengajianSchema')
-    // private jumatModel: Model <JadwalJumatSchema>
-
+    @InjectModel('JadwalJumatSchema')
+    private jadwalJumatModel: Model <JadwalJumatSchema>,
+   @InjectModel('Jadwal')
+    private jadwalModel: Model <Jadwal>
   ) {}
     //  Menghitung gap dengan nilai alternatif - nilai kriteria
     calculateGap(alternativeValue: number, criteriaValue: number): number{
@@ -124,82 +126,152 @@ export class ProfileMatchingServiceJumat {
     return highestIndices[randomIndex];
   }
 
-async generateProfileJumat(){
-   /* Mendapatkan semua penugasan pimpinan jamaah */
+  get_random (list) {
+    const idx = Math.floor((Math.random()*list.length))
+    return {obj:list[idx], index: idx};
+  }
+
+  
+async generateProfileJumat(jadwalJumatDTO: JadwalJumatSchemaDto): Promise<JadwalJumatSchema>{
+  const newJadwalJumat = new this.jadwalJumatModel(jadwalJumatDTO);
+
+  class BobotKriteria {
+    nama = '';
+    hasilPerhitungan = []
+  }
+
+  class BobotAlternatif {
+    nama = '';
+    hasilPerhitungan = []
+    jmlKhutbah = 0;
+    sudahTerjadwal = false
+  }
+
+  class PerhitunganAlternatif {
+    minggu_ke = 1;
+    bobot = 0;
+    Value_calculateGAP = 0;
+    Value_MappingGAP = 0;
+    totalBobot = 0;
+  }
+
+  class PerhitunganKriteria {
+    minggu_ke = 1;
+    bobot = 0;
+  }
+
+  let bobot_alternatif = []
+  let bobot_kriteria = []
+  let pemenang = []
+
+  // Pengambilan semua penugasan 
   const penugasan = await this.tempatPenugasanService.findAllTempatPenugasan();
 
-   // Ambil PimpinanJemaah dan mubaligh dari Penugasan 
-   const pimpinanJemaah = penugasan[0].Penugasan.pimpinan;
-   const mubaligh = penugasan[0].Penugasan.mubaligh_khutbah_jumat;
-  //  const pj = penugasan.map(item=> item.Penugasan);
+  // Lakukan Looping sepanjang 5 (untuk 5 minggu)
+  for (let i = 1; i <= 5; i++) {
+    // penugasan = [penugasan[0]]
 
-  /**
-   * Determinasi Bobot Untuk Mubaligh
-   */
-   const bobot_alternatif: number[] = [];
-   mubaligh.forEach((mubalighdata) => {
-    const dataMubaligh = this.determinasiBobot(mubalighdata.scope_dakwah);
-    bobot_alternatif.push(dataMubaligh); 
+    // Looping sebanyak penugasan
+    penugasan.forEach(p => {
+      const pimpinanJemaah = p.Penugasan.pimpinan;
+      let mubaligh = p.Penugasan.mubaligh_khutbah_jumat;
+
+      //Melakukan determinasi bobot pimpinan jemaah pada minggu ke-i
+      const kriteria = this.determinasiBobot(pimpinanJemaah.scope_dakwah_jumat.find(s => s.minggu_ke == i).Nama);
+      const indexKriteria = bobot_kriteria.findIndex(a=>a.nama==pimpinanJemaah.Nama);
+      const kriteria_PJ = (indexKriteria != -1) ? bobot_kriteria[indexKriteria] : new BobotKriteria;
+      kriteria_PJ.nama = pimpinanJemaah.Nama;
+      const perhitunganKriteria= new PerhitunganKriteria;
+      perhitunganKriteria.bobot = kriteria;
+      perhitunganKriteria.minggu_ke = i;
+      kriteria_PJ.hasilPerhitungan.push(perhitunganKriteria);
+      
+      if (indexKriteria != -1) bobot_kriteria[indexKriteria] == kriteria_PJ
+      else bobot_kriteria.push(kriteria_PJ)
+
+      // mubaligh = [mubaligh[0]]
+      // Melakukan filter mubaligh yang available khutbah jumat == minggu ke i
+      let mubalighMingguIni = mubaligh.filter(m => m.AvailableKhutbahJumat.find(a => a == i))
+      let rank_minggu_ini = []
+      
+      //Looping mubaligh hasil filter
+      mubalighMingguIni.forEach(m => {
+        const indexAlternatif = bobot_alternatif.findIndex(a => a.nama == m.mubalighName)
+
+        const alternatif = bobot_alternatif[indexAlternatif] || new BobotAlternatif;
+        alternatif.nama = m.mubalighName
+        
+        const indexHasilPerhitungan = alternatif.hasilPerhitungan.findIndex(p => p.minggu_ke == i)
+        const hasilPerhitungan = (indexHasilPerhitungan != -1) ? alternatif.hasilPerhitungan[indexHasilPerhitungan] : new PerhitunganAlternatif
+        if (indexHasilPerhitungan !=  -1) return;
+        hasilPerhitungan.minggu_ke = i
+        hasilPerhitungan.bobot = this.determinasiBobot(m.scope_dakwah)
+        hasilPerhitungan.Value_calculateGAP = this.calculateGap(hasilPerhitungan.bobot, kriteria)
+        hasilPerhitungan.Value_MappingGAP = this.mapGapToScore(hasilPerhitungan.Value_calculateGAP)
+        hasilPerhitungan.totalBobot = this.calculateBobot(kriteria, hasilPerhitungan.Value_MappingGAP) - alternatif.jmlKhutbah
+
+        if (indexHasilPerhitungan != -1) alternatif.hasilPerhitungan[indexHasilPerhitungan] = hasilPerhitungan
+        else alternatif.hasilPerhitungan.push(hasilPerhitungan)
+        
+        if (indexAlternatif != -1) bobot_alternatif[indexAlternatif] = alternatif
+        else bobot_alternatif.push(alternatif)
+        rank_minggu_ini.push(alternatif)
+      })
+
+      rank_minggu_ini = rank_minggu_ini.filter(a => !a.sudahTerjadwal || (a.sudahTerjadwal && !a.hasilPerhitungan.find(p => p.minggu_ke == i)))
+      rank_minggu_ini = rank_minggu_ini.sort((a,b)=> b.hasilPerhitungan.find(p=>p.minggu_ke==i).totalBobot - a.hasilPerhitungan.find(p=>p.minggu_ke==i).totalBobot);
+      
+      const rank_kandidat = rank_minggu_ini.filter(a => a.hasilPerhitungan.find(b => b.minggu_ke == i).totalBobot == rank_minggu_ini[0].hasilPerhitungan.find(b => b.minggu_ke == i).totalBobot)
+      if (rank_kandidat.length == 0) return
+      const terpilih = this.get_random(rank_kandidat)
+      const alternatif_terpilih = terpilih.obj
+      alternatif_terpilih.sudahTerjadwal = true
+      alternatif_terpilih.jmlKhutbah += 1
+      pemenang.push({alternatif: alternatif_terpilih, minggu_ke: i, tempat: pimpinanJemaah.Nama})
+      // console.log('Mubaligh Terpilih: ', alternatif_terpilih.nama, ', Bobot:', alternatif_terpilih.hasilPerhitungan.find(a => a.minggu_ke == i).totalBobot, ' Tempat: ', pimpinanJemaah.Nama, 'jml khutbah', alternatif_terpilih.jmlKhutbah);
+      
+    })
+    // console.log('\n');
+
+
+  }
+  
+
+  const jadwal: Jadwal []=[];
+  pemenang.forEach(a=> {
+    const idxjadwal= jadwal.findIndex(j=>j.PimpinanJemaah==a.tempat)
+    const j = idxjadwal != -1 ? jadwal[idxjadwal] : new this.jadwalModel();
+    j.PimpinanJemaah = a.tempat;
+    j.Jumat.push({minggu_ke:a.minggu_ke, Mubaligh: a.alternatif.nama})
+    if(idxjadwal != -1){
+      jadwal[idxjadwal] = j;
+    }else{
+      jadwal.push(j);
+    }
+
   });
 
-  /**
-   * Ambil jumlah khutbah
-   */
-    const Nkhutbah: number[] = [];
-    mubaligh.forEach((mubalighdata) => {
-     const result = mubalighdata.Nkhutbah;
-     Nkhutbah.push(result); 
-   });
+  newJadwalJumat.Jadwal = jadwal;
+  
+  return await newJadwalJumat.save();
 
-   const bobot_kriteria: number[] = [];
-   const Value_calculateGAP: number[]=[];
-   const Value_MappingGAP: number[]=[];
-   const totalBobot: number[]=[];
+  //  log(bobot_alternatif);
+  // pemenang.filter(p => p.alternatif.hasilPerhitungan.find(a => a.minggu_ke == 1 || a.minggu_ke == 2)).filter(p => p.alternatif.nama == "Deni Sumpena").forEach(c => {
+  //   console.log(c.alternatif.nama, ' minggu ke-', c.minggu_ke);
+  //   console.log('\n');
+  //   c.alternatif.hasilPerhitungan.forEach(element => {
+  //     console.log(element);
+  //   });
+  // })
 
-   for (let i = 1; i <= 5; i++) {
-      const kriteria = this.determinasiBobot(pimpinanJemaah.scope_dakwah_jumat.find(s => s.minggu_ke == i).Nama);
-      bobot_kriteria.push(kriteria);
-      bobot_alternatif.forEach((alternatif)=>{
-        const result = this.calculateGap(alternatif, kriteria );
-        Value_calculateGAP.push(result); 
-      });
-      Value_calculateGAP.forEach((GAP)=>{
-        const result = this.mapGapToScore(GAP);
-        Value_MappingGAP.push(result);
-      });
-      bobot_kriteria.forEach((kriteria)=>{
-        for(let j= 0; j < mubaligh.length; j++){
-         const result = this.calculateBobot(kriteria, Value_MappingGAP[j]);
-         const value = result-mubaligh[j].Nkhutbah;
-        //  console.log(Nkhutbah);
-         totalBobot.push(value);
-        }
-      });
-
-      // const ranking = this.sortDescending(totalBobot);
-      const Rankindx= this.findIndexHighest(totalBobot);
-      const mubalighName = mubaligh[Rankindx].mubalighName;
-      mubaligh[Rankindx].Nkhutbah = mubaligh[Rankindx].Nkhutbah+1;
-      const idMubaligh = mubaligh[Rankindx]._id
-      // console.log(mubaligh[Rankindx]._id)
-
-      // const newNKhutbah = await this.tempatPenugasanService.updateNkhutbah(idMubaligh, mubaligh[Rankindx].Nkhutbah)
-      // console.log(mubaligh[Rankindx].Nkhutbah);
-
-      console.log(bobot_kriteria);
-      console.log(bobot_alternatif);
-      console.log(Value_calculateGAP);
-      console.log(Value_MappingGAP);
-      console.log(totalBobot);
-      console.log(Rankindx);
-      console.log(mubalighName);
-
-      bobot_kriteria.length =0;
-      Value_calculateGAP.length = 0;
-      Value_MappingGAP.length = 0;
-      totalBobot.length =0;
-   }
-
+  pemenang.forEach(e => {
+    console.log('nama: ', e.alternatif.nama, ', minggu ke:', e.minggu_ke, ', tempat:', e.tempat);
+  })
 }
 
+log = (obj) => {
+  console.dir(obj, {depth: null});
+}
+
+  
 }
