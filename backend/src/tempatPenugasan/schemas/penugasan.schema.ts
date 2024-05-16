@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
-import { PimpinanjemaahSchema } from 'src/pimpinanjamaah/schemas/pimpinanjamaah.schema';
 import { MubalighSchema } from 'src/mubaligh/schemas/mubaligh.schema';
+import { PimpinanjemaahSchema } from 'src/pimpinanjamaah/schemas/pimpinanjamaah.schema';
 
 @Schema()
 export class scopedakwahjumat extends Document{
@@ -51,16 +51,16 @@ export class mubaligh_jumat extends Document {
   @Prop({ type: String })
   scope_dakwah: String;
   @Prop({ type: [Number]})
-  AvailableKhutbahJumat: Number[];
+  AvailableKhutbahJumat: number[];
 }
 
 @Schema()
 export class AvailablePengajianRutin extends Document{
   @Prop({ type: [Number] })
-  Minggu_ke: [Number];
+  Minggu_ke: Number[];
  
   @Prop({ type: [String] })
-  Hari: [String];
+  Hari: String[];
 }
 
 @Schema()
@@ -77,10 +77,12 @@ export class mubaligh_pengajian extends Document {
   ListKeahlian: { nama: String; Rating: Number }[];
 }
 
+
 @Schema()
 export class Penugasan extends Document {
   @Prop({ type: pimpinan })
   pimpinan: pimpinan;
+
   @Prop({ type: [mubaligh_jumat] })
   mubaligh_khutbah_jumat: mubaligh_jumat[];
 

@@ -27,11 +27,26 @@ export class TempatPenugasanController {
     return penugasan;
   }
 
-  @Put(':id')
-  async updateTempatPenugasan(
-    @Param('id') id: string,
-    @Body() TempatPenugasanDto: TempatPenugasanSchemaDto,
+  @Post(':_id')
+  async updateNkhutbah(
+    @Param('_id') mubalighId: string,
+    @Body('Nkhutbah') newNkhutbah: number
   ): Promise<TempatPenugasanSchema> {
-    return await this.tempatPenugasanService.updateTempatPenugasan(id, TempatPenugasanDto);
+    try {
+      const updatedMubaligh = await this.tempatPenugasanService.updateNkhutbah(mubalighId, newNkhutbah);
+      return updatedMubaligh;
+    } catch (error) {
+      // Tangani kesalahan
+      console.error(error);
+      return null;
+    }
   }
+
+  // @Put(':id')
+  // async updateTempatPenugasan(
+  //   @Param('id') id: string,
+  //   @Body() TempatPenugasanDto: TempatPenugasanSchemaDto,
+  // ): Promise<TempatPenugasanSchema> {
+  //   return await this.tempatPenugasanService.updateTempatPenugasan(id, TempatPenugasanDto);
+  // }
 }

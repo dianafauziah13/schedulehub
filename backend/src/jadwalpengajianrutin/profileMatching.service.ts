@@ -3,6 +3,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TempatPenugasanService } from 'src/tempatpenugasan/penugasan.service';
 import { TempatPenugasanSchema} from 'src/tempatpenugasan/schemas/penugasan.schema';
+import { PengajianSchema } from './schemas/pengajian.schema';
+import { PengajianSchemaDTO } from './dto/create-pengajian.dto';
+import { PenugasanDto } from 'src/tempatpenugasan/dto/create-penugasan.dto';
+
 
 
 @Injectable()
@@ -11,6 +15,9 @@ export class ProfileMatchingService {
     @InjectModel('TempatPenugasanSchema')
     private readonly tempatPenugasanService: TempatPenugasanService,
     private tempatPenugasanModel : Model<TempatPenugasanSchema>,
+    @InjectModel('PengajianSchema')
+    private pengajianModel: Model <PengajianSchema>
+
   ) {}
 
     //  Menghitung gap dengan nilai alternatif - nilai kriteria
@@ -76,20 +83,24 @@ export class ProfileMatchingService {
     return cfScore + sfScore;
   }
 
-  async matchProfilePengajian(): Promise<void>{
-    /* Mendapatkan semua penugasan pimpinan jamaah */
-    // const penugasan = await this.tempatPenugasanService.findAllTempatPenugasan();
-    const penugasan = await this.tempatPenugasanModel.find().populate('Penugasan.idPimpinanJemaah');
+  // async generateProfilePengajian(pengajianDto: PengajianSchemaDTO): Promise <PengajianSchema>{
+  //   /* Mendapatkan semua penugasan pimpinan jamaah */
+  //   const penugasan = await this.tempatPenugasanService.findAllTempatPenugasan();
     
-    // Access idPimpinanJemaah from Penugasan and populate Pimpinanjemaah
-    // const pimpinanJemaah = await this.tempatPenugasanModel.findById().exec();
+  //   // Access idPimpinanJemaah from Penugasan and populate Pimpinanjemaah
+  //   const pimpinanJemaah = penugasan[0].Penugasan.pimpinan;
+  //   const mubaligh = penugasan[0].Penugasan.Mubaligh_Khutbah_pengajian;
+
+
     /* Iterasi Perhitungan GAP */
     // for (const PJ of penugasan) {
     //   PJ.Penugasan
     //   const suitableOwner = await this.calculateGap
     // }
+  //   const newPenugasan = new this.tempatPenugasanModel(pengajianDto);
+  //   return await newPenugasan.save();
 
-  }
+  // }
 
 
 }

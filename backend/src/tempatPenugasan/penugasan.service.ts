@@ -31,6 +31,7 @@ export class TempatPenugasanService {
 
     // manipulasi data
     const newTempatPenugasan = new this.tempatPenugasanModel(tempatPenugasanDto);
+    newTempatPenugasan.Penugasan.pimpinan.Nama = pimpinanjemaah.Nama;
     newTempatPenugasan.Penugasan.pimpinan.scope_dakwah_jumat = pimpinanjemaah.scope_dakwah_jumat;
     newTempatPenugasan.Penugasan.pimpinan.scope_dakwah_pengajian = pimpinanjemaah.scope_dakwah_pengajian;
     newTempatPenugasan.Penugasan.mubaligh_khutbah_jumat= MubalighJumat;
@@ -41,24 +42,31 @@ export class TempatPenugasanService {
   }
 
   async findAllTempatPenugasan(): Promise<TempatPenugasanSchema[]> {
-    return await this.tempatPenugasanModel.find()
-    .populate('Penugasan.idPimpinanJemaah')
-    .populate('Penugasan.Mubaligh_KhutbahJumat')
-    .populate('Penugasan.Mubaligh_KhutbahPengajian')
-    .exec();
+    return await this.tempatPenugasanModel.find().exec();
   }
 
   async findTempatPenugasanById(id: string): Promise<TempatPenugasanSchema> {
     // return await this.tempatPenugasanModel.findById(id).exec();
-    return await this.tempatPenugasanModel.findById(id)
-    .populate('Penugasan.idPimpinanJemaah')
-    .populate('Penugasan.Mubaligh_KhutbahJumat')
-    .populate('Penugasan.Mubaligh_KhutbahPengajian')
-    .exec();
+    return await this.tempatPenugasanModel.findById(id).exec();
   }
 
   async updateTempatPenugasan(id: string, tempatPenugasanDto: TempatPenugasanSchemaDto): Promise<TempatPenugasanSchema> {
     return await this.tempatPenugasanModel.findByIdAndUpdate(id, tempatPenugasanDto, { new: true }).exec();
+  }
+
+  async updateNkhutbah(mubalighId: string, newNkhutbah: number): Promise<TempatPenugasanSchema>{
+    try {
+      const updatedMubaligh = await this.tempatPenugasanModel.findOneAndUpdate(
+        { _id: mubalighId },
+        { Nkhutbah: newNkhutbah },
+        { new: true }
+      );
+      return updatedMubaligh;
+    } catch (error) {
+      // Tangani kesalahan
+      console.error(error);
+      return null;
+    }
   }
 
   async deleteTempatPenugasan(id: string): Promise<TempatPenugasanSchema> {
