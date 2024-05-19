@@ -19,8 +19,8 @@ export class ScopeDakwahJumat extends Document {
 
 @Schema()
 export class ScopeDakwahPengajian extends Document {
-  @Prop({ type: [{ idKeahlian: { type: mongoose.Schema.Types.ObjectId, ref: 'KeahlianSchema' }, MinimalKeahlian: { type: Number } }] })
-  Keahlian: { idKeahlian: KeahlianSchema; nama: String; MinimalKeahlian: Number }[];
+  @Prop({ type: [{ idKeahlian: { type: mongoose.Schema.Types.ObjectId, ref: 'KeahlianSchema' }, nama: {type: String}, MinimalKeahlian: { type: Number } }] })
+  Keahlian: { idKeahlian: KeahlianSchema; nama: String; MinimalKeahlian: number }[];
  
   @Prop({ type: Number })
   Minggu_ke: number;
@@ -31,14 +31,15 @@ export class ScopeDakwahPengajian extends Document {
   @Prop({ type: String })
   detailWaktu: string;
 
-  @Prop({ type: String })
-  TopikKajian: string;
 }
 
 @Schema()
 export class PimpinanjemaahSchema extends Document {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'MubalighSchema' })
-  KetuaPJ: MubalighSchema;
+  idKetuaPJ: MubalighSchema;
+
+  @Prop({type: String })
+  KetuaPJ : String;
 
   @Prop({ type: String })
   Nama: string;
@@ -46,8 +47,8 @@ export class PimpinanjemaahSchema extends Document {
   @Prop({ type: [ScopeDakwahJumat] })
   scope_dakwah_jumat: ScopeDakwahJumat[];
 
-  @Prop({ type: [ScopeDakwahPengajian] })
-  scope_dakwah_pengajian: ScopeDakwahPengajian[];
+  @Prop({ type: ScopeDakwahPengajian })
+  scope_dakwah_pengajian: ScopeDakwahPengajian;
 }
 
 export const PimpinanjemaahSchemaModel = SchemaFactory.createForClass(PimpinanjemaahSchema);

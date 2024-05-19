@@ -12,4 +12,20 @@ export class JadwalPengajianController {
 //     const createJadwalPengajian = await this.profilematchingService.generateProfilePengajian(pengajianDTO);
 //     return createJadwalPengajian;
 //   }
+
+@Post()
+async generateJadwalJumat(@Body() jadwalPengajianDTO: PengajianSchemaDTO): Promise<PengajianSchema> {
+  const createdJadwalJumat = await this.profilematchingService.generateProfilePengajian(jadwalPengajianDTO);
+  return createdJadwalJumat;
+}
+
+  // @Get()
+  // async generateJadwalJumat() {
+  //   const generateJadwalJumat = await this.profilematchingService.generateProfilePengajian();
+  //   const hello = "hello gaiss";
+  //   // console.log(generateJadwalJumat);
+  //   return generateJadwalJumat;
+  // }
+
+
 }

@@ -5,27 +5,31 @@ import mongoose, { Document, Schema as MongooseSchema } from 'mongoose';
 @Schema()
 export class jadwal extends Document {
  
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'PimpinanjemaahSchema'  })
-  idPimpinanJamaah: mongoose.Schema.Types.ObjectId;
+  @Prop({ type: String  })
+  PimpinanJamaah: String;
  
-  @Prop({ required: true })
-  tanggal: Date;
+  @Prop({ type: Number  })
+  minggu_ke: number;
 
-  @Prop({  type: mongoose.Schema.Types.ObjectId, ref: 'MubalighSchema'  })
-  idMubaligh: mongoose.Schema.Types.ObjectId;
+  @Prop({ type: String  })
+  hari: String;
+
+  @Prop({  type: String })
+  Mubaligh: String;
 }
 
 @Schema()
 export class PengajianSchema extends Document {
-  @Prop({ required: true })
-  bulan: Date;
+  @Prop({ type: Number })
+  bulan: number;
 
-  @Prop({ required: true })
-  tahun: Date;
+  @Prop({ type: Number })
+  tahun: number;
 
   @Prop({ type: [jadwal] })
-  jadwal: jadwal[];
+  jadwal: jadwal[] = [];
 
 }
 
 export const PengajianSchemaModel = SchemaFactory.createForClass(PengajianSchema);
+export const jadwalModel = SchemaFactory.createForClass(jadwal);

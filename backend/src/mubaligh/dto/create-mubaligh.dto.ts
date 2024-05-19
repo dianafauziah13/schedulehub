@@ -1,12 +1,13 @@
 import mongoose, { Schema as MongooseSchema } from 'mongoose';
 
 export class AvailablePengajianRutinDto {
-    Minggu_ke : [number];
-    Hari : [string];
+    Minggu_ke : Number;
+    Hari : string;
 }
 
 export class ListKeahlianDto {
     idListKeahlian : mongoose.Schema.Types.ObjectId;
+    nama: String;
     Rating : number;
 }
 

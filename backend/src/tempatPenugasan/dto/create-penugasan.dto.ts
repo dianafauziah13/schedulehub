@@ -8,18 +8,17 @@ export class ScopedakwahJumatDto {
   }
   
   export class ScopedakwahPengajianDto {
-    Keahlian: { nama: String; MinimalKeahlian: Number }[];
-    Minggu_ke: Number;
+    Keahlian: { nama: String; MinimalKeahlian: number }[];
+    Minggu_ke: number;
     hari: String;
     detailWaktu: String;
-    TopikKajian: String;
   }
   
   export class PimpinanDto {
     _id: mongoose.Schema.Types.ObjectId;
     Nama: string;
     scope_dakwah_jumat: ScopedakwahJumatDto[];
-    scope_dakwah_pengajian: ScopedakwahPengajianDto[];
+    scope_dakwah_pengajian: ScopedakwahPengajianDto;
   }
   
   export class MubalighJumatDto {
@@ -30,15 +29,15 @@ export class ScopedakwahJumatDto {
   }
 
   export class AvailablePengajianRutin{
-    Minggu_ke : [number];
-    Hari : string;
+    Minggu_ke : Number;
+    Hari : String;
   }
   
   export class MubalighPengajianDto {
     _id: MongooseSchema.Types.ObjectId;
     mubalighName: String; 
     AvailablePengajianRutin : AvailablePengajianRutin[];
-    ListKeahlian: { nama: String; Rating: Number }[];
+    ListKeahlian: { nama: String; Rating: number }[];
   }
   
   export class PenugasanDto {
@@ -50,6 +49,7 @@ export class ScopedakwahJumatDto {
   export class TempatPenugasanSchemaDto {
     tgl_awal: Date;
     tgl_akhir: Date;
+    TopikKajian: String;
     Penugasan: PenugasanDto;
   }
   

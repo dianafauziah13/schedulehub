@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { MubalighSchema } from './schemas/mubaligh.schema';
 import { MubalighSchemaDto } from './dto/create-mubaligh.dto';
+import { ScopeDakwahSchema } from 'src/scopeDakwah/schemas/scopedakwah.schema';
 
 
 @Injectable()
@@ -10,10 +11,13 @@ export class MubalighService {
   constructor(
     @InjectModel('MubalighSchema')
     private mubalighModel: Model<MubalighSchema>,
+    @InjectModel('ScopeDakwahSchema')
+    private scopeModel: Model<ScopeDakwahSchema>,
   ) {}
 
   async createMubaligh(mubalighDto: MubalighSchemaDto): Promise<MubalighSchema> {
-    console.log(mubalighDto)
+    const scopeDakwah = await this.scopeModel.findById(mubalighDto.idScopeDakwah);
+    mubalighDto.scope_dakwah = scopeDakwah.LingkupDakwah;
     const newMubaligh = new this.mubalighModel(mubalighDto);
     console.log(newMubaligh)
     return await newMubaligh.save();
