@@ -29,7 +29,7 @@ export class ScopeDakwahService {
     return await this.scopeDakwahModel.findByIdAndUpdate(id, scopeDakwahDTO, { new: true }).exec();
   }
 
-  async deleteKnowlegde(id: string): Promise<ScopeDakwahSchema> {
+  async deleteScopeDakwah(id: string): Promise<ScopeDakwahSchema> {
     return await this.scopeDakwahModel.findByIdAndDelete(id).exec();
   }
 }

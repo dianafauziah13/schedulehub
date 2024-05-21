@@ -36,7 +36,7 @@ export class MubalighController {
   }
 
   @Delete(':id')
-  async deletePimpinanjemaan(@Param('id') id: string): Promise<void> {
+  async deleteMubaligh(@Param('id') id: string): Promise<void> {
     const mubaligh = this.mubalighService.deleteMubaligh(id);
     if (!mubaligh)
       throw new HttpException('Data Mubaligh Tidak Ditemukan', HttpStatus.NOT_FOUND);
