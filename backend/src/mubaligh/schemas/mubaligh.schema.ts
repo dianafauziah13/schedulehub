@@ -6,11 +6,11 @@ import { ScopeDakwahSchema } from 'src/scopeDakwah/schemas/scopedakwah.schema';
 
 @Schema()
 export class AvailablePengajianRutin extends Document {
-  @Prop({ type: [Number] })
-  Minggu_ke: [Number];
+  @Prop({ type: Number })
+  Minggu_ke: Number;
  
-  @Prop({ type: [String] })
-  Hari: [String];
+  @Prop({ type: String })
+  Hari:String;
 }
 
 @Schema()

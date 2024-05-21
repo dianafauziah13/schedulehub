@@ -1,12 +1,14 @@
 import { Schema as MongooseSchema } from 'mongoose';
 
 export class jadwalDTO{
-    idPimpinanJamaah: MongooseSchema.Types.ObjectId;
-    tanggal: Date;
+    PimpinanJamaah: String;
+    minggu_ke: String;
+    hari: String;
+    Mubaligh: String;
 }
 
 export class PengajianSchemaDTO {
-    bulan: Date;
-    tahun: Date;
+    bulan: number;
+    tahun: number;
     jadwal: jadwalDTO[];
   }

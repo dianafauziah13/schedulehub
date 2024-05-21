@@ -3,15 +3,20 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { PimpinanjemaahSchema } from './schemas/pimpinanjamaah.schema';
 import { PimpinanjemaahSchemaDto } from './dto/create-pj.dto';
+import { MubalighSchema } from 'src/mubaligh/schemas/mubaligh.schema';
 
 @Injectable()
 export class PimpinanjemaanService {
   constructor(
     @InjectModel('PimpinanjemaahSchema')
     private pimpinanjemaahModel: Model<PimpinanjemaahSchema>,
+    @InjectModel('MubalighSchema')
+    private mubalighModel: Model<MubalighSchema>,
   ) {}
 
   async createPimpinanjemaan(pimpinanjemaanDTO: PimpinanjemaahSchemaDto): Promise<PimpinanjemaahSchema> {
+    const mubaligh = await this.mubalighModel.findById(pimpinanjemaanDTO.idKetuaPJ);
+    pimpinanjemaanDTO.KetuaPJ = mubaligh.mubalighName;
     const newPimpinanjemaan = new this.pimpinanjemaahModel(pimpinanjemaanDTO);
     return await newPimpinanjemaan.save();
   }

@@ -9,20 +9,20 @@ export class ScopeDakwahJumatDto {
 export class KeahlianDto {
   idKeahlian: MongooseSchema.Types.ObjectId;
   nama: String;
-  MinimalKeahlian: Number;
+  MinimalKeahlian: number;
 }
 
 export class ScopeDakwahPengajianDto {
   Keahlian: KeahlianDto[];
-  Minggu_ke: Number;
+  Minggu_ke: number;
   hari: string;
   detailWaktu: string;
-  TopikKajian: string;
 }
 
 export class PimpinanjemaahSchemaDto {
-  // KetuaPJ: MongooseSchema.Types.ObjectId;
+  idKetuaPJ: MongooseSchema.Types.ObjectId;
+  KetuaPJ : String;
   Nama: string;
   scope_dakwah_jumat: ScopeDakwahJumatDto[];
-  scope_dakwah_pengajian: ScopeDakwahPengajianDto[];
+  scope_dakwah_pengajian: ScopeDakwahPengajianDto;
 }
