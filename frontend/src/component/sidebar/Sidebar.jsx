@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { FaBars, FaCalendarAlt, FaCalendarCheck, FaUser } from "react-icons/fa";
+import { FaBars, FaCalendarAlt, FaCalendarCheck, FaFile, FaUser } from "react-icons/fa";
 import {FaUserGroup} from "react-icons/fa6"
 import { MdMosque } from "react-icons/md";
 import { AiTwotoneFileExclamation } from "react-icons/ai";
@@ -35,26 +35,26 @@ const routes = [
     icon: <MdMosque />,
   },
   {
-    path: "/dashboard/mubaligh",
-    name: "Mubaligh",
+    path: "/dashboard/kelolaMubaligh",
+    name: "Kelola Mubaligh",
     icon: <FaUser />,
-    subRoutes: [
-      {
-        path: "/dashboard/kelolaMubaligh",
-        name: "Kelola Mubaligh",
-        // icon: <FaUser />,
-      },
-      {
-        path: "/dashboard/rekapMubaligh",
-        name: "Rekap Mubaligh",
-        // icon: <FaLock />,
-      },
-      {
-        path: "/dashboard/penugasanMubaligh",
-        name: "Penugasan Mubaligh",
-        // icon: <FaLock />,
-      },
-    ],
+    // subRoutes: [
+    //   {
+    //     path: "/dashboard/kelolaMubaligh",
+    //     name: "Kelola Mubaligh",
+    //     // icon: <FaUser />,
+    //   },
+    //   {
+    //     path: "/dashboard/rekapMubaligh",
+    //     name: "Rekap Mubaligh",
+    //     // icon: <FaLock />,
+    //   },
+    // ],
+  },
+  {
+    path: "/dashboard/penugasanMubaligh",
+    name: "Penugasan Mubaligh",
+    icon: <FaFile/> ,
   },
   {
     path: "/dashboard/generate-jadwal",
@@ -73,23 +73,23 @@ const routes = [
       },
     ],
   },
-  {
-    path: "/dashboard/validate",
-    name: "Validasi Jadwal",
-    icon: <FaCalendarCheck />,
-    subRoutes: [
-      {
-        path: "/dashboard/validate/jumat",
-        name: "Khutbah Jum'at ",
-        // icon: <FaUser />,
-      },
-      {
-        path: "/dashboard/validate/pengajian",
-        name: "Pengajian Rutin",
-        // icon: <FaLock />,
-      },
-    ],
-  },
+  // {
+  //   path: "/dashboard/validate",
+  //   name: "Validasi Jadwal",
+  //   icon: <FaCalendarCheck />,
+  //   subRoutes: [
+  //     {
+  //       path: "/dashboard/validate/jumat",
+  //       name: "Khutbah Jum'at ",
+  //       // icon: <FaUser />,
+  //     },
+  //     {
+  //       path: "/dashboard/validate/pengajian",
+  //       name: "Pengajian Rutin",
+  //       // icon: <FaLock />,
+  //     },
+  //   ],
+  // },
 ];
 
 const SideBar = ({ children }) => {

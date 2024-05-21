@@ -13,6 +13,7 @@ import PenugasanMubaligh from './pages/PenugasanMubaligh';
 import ValidasiPengajian from './pages/ValidasiPengajian';
 import GenerateJumat from './pages/GenerateJumat';
 import JadwalPengajian from './pages/JadwalPengajian';
+import RekapPenugasanBulanan from './pages/RekapPenugasanBulanan';
 
 
 function App() {
@@ -44,6 +45,7 @@ function App() {
                       <Route path="/jadwal/pengajian" element={<GeneratePengajian />} />
                       <Route path="/Validate/jumat" element={<ValidasiJumat />} />
                       <Route path="/Validate/pengajian" element={<ValidasiPengajian />} />
+                      <Route path="/penugasanMubaligh/rekapBulanan" element={<RekapPenugasanBulanan />} />
                     </Routes>
                   </div>
                 </div>

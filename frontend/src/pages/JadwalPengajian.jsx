@@ -26,18 +26,18 @@ const JadwalPengajian = () => {
                             <tr>
                             <th className="px-4 py-1 border-line border-b-2 text-line font-normal">No</th>
                             <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Pimpinan Jemaah</th>
-                            <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Tanggal</th>
-                            <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Waktu</th>
+                            <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-</th>
+                            <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Detail Waktu</th>
                             <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Nama Mubaligh</th>
                             </tr>
                         </thead>
                         <tbody className=''>
                             <tr className='bg-[#F5F5F5] rounded-md shadow-md'>
-                            <td className="relative text-center px-10 py-2 rounded-l-lg">1</td>
-                            <td className="relative text-center px-4 py-2">Banjaran</td>
-                            <td className="relative text-center px-4 py-2">11-12-2023</td>
-                            <td className="relative text-center px-4 py-2">Minggu Pagi</td>
-                            <td className="relative text-center px-4 py-2 rounded-r-lg">H.O Surachman</td>
+                            <td className="relative text-center px-4 py-2">1</td>
+                            <td className="relative text-center px-10 py-2 rounded-l-lg">Banjaran</td>
+                            <td className="relative text-center px-4 py-2">aa</td>
+                            <td className="relative text-center px-4 py-2">aa</td>
+                            <td className="relative text-center px-4 py-2 rounded-r-lg">aa</td>
                             <div className='flex justify-center m-2'></div>
                             </tr>
                         </tbody>

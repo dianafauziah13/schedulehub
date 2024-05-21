@@ -48,12 +48,12 @@ return (
                                 <div className="w-full lg:w-1/2 px-4 mb-4">
                                     <form className="rounded w-full">
                                         <label className="flex justify-start text-black text-sm mt-4 mb-1">
-                                            Asal Pimpinan Jemaah 
+                                            Ketersediaan Waktu Jumat 
                                         </label>
                                         <Select
                                             required
                                             className=" appearance-none rounded w-full text-black"
-                                            placeholder="Banjaran"
+                                            placeholder="2,3,4"
                                         />
                                     </form>
                                 </div>
@@ -63,7 +63,7 @@ return (
                                 <div className="w-full lg:w-1/2 px-4 mb-4">
                                     <form className="rounded w-full">
                                         <label className="flex justify-start text-black text-sm mt-4 mb-1">
-                                            Ketersediaan Waktu 
+                                            Ketersediaan Waktu Pengajian
                                         </label>
                                         <Select
                                             required
