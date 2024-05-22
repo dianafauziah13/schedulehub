@@ -1,8 +1,8 @@
 import mongoose, { Schema as MongooseSchema } from 'mongoose';
 
 export class AvailablePengajianRutinDto {
-    Minggu_ke : Number;
-    Hari : string;
+    Minggu_ke : Number[];
+    Hari : string[];
 }
 
 export class ListKeahlianDto {
@@ -15,7 +15,7 @@ export class MubalighSchemaDto {
     idScopeDakwah :MongooseSchema.Types.ObjectId;
     mubalighName : string;
     AvailableKhutbahJumat :  Number [];
-    AvailablePengajianRutin : AvailablePengajianRutinDto [];
+    AvailablePengajianRutin : AvailablePengajianRutinDto;
     ListKeahlian : ListKeahlianDto [];
     scope_dakwah: String;
 }

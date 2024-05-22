@@ -53,11 +53,11 @@ export class mubaligh_jumat extends Document {
 
 @Schema()
 export class AvailablePengajianRutin extends Document{
-  @Prop({ type: Number })
-  Minggu_ke: Number;
+  @Prop({ type: [Number] })
+  Minggu_ke: Number[];
  
-  @Prop({ type: String })
-  Hari: String;
+  @Prop({ type: [String] })
+  Hari: String[];
 }
 
 @Schema()
@@ -68,8 +68,8 @@ export class mubaligh_pengajian extends Document {
   @Prop({ type: String })
   mubalighName: String; 
 
-  @Prop({ type: [AvailablePengajianRutin] })
-  AvailablePengajianRutin : AvailablePengajianRutin[];
+  @Prop({ type: AvailablePengajianRutin })
+  AvailablePengajianRutin : AvailablePengajianRutin;
   
   @Prop({ type: [{ nama: { type: String}, Rating: { type: Number } }] })
   ListKeahlian: { nama: String; Rating: number }[];
