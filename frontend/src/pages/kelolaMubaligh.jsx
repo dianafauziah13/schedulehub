@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import axios from "../axiosConfig";
-// import styles from '../index.css';
 import ModalAddMubaligh from "../component/mubaligh/ModalAddMubaligh";
 import ModalUpdateMubaligh from "../component/mubaligh/ModalUpdateMubaligh";
 import ModalDeleteMubaligh from "../component/mubaligh/ModalDeleteMubaligh";
@@ -8,33 +6,31 @@ import ModalDeleteMubaligh from "../component/mubaligh/ModalDeleteMubaligh";
 
 
 const KelolaMubaligh = () => {
-    const [data, setData] = useState(null)
-    useEffect(() => { 
-    const fetchData = async ()=> {
-        try {
-            const response = await fetch("http://localhost:3000/mubaligh")
-            const mubaligh = await response.json()
-            console.log(mubaligh)
-            let tampilMubaligh = []
-            mubaligh.forEach(value => {
-                let temp = []
-                value.AvailablePengajianRutin.forEach(v => {
-                    temp.push(v.Minggu_ke)
-                })
-                tampilMubaligh.push({
-                    "mubalighName": value.mubalighName,
-                    "LingkupDakwah": value.idScopeDakwah.LingkupDakwah,
-                    "AvailableKhutbahJumat" : value.AvailableKhutbahJumat,
-                    "AvailablePengajianRutin" : temp,
-                })
-            });
-            setData(tampilMubaligh) 
-        } catch (error) {
-            console.log(error)
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:3000/mubaligh");
+                const mubaligh = await response.json();
+                console.log(mubaligh);
+                let tampilMubaligh = [];
+                mubaligh.forEach(value => {
+                    tampilMubaligh.push({
+                        "mubalighName": value.mubalighName,
+                        "scope_dakwah": value.scope_dakwah,
+                        "AvailableKhutbahJumat": value.AvailableKhutbahJumat,
+                        "Minggu_ke": value.AvailablePengajianRutin?.Minggu_ke?.toString()
+                    })
+                });
+                setData(tampilMubaligh);
+                console.log(tampilMubaligh)
+            } catch (error) {
+                console.log(error);
+            }
         }
-    }
-    fetchData()
-}, [])
+        fetchData();
+    }, []);
+
     if (!data) {
         return <div> Loading </div>
     }
@@ -56,10 +52,9 @@ const KelolaMubaligh = () => {
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">No</th>
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Nama Mubaligh</th>
                                     <th className="px-30 py-1 border-line border-b-2 text-line font-normal">Lingkup Dakwah</th>
-                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Ketersediaan Waktu Jumat</th>
+                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Ketersediaan Waktu</th>
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Ketersediaan Waktu Pengajian</th>
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Actions</th>
-
                                 </tr>
                             </thead>
                             <tbody className=''>
@@ -68,9 +63,9 @@ const KelolaMubaligh = () => {
                                         return <tr className='bg-[#F5F5F5] rounded-md shadow-md' >
                                         <td className="text-center w-10 px-4 py-2 rounded-l-lg">{i+1}</td>
                                         <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.mubalighName}</td>
-                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.LingkupDakwah}</td>
+                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.scope_dakwah}</td>
                                         <td className="text-center px-4 py-2">{v.AvailableKhutbahJumat.toString()}</td>
-                                        <td className="text-center px-4 py-2">{v.AvailablePengajianRutin.toString()}</td>
+                                        <td className="text-center px-4 py-2"> {v.Minggu_ke}</td>
                                         <td className=" relative items-center px-4 py-2 rounded-r-lg">
                                             <div className='flex justify-center m-2'>
                                                 <ModalUpdateMubaligh/>
@@ -82,21 +77,6 @@ const KelolaMubaligh = () => {
                                     </tr>
                                     })
                                 }
-                                        {/* <tr className='bg-[#F5F5F5] rounded-md shadow-md' >
-                                            <td className="text-center w-10 px-4 py-2 rounded-l-lg">1</td>
-                                            <td className="text-center max-w-[25px] h-auto px-4 py-2">H.O Surachman
-                                            </td>
-                                            <td className="text-center w-36 px-4 py-2 rounded-l-lg">Cabang</td>
-                                            <td className="text-center px-4 py-2">2,3,4</td>
-                                            <td className=" relative items-center px-4 py-2 rounded-r-lg">
-                                                <div className='flex justify-center m-2'>
-                                                    <ModalUpdateMubaligh/>
-                                                    <button>
-                                                       <ModalDeleteMubaligh/>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr> */}
                             </tbody>
                         </table>
                     </div>
