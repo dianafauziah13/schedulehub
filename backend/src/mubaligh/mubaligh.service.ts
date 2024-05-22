@@ -25,8 +25,6 @@ export class MubalighService {
 
   async findAllMubaligh(): Promise<MubalighSchema[]> {
     return await this.mubalighModel.find()
-    .populate('idScopeDakwah')
-    .populate('ListKeahlian.idListKeahlian')
     .exec();
   }
 

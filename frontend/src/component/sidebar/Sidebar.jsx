@@ -24,11 +24,11 @@ const routes = [
       },
     ],
   },
-  {
-    path: "/dashboard/accounts",
-    name: "Kelola Akun",
-    icon: <FaUserGroup />,
-  },
+  // {
+  //   path: "/dashboard/accounts",
+  //   name: "Kelola Akun",
+  //   icon: <FaUserGroup />,
+  // },
   {
     path: "/dashboard/PimpinanJemaah",
     name: "Pimpinan Jemaah",

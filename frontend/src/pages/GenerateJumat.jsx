@@ -3,6 +3,7 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import { FaCalendarAlt } from 'react-icons/fa';
 import 'react-datepicker/dist/react-datepicker.css';
+import ParentJumat from '../component/generate/ParentJumat';
 
 const GenerateJumat = () => {
     const [startDate, setStartDate] = useState(new Date());
@@ -32,11 +33,8 @@ const GenerateJumat = () => {
                 <FaCalendarAlt className="ml-2" />
             </div>
             <div className='flex justify-end py-5 items-center w-[98%]'>
-                <button
-                    type="button"
-                    onClick={getData} // Tambahkan event handler onClick untuk memanggil getData
-                >
-                    Generate
+                <button type="button" onClick={getData}>
+                Generate
                 </button>
             </div>
             <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
@@ -53,24 +51,18 @@ const GenerateJumat = () => {
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-5</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                {data ? (
-                                    data.map((item, index) => (
-                                        <tr key={index} className='bg-[#F5F5F5] rounded-md shadow-md'>
-                                            <td className="relative text-center px-10 py-2 rounded-l-lg">{item.pimpinanJemaah}</td>
-                                            <td className="relative text-center px-4 py-2">{item.minggu1}</td>
-                                            <td className="relative text-center px-4 py-2">{item.minggu2}</td>
-                                            <td className="relative text-center px-4 py-2">{item.minggu3}</td>
-                                            <td className="relative text-center px-4 py-2">{item.minggu4}</td>
-                                            <td className="relative text-center px-4 py-2 rounded-r-lg">{item.minggu5}</td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="6" className="text-center py-4">Tidak ada data yang tersedia</td>
-                                    </tr>
-                                )}
-                            </tbody>
+                            {/* <tbody>
+                        {data.map((item, index) => (
+                            <tr key={index} className="bg-[#F5F5F5] rounded-md shadow-md">
+                                <td className="relative text-center px-10 py-2 rounded-l-lg">{item.PimpinanJemaah}</td>
+                                {item.Jumat.map((jumat, i) => (
+                                    <td key={i} className="relative text-center px-4 py-2">
+                                        {jumat.Mubaligh}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody> */}
                         </table>
                     </div>
                 </div>

@@ -17,10 +17,15 @@ const KelolaMubaligh = () => {
             console.log(mubaligh)
             let tampilMubaligh = []
             mubaligh.forEach(value => {
+                let temp = []
+                value.AvailablePengajianRutin.forEach(v => {
+                    temp.push(v.Minggu_ke)
+                })
                 tampilMubaligh.push({
                     "mubalighName": value.mubalighName,
                     "LingkupDakwah": value.idScopeDakwah.LingkupDakwah,
-                    "AvailableKhutbahJumat" : value.AvailableKhutbahJumat
+                    "AvailableKhutbahJumat" : value.AvailableKhutbahJumat,
+                    "AvailablePengajianRutin" : temp,
                 })
             });
             setData(tampilMubaligh) 
@@ -65,7 +70,7 @@ const KelolaMubaligh = () => {
                                         <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.mubalighName}</td>
                                         <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.LingkupDakwah}</td>
                                         <td className="text-center px-4 py-2">{v.AvailableKhutbahJumat.toString()}</td>
-                                        <td className="text-center px-4 py-2">{v.AvailableKhutbahJumat.toString()}</td>
+                                        <td className="text-center px-4 py-2">{v.AvailablePengajianRutin.toString()}</td>
                                         <td className=" relative items-center px-4 py-2 rounded-r-lg">
                                             <div className='flex justify-center m-2'>
                                                 <ModalUpdateMubaligh/>
@@ -100,5 +105,5 @@ const KelolaMubaligh = () => {
             </div>
         // </div>
     );
-  };
+};
 export default KelolaMubaligh;
