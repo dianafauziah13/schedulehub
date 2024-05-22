@@ -6,11 +6,11 @@ import { ScopeDakwahSchema } from 'src/scopeDakwah/schemas/scopedakwah.schema';
 
 @Schema()
 export class AvailablePengajianRutin extends Document {
-  @Prop({ type: Number })
-  Minggu_ke: Number;
+  @Prop({ type: [Number] })
+  Minggu_ke: Number[];
  
-  @Prop({ type: String })
-  Hari:String;
+  @Prop({ type: [String] })
+  Hari:String[];
 }
 
 @Schema()
@@ -34,8 +34,8 @@ export class MubalighSchema extends Document {
   @Prop({ type: [Number] })
   AvailableKhutbahJumat: number[];
 
-  @Prop({ type: [AvailablePengajianRutin] })
-  AvailablePengajianRutin : AvailablePengajianRutin[];
+  @Prop({ type: AvailablePengajianRutin })
+  AvailablePengajianRutin : AvailablePengajianRutin;
 
   @Prop({ type: [ListKeahlian] })
   ListKeahlian : ListKeahlian[];  

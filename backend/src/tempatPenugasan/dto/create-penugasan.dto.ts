@@ -29,14 +29,14 @@ export class ScopedakwahJumatDto {
   }
 
   export class AvailablePengajianRutin{
-    Minggu_ke : Number;
-    Hari : String;
+    Minggu_ke : Number[];
+    Hari : String[];
   }
   
   export class MubalighPengajianDto {
     _id: MongooseSchema.Types.ObjectId;
     mubalighName: String; 
-    AvailablePengajianRutin : AvailablePengajianRutin[];
+    AvailablePengajianRutin : AvailablePengajianRutin;
     ListKeahlian: { nama: String; Rating: number }[];
   }
   
