@@ -109,7 +109,6 @@ export class ProfileMatchingService {
           const mubaligh_minggu_ke = m.AvailablePengajianRutin.Minggu_ke;
           const mubaligh_hari_ke = m.AvailablePengajianRutin.Hari;
       
-          //bukan array 
           const result_minggu =   mubaligh_minggu_ke.some( item=> pimpinanjemaah_available_minggu == item);
           const result_hari = mubaligh_hari_ke.some(i=> pimpinan_available_hari == i);
           if (result_minggu && result_hari ) return true;
@@ -166,8 +165,8 @@ export class ProfileMatchingService {
       jadwal.hari = pimpinan_available_hari;
 
       newJadwalPengajian.jadwal.push(jadwal);
-      // console.log(keahlian_mubaligh);
-      // console.log(terpilih.nama);
+      console.log(keahlian_mubaligh);
+      console.log(terpilih.nama);
 
     })
 
@@ -177,5 +176,13 @@ export class ProfileMatchingService {
 
   log = (obj) => {
     console.dir(obj, {depth: null});
+  }
+
+  async findAllJadwalPengajian(): Promise<PengajianSchema[]> {
+    return await this.pengajianModel.find().exec();
+  }
+
+  async deleteJadwalPengajian(id: string): Promise<PengajianSchema> {
+    return await this.pengajianModel.findByIdAndDelete(id).exec();
   }
 }

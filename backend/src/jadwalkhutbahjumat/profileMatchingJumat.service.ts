@@ -273,5 +273,12 @@ log = (obj) => {
   console.dir(obj, {depth: null});
 }
 
+async findAllJadwalJumat(): Promise<JadwalJumatSchema[]> {
+  return await this.jadwalJumatModel.find().exec();
+}
+
+async deleteJadwalJumat(id: string): Promise<JadwalJumatSchema> {
+  return await this.jadwalJumatModel.findByIdAndDelete(id).exec();
+}
   
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Post,  Get, Param, Put, HttpException, HttpStatus  } from '@nestjs/common';
+import { Body, Controller, Post,  Get, Param, Put, HttpException, HttpStatus, Delete  } from '@nestjs/common';
 import { TempatPenugasanService } from './penugasan.service'
 import { TempatPenugasanSchemaDto } from './dto/create-penugasan.dto';
 import { TempatPenugasanSchema } from './schemas/penugasan.schema';
@@ -27,26 +27,26 @@ export class TempatPenugasanController {
     return penugasan;
   }
 
-  @Post(':_id')
-  async updateNkhutbah(
-    @Param('_id') mubalighId: string,
-    @Body('Nkhutbah') newNkhutbah: number
-  ): Promise<TempatPenugasanSchema> {
-    try {
-      const updatedMubaligh = await this.tempatPenugasanService.updateNkhutbah(mubalighId, newNkhutbah);
-      return updatedMubaligh;
-    } catch (error) {
-      // Tangani kesalahan
-      console.error(error);
-      return null;
-    }
+  @Delete(':id')
+  async deleteTempatPenugasanById(@Param('id') id:string): Promise<void>{
+    const penugasan = await this.tempatPenugasanService.deleteTempatPenugasan(id);
+    if (!penugasan)
+      throw new HttpException('Data Mubaligh Tidak Ditemukan', HttpStatus.NOT_FOUND);
+
+    await penugasan; 
   }
 
-  // @Put(':id')
-  // async updateTempatPenugasan(
-  //   @Param('id') id: string,
-  //   @Body() TempatPenugasanDto: TempatPenugasanSchemaDto,
-  // ): Promise<TempatPenugasanSchema> {
-  //   return await this.tempatPenugasanService.updateTempatPenugasan(id, TempatPenugasanDto);
-  // }
+
+  @Put(':id')
+  async updateTempatPenugasan(
+    @Param('id') id: string,
+    @Body() TempatPenugasanDto: TempatPenugasanSchemaDto,
+  ): Promise<TempatPenugasanSchema> {
+    return await this.tempatPenugasanService.updateTempatPenugasan(id, TempatPenugasanDto);
+  }
+
+  @Delete('all')
+  async deleteAllTempatPenugasan() {
+    await this.tempatPenugasanService.deleteAllTempatPenugasan();
+  }
 }

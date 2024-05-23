@@ -1,4 +1,4 @@
-import { Body, Controller, Post,  Get, Param, Put, HttpException, HttpStatus  } from '@nestjs/common';
+import { Body, Controller, Post,  Get, Param, Put, HttpException, HttpStatus, Delete  } from '@nestjs/common';
 import { ProfileMatchingService } from './profileMatching.service';
 import { PengajianSchema } from './schemas/pengajian.schema';
 import { PengajianSchemaDTO } from './dto/create-pengajian.dto';
@@ -19,6 +19,19 @@ async generateJadwalJumat(@Body() jadwalPengajianDTO: PengajianSchemaDTO): Promi
   return createdJadwalJumat;
 }
 
+@Get()
+async getAllJadwalPengajian(): Promise<PengajianSchema[]> {
+  return await this.profilematchingService.findAllJadwalPengajian();
+}
+
+@Delete(':id')
+async deleteJadwalPengajian(@Param('id') id:string): Promise<void>{
+  const jadwal = await this.profilematchingService.deleteJadwalPengajian(id);
+  if (!jadwal)
+    throw new HttpException('Data jadwal Tidak Ditemukan', HttpStatus.NOT_FOUND);
+  
+  await jadwal; 
+}
   // @Get()
   // async generateJadwalJumat() {
   //   const generateJadwalJumat = await this.profilematchingService.generateProfilePengajian();
