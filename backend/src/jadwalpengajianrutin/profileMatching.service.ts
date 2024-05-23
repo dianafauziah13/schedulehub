@@ -178,6 +178,10 @@ export class ProfileMatchingService {
     console.dir(obj, {depth: null});
   }
 
+  async findAllJadwalPengajian(): Promise<PengajianSchema[]> {
+    return await this.pengajianModel.find().exec();
+  }
+
   async deleteJadwalPengajian(id: string): Promise<PengajianSchema> {
     return await this.pengajianModel.findByIdAndDelete(id).exec();
   }

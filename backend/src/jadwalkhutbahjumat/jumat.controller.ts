@@ -19,7 +19,7 @@ export class JadwalJumatController {
   }
 
   @Get()
-  async getAllTempatPenugasan(): Promise<JadwalJumatSchema[]> {
+  async getAllJadwalJumat(): Promise<JadwalJumatSchema[]> {
     return await this.profileMatchingServiceJumat.findAllJadwalJumat();
   }
   

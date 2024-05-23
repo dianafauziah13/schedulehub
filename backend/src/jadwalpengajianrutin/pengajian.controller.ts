@@ -19,6 +19,11 @@ async generateJadwalJumat(@Body() jadwalPengajianDTO: PengajianSchemaDTO): Promi
   return createdJadwalJumat;
 }
 
+@Get()
+async getAllJadwalPengajian(): Promise<PengajianSchema[]> {
+  return await this.profilematchingService.findAllJadwalPengajian();
+}
+
 @Delete(':id')
 async deleteJadwalPengajian(@Param('id') id:string): Promise<void>{
   const jadwal = await this.profilematchingService.deleteJadwalPengajian(id);
