@@ -182,6 +182,14 @@ export class ProfileMatchingService {
     return await this.pengajianModel.find().exec();
   }
 
+  async findByDate(bulan : number, tahun: number): Promise<{ data: PengajianSchema[] }> {
+    const pengajianList = await this.pengajianModel.find({
+      bulan: bulan,
+      tahun: tahun
+    }).exec();
+    return { data: pengajianList };
+  }
+
   async deleteJadwalPengajian(id: string): Promise<PengajianSchema> {
     return await this.pengajianModel.findByIdAndDelete(id).exec();
   }
