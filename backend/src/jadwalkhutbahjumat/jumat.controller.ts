@@ -27,7 +27,7 @@ export class JadwalJumatController {
   async findByDate(
     @Body('bulan') bulan: number,
     @Body ('tahun') tahun: number
-  ): Promise<{ data: JadwalJumatSchema[] }> {
+  ): Promise<JadwalJumatSchema> {
     return await this.profileMatchingServiceJumat.findByDate(bulan, tahun);
   }
 

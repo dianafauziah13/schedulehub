@@ -277,12 +277,12 @@ async findAllJadwalJumat(): Promise<JadwalJumatSchema[]> {
   return await this.jadwalJumatModel.find().exec();
 }
 
-async findByDate(bulan : number, tahun: number): Promise<{ data: JadwalJumatSchema[] }> {
+async findByDate(bulan : number, tahun: number): Promise<JadwalJumatSchema > {
   const jumatList = await this.jadwalJumatModel.find({
     bulan: bulan,
     tahun: tahun
   }).exec();
-  return { data: jumatList };
+  return await jumatList.at(0) ;
 }
 
 async deleteJadwalJumat(id: string): Promise<JadwalJumatSchema> {
