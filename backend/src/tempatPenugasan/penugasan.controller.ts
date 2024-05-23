@@ -32,7 +32,7 @@ export class TempatPenugasanController {
     const penugasan = await this.tempatPenugasanService.deleteTempatPenugasan(id);
     if (!penugasan)
       throw new HttpException('Data Mubaligh Tidak Ditemukan', HttpStatus.NOT_FOUND);
-    
+
     await penugasan; 
   }
 
@@ -43,5 +43,10 @@ export class TempatPenugasanController {
     @Body() TempatPenugasanDto: TempatPenugasanSchemaDto,
   ): Promise<TempatPenugasanSchema> {
     return await this.tempatPenugasanService.updateTempatPenugasan(id, TempatPenugasanDto);
+  }
+
+  @Delete('all')
+  async deleteAllTempatPenugasan() {
+    await this.tempatPenugasanService.deleteAllTempatPenugasan();
   }
 }

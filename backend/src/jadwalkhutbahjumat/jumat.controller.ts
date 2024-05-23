@@ -18,6 +18,11 @@ export class JadwalJumatController {
     return createdJadwalJumat;
   }
 
+  @Get()
+  async getAllTempatPenugasan(): Promise<JadwalJumatSchema[]> {
+    return await this.profileMatchingServiceJumat.findAllJadwalJumat();
+  }
+  
   @Delete(':id')
 async deleteJadwalJumat(@Param('id') id:string): Promise<void>{
   const jadwal = await this.profileMatchingServiceJumat.deleteJadwalJumat(id);
