@@ -27,7 +27,7 @@ async getAllJadwalPengajian(): Promise<PengajianSchema[]> {
 @Get('by-date')
 async findByDate(
   @Body('bulan') bulan: number,
-  @Body('tahun') tahun: number
+  @Body ('tahun') tahun: number
 ): Promise<{ data: PengajianSchema[] }> {
   return await this.profilematchingService.findByDate(bulan, tahun);
 }
