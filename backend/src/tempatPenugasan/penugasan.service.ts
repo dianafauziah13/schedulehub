@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException  } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TempatPenugasanSchema, pimpinan } from './schemas/penugasan.schema';
@@ -51,23 +51,38 @@ export class TempatPenugasanService {
   }
 
   async updateTempatPenugasan(id: string, tempatPenugasanDto: TempatPenugasanSchemaDto): Promise<TempatPenugasanSchema> {
-    return await this.tempatPenugasanModel.findByIdAndUpdate(id, tempatPenugasanDto, { new: true }).exec();
+  //  console.log(tempatPenugasanDto);
+    // Cari dokumen TempatPenugasan berdasarkan ID
+   const existingTempatPenugasan = await this.tempatPenugasanModel.findById(id).exec();
+   if (!existingTempatPenugasan) {
+       throw new NotFoundException(`TempatPenugasan with ID ${id} not found`);
+   }
+
+   // Cari dokumen pimpinan
+   const pimpinanjemaah = await this.pimpinanjemaahModel.findById(tempatPenugasanDto.Penugasan.pimpinan._id).exec();
+
+   // Cari dokumen mubaligh_khutbah_jumat
+   const mubalighIds = tempatPenugasanDto.Penugasan.mubaligh_khutbah_jumat.map(item => item._id);
+   const MubalighJumat = await this.mubalighModel.find({ _id: { $in: mubalighIds } }).exec();
+
+   // Cari dokumen mubaligh_khutbah_pengajian
+   const mubalighIds2 = tempatPenugasanDto.Penugasan.mubaligh_khutbah_pengajian.map(item => item._id);
+   const MubalighPengajian = await this.mubalighModel.find({ _id: { $in: mubalighIds2 } }).exec();
+
+   // Update data TempatPenugasan
+   existingTempatPenugasan.Penugasan.pimpinan.Nama = pimpinanjemaah.Nama;
+   existingTempatPenugasan.Penugasan.pimpinan.scope_dakwah_jumat = pimpinanjemaah.scope_dakwah_jumat;
+   existingTempatPenugasan.Penugasan.pimpinan.scope_dakwah_pengajian = pimpinanjemaah.scope_dakwah_pengajian;
+   existingTempatPenugasan.Penugasan.mubaligh_khutbah_jumat = MubalighJumat;
+   existingTempatPenugasan.Penugasan.Mubaligh_Khutbah_pengajian = MubalighPengajian;
+
+   // Update field lainnya dengan data dari DTO
+  //  Object.assign(existingTempatPenugasan, tempatPenugasanDto);
+
+   // Simpan perubahan
+   return await existingTempatPenugasan.save();
   }
 
-  async updateNkhutbah(mubalighId: string, newNkhutbah: number): Promise<TempatPenugasanSchema>{
-    try {
-      const updatedMubaligh = await this.tempatPenugasanModel.findOneAndUpdate(
-        { _id: mubalighId },
-        { Nkhutbah: newNkhutbah },
-        { new: true }
-      );
-      return updatedMubaligh;
-    } catch (error) {
-      // Tangani kesalahan
-      console.error(error);
-      return null;
-    }
-  }
 
   async deleteTempatPenugasan(id: string): Promise<TempatPenugasanSchema> {
     return await this.tempatPenugasanModel.findByIdAndDelete(id).exec();

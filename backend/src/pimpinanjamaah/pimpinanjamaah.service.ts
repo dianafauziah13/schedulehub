@@ -27,11 +27,6 @@ export class PimpinanjemaanService {
 
   async findPimpinanjemaanById(id: string): Promise<PimpinanjemaahSchema> {
     return await this.pimpinanjemaahModel.findById(id)
-    .populate('scopeDakwahJumat.scopeDakwah')
-    .populate({
-      path: 'ScopeDakwahPengajian',
-      populate: {path: 'Keahlian.idKeahlian'}
-    })
     .exec();
   }
 
