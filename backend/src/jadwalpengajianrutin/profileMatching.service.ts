@@ -177,4 +177,8 @@ export class ProfileMatchingService {
   log = (obj) => {
     console.dir(obj, {depth: null});
   }
+
+  async deleteJadwalPengajian(id: string): Promise<PengajianSchema> {
+    return await this.pengajianModel.findByIdAndDelete(id).exec();
+  }
 }
