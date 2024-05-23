@@ -10,7 +10,11 @@ const JadwalJumat = () => {
     const fetchData = async () => {
         try {
             const response = await fetch("http://localhost:3000/generatejadwaljumat", {
-                body: JSON.stringify(
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },    
+            body: JSON.stringify(
                     {
                         bulan: startDate.getMonth()+1 ,
                         tahun: startDate.getFullYear()

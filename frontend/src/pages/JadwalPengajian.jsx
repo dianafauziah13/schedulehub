@@ -25,12 +25,12 @@ const JadwalPengajian = () => {
             console.log(result);
 
             let tampilJadwal = [];
-            result.data.forEach(value => {
+            result.data[0].jadwal.forEach(value => {
                 tampilJadwal.push({
-                    "PimpinanJemaah":value.jadwal.PimpinanJamaah,
-                    "Minggu_ke": value.jadwal.minggu_ke,
-                    "hari":value.jadwal.hari,
-                    "Mubaligh":value.jadwal.Mubaligh
+                    "PimpinanJemaah":value.PimpinanJamaah,
+                    "Minggu_ke": value.minggu_ke,
+                    "hari":value.hari,
+                    "Mubaligh":value.Mubaligh
                 })
             });
             setData(tampilJadwal);
