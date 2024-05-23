@@ -6,18 +6,44 @@ import 'react-datepicker/dist/react-datepicker.css';
 import ParentJumat from '../component/generate/ParentJumat';
 
 const GenerateJumat = () => {
+    // const [startDate, setStartDate] = useState(new Date());
     const [startDate, setStartDate] = useState(new Date());
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
 
-    const getData = async () => {
+    const postData = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/generatejadwaljumat');
-            setData(response.data);
-            console.log('Data berhasil diambil:', response.data);
+            const response = await fetch("http://localhost:3000/generatejadwaljumat", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {
+                        bulan: startDate.getMonth()+1 ,
+                        tahun: startDate.getFullYear()
+                    }
+                )
+            });
+            const result = await response.json();
+            console.log(result);
+
+            // Setelah POST, tambahkan data baru ke state
+            let tampilJadwal = [];
+            result.Jadwal.forEach(value => {
+                tampilJadwal.push({
+                    "PimpinanJemaah":value.PimpinanJemaah,
+                    "Minggu_ke_1": value.Jumat.find(m=>m.minggu_ke == 1)?.Mubaligh,
+                    "Minggu_ke_2": value.Jumat.find(m=>m.minggu_ke == 2)?.Mubaligh,
+                    "Minggu_ke_3": value.Jumat.find(m=>m.minggu_ke == 3)?.Mubaligh,
+                    "Minggu_ke_4": value.Jumat.find(m=>m.minggu_ke == 4)?.Mubaligh,
+                    "Minggu_ke_5": value.Jumat.find(m=>m.minggu_ke == 5)?.Mubaligh,
+                })
+            });
+            setData(tampilJadwal);
         } catch (error) {
-            console.error('Terjadi kesalahan saat mengambil data:', error);
+            console.log(error);
         }
-    };
+    }
 
     return (
         <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
@@ -33,7 +59,7 @@ const GenerateJumat = () => {
                 <FaCalendarAlt className="ml-2" />
             </div>
             <div className='flex justify-end py-5 items-center w-[98%]'>
-                <button type="button" onClick={getData}>
+                <button type="button" onClick={postData}>
                 Generate
                 </button>
             </div>
@@ -51,18 +77,21 @@ const GenerateJumat = () => {
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-5</th>
                                 </tr>
                             </thead>
-                            {/* <tbody>
-                        {data.map((item, index) => (
-                            <tr key={index} className="bg-[#F5F5F5] rounded-md shadow-md">
-                                <td className="relative text-center px-10 py-2 rounded-l-lg">{item.PimpinanJemaah}</td>
-                                {item.Jumat.map((jumat, i) => (
-                                    <td key={i} className="relative text-center px-4 py-2">
-                                        {jumat.Mubaligh}
-                                    </td>
-                                ))}
-                            </tr>
-                        ))}
-                    </tbody> */}
+                            <tbody>
+                            {data.map((v,i)=>{
+                                        return <tr className='bg-[#F5F5F5] rounded-md shadow-md' >
+                                        <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.PimpinanJemaah}</td>
+                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_1}</td>
+                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_2}</td>
+                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_3}</td>
+                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_4}</td>
+                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_5}</td>
+                                        <td className=" relative items-center px-4 py-2 rounded-r-lg">
+                                        </td>
+                                    </tr>
+                                    })
+                                }
+                            </tbody>
                         </table>
                     </div>
                 </div>
