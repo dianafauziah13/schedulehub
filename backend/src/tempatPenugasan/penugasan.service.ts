@@ -87,4 +87,9 @@ export class TempatPenugasanService {
   async deleteTempatPenugasan(id: string): Promise<TempatPenugasanSchema> {
     return await this.tempatPenugasanModel.findByIdAndDelete(id).exec();
   }
+
+  async deleteAllTempatPenugasan(): Promise<{ deletedCount?: number }> {
+    return await this.tempatPenugasanModel.deleteMany({}).exec();
+  }
+  
 }
