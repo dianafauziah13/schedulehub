@@ -6,17 +6,40 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 const GeneratePengajian = () => {
     const [startDate, setStartDate] = useState(new Date());
-    const [data, setData] = useState(null);
+    const [data, setData] = useState([]);
 
-    const getData = async () => {
+    const postData = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/generatejadwaljumat');
-            setData(response.data);
-            console.log('Data berhasil diambil:', response.data);
+            const response = await fetch("http://localhost:3000/genetarePengajian", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {
+                        bulan: startDate.getMonth()+1 ,
+                        tahun: startDate.getFullYear()
+                    }
+                )
+            });
+            const result = await response.json();
+            console.log(result);
+
+            // Setelah POST, tambahkan data baru ke state
+            let tampilJadwal = [];
+            result.jadwal.forEach(value => {
+                tampilJadwal.push({
+                    "PimpinanJemaah":value.PimpinanJamaah,
+                    "Minggu_ke": value.minggu_ke,
+                    "hari":value.hari,
+                    "Mubaligh":value.Mubaligh
+                })
+            });
+            setData(tampilJadwal);
         } catch (error) {
-            console.error('Terjadi kesalahan saat mengambil data:', error);
+            console.log(error);
         }
-    };
+    }
 
     return (
         <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
@@ -34,7 +57,7 @@ const GeneratePengajian = () => {
             <div className='flex justify-end py-5 items-center w-[98%]'>
                 <button
                     type="button"
-                    onClick={getData} // Tambahkan event handler onClick untuk memanggil getData
+                    onClick={postData} // Tambahkan event handler onClick untuk memanggil getData
                 >
                     Generate
                 </button>
@@ -48,27 +71,23 @@ const GeneratePengajian = () => {
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">No</th>
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Pimpinan Jemaah</th>
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-</th>
-                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Detail Waktu</th>
+                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Detail Hari</th>
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Nama Mubaligh</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {data ? (
-                                    data.map((item, index) => (
-                                        <tr key={index} className='bg-[#F5F5F5] rounded-md shadow-md'>
-                                            <td className="relative text-center px-10 py-2 rounded-l-lg">{item.pimpinanJemaah}</td>
-                                            <td className="relative text-center px-4 py-2">{item.minggu1}</td>
-                                            <td className="relative text-center px-4 py-2">{item.minggu2}</td>
-                                            <td className="relative text-center px-4 py-2">{item.minggu3}</td>
-                                            <td className="relative text-center px-4 py-2">{item.minggu4}</td>
-                                            <td className="relative text-center px-4 py-2 rounded-r-lg">{item.minggu5}</td>
-                                        </tr>
-                                    ))
-                                ) : (
-                                    <tr>
-                                        <td colSpan="6" className="text-center py-4">Tidak ada data yang tersedia</td>
+                            {data.map((v,i)=>{
+                                        return <tr className='bg-[#F5F5F5] rounded-md shadow-md' >
+                                            <td className="text-center max-w-[25px] h-auto px-4 py-2">{i+1}</td>
+                                        <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.PimpinanJemaah}</td>
+                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke}</td>
+                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.hari}</td>
+                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Mubaligh}</td>
+                                        <td className=" relative items-center px-4 py-2 rounded-r-lg">
+                                        </td>
                                     </tr>
-                                )}
+                                    })
+                                }
                             </tbody>
                         </table>
                     </div>
