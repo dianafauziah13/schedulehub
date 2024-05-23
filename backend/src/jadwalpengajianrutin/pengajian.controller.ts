@@ -24,10 +24,10 @@ async getAllJadwalPengajian(): Promise<PengajianSchema[]> {
   return await this.profilematchingService.findAllJadwalPengajian();
 }
 
-@Get('by-date')
+@Post('by-date')
 async findByDate(
   @Body('bulan') bulan: number,
-  @Body('tahun') tahun: number
+  @Body ('tahun') tahun: number
 ): Promise<{ data: PengajianSchema[] }> {
   return await this.profilematchingService.findByDate(bulan, tahun);
 }

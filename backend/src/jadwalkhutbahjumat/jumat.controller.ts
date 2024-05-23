@@ -23,6 +23,14 @@ export class JadwalJumatController {
     return await this.profileMatchingServiceJumat.findAllJadwalJumat();
   }
   
+  @Post('by-date')
+  async findByDate(
+    @Body('bulan') bulan: number,
+    @Body ('tahun') tahun: number
+  ): Promise<{ data: JadwalJumatSchema[] }> {
+    return await this.profileMatchingServiceJumat.findByDate(bulan, tahun);
+  }
+
   @Delete(':id')
 async deleteJadwalJumat(@Param('id') id:string): Promise<void>{
   const jadwal = await this.profileMatchingServiceJumat.deleteJadwalJumat(id);
