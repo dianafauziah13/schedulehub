@@ -273,5 +273,8 @@ log = (obj) => {
   console.dir(obj, {depth: null});
 }
 
+async deleteJadwalJumat(id: string): Promise<JadwalJumatSchema> {
+  return await this.jadwalJumatModel.findByIdAndDelete(id).exec();
+}
   
 }

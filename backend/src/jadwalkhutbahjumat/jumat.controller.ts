@@ -1,4 +1,4 @@
-import { Body, Controller, Post,  Get, Param, Put } from '@nestjs/common';
+import { Body, Controller, Post,  Get, Param, Put, Delete, HttpException, HttpStatus} from '@nestjs/common';
 import { JadwalJumatService } from './jumat.service'
 import { JadwalJumatSchemaDto } from './dto/create-jumat.dto';
 import { JadwalJumatSchema } from './schemas/jumat.schema';
@@ -18,6 +18,14 @@ export class JadwalJumatController {
     return createdJadwalJumat;
   }
 
+  @Delete(':id')
+async deleteJadwalJumat(@Param('id') id:string): Promise<void>{
+  const jadwal = await this.profileMatchingServiceJumat.deleteJadwalJumat(id);
+  if (!jadwal)
+    throw new HttpException('Data jadwal Tidak Ditemukan', HttpStatus.NOT_FOUND);
+  
+  await jadwal; 
+}
   // @Get()
   // async generateJadwalJumat() {
   //   const generateJadwalJumat = await this.profileMatchingServiceJumat.generateProfileJumat();
