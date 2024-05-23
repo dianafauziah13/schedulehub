@@ -25,7 +25,7 @@ const JadwalPengajian = () => {
             console.log(result);
 
             let tampilJadwal = [];
-            result.data[0].jadwal.forEach(value => {
+            result.jadwal.forEach(value => {
                 tampilJadwal.push({
                     "PimpinanJemaah":value.PimpinanJamaah,
                     "Minggu_ke": value.minggu_ke,
