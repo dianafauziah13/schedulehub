@@ -23,7 +23,7 @@ export class JadwalJumatController {
     return await this.profileMatchingServiceJumat.findAllJadwalJumat();
   }
   
-  @Get('by-date')
+  @Post('by-date')
   async findByDate(
     @Body('bulan') bulan: number,
     @Body ('tahun') tahun: number
