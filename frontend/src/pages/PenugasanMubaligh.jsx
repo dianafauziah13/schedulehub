@@ -3,28 +3,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import ModalDeletePenugasan from '../component/penugasan/ModalDeletePenugasan';
 import ModalUpdatePenugasan from '../component/penugasan/ModalUpdatePenugasan';
 import ModalDetailPenugasan from '../component/penugasan/ModalDetailPenugasan';
+import ModalAddPenugasan from '../component/penugasan/ModalAddPenugasan';
 
 const PenugasanMubaligh = () => {
-//     const [data, setData] = useState(null)
-//     useEffect(() => { 
-//     const fetchData = async ()=> {
-//         try {
-//             const response = await fetch("http://localhost:3000/tempatpenugasan")
-//             const tempatpenugasan = await response.json()
-//             let tampilPenugasan = []
-
-//             tempatpenugasan.forEach(value => {
-//                 let tgl_awal = new Date(value.tgl_awal)
-//                 let tgl_akhir = new Date(value.tgl_akhir)
-//                 tampilPenugasan.push(`${tgl_awal.getDate()} ${tgl_awal.getMonth()+1} ${tgl_awal.getFullYear()} - ${tgl_akhir.getDate()} ${tgl_akhir.getMonth()+1} ${tgl_akhir.getFullYear()}`)
-//             });
-//             setData(tampilPenugasan) 
-//         } catch (error) {
-//             console.log(error)
-//         }
-//     }
-//     fetchData()
-// }, [])
     const [data, setData] = useState(null)
     useEffect(() => { 
         const fetchData = async ()=> {
@@ -53,17 +34,20 @@ const PenugasanMubaligh = () => {
             return <div> Loading </div>
         }
         return (
-
-            // <div className='bg-bg h-screen w-screen overflow-hidden'>
                 <div className='flex flex-col items-center w-[100%] ml-[80px] pt-6'>
-                    <h1 className='text-[30px] font-montserrat mb-7'>Tempat Penugasan</h1>
+                    <h1 className='text-[30px] font-montserrat mb-7'>Kelola Tempat Penugasan</h1>
+                    <div  className='flex justify-start w-[100%] pb-10'>  
+                        <button className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" >
+                        <ModalAddPenugasan/>
+                        </button>
+                    </div>
                     <div className="flex flex-col items-center w-full bg-white px-5 py-3 shadow-md font-montserrat rounded-md">
                         <div className=" w-full">
                             <table className="table-auto w-full border-separate border-spacing-y-3">
                                 <thead>
                                     <tr>
                                         <th className="px-4 py-1 border-line border-b-2 text-line font-normal">No</th>
-                                        <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Nama Pimpinan Jemaah</th>
+                                        <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Pimpinan Jemaah</th>
                                         <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Penugasan Jumat</th>
                                         <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Penugasan Pengajian</th>
                                         <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Topik Kajian</th>
