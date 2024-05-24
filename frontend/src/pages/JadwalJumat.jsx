@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {FaCalendarAlt} from "react-icons/fa"
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
@@ -41,29 +41,6 @@ const JadwalJumat = () => {
             console.log(error)
         }
     }
-
-    const getHistory = async ()=> {
-        try {
-            const response = await fetch("http://localhost:3000/generatejadwaljumat")
-            const tanggaljumat = await response.json()
-            let tampilHistory = []
-
-            tanggaljumat.forEach(value => {
-                tampilHistory.push({
-                    "HistoryBulan":value.bulan,
-                    "HistoryTahun":value.tahun
-                })
-            });
-            setData2(tampilHistory) 
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    useEffect(() => {
-        fetchData()
-        getHistory()
-    }, [])
     
     return (
         // <div className='bg-bg h-screen w-screen overflow-hidden'>
@@ -79,27 +56,6 @@ const JadwalJumat = () => {
             />
             <FaCalendarAlt className="ml-2" />
         </div>
-
-        <div className="flex flex-col items-center w-[98%] ml-[80px] pt-6">
-            <table className="table-auto w-full border-separate border-spacing-y-3">
-                <tbody className=''>
-                    {
-                        data2.map((v,i)=>{
-                            return <tr className='bg-[#F5F5F5] rounded-md shadow-md' >
-                            <td className="relative text-center px-10 py-2 rounded-l-lg">History Jadwal Khutbah Jumat</td>
-                            <td className="relative items-center px-4 py-2 rounded-r-lg ">{v.HistoryBulan}</td>
-                            <td className="relative items-center px-4 py-2 rounded-r-lg ">{v.HistoryTahun}</td>
-                            <div className='flex justify-center m-2'></div>
-                            <td className=" relative items-center px-4 py-2 rounded-r-lg">
-                            </td>
-                        </tr>
-                        })
-                    }       
-                </tbody>
-            </table>
-        </div>
-
-
         <div className='flex justify-end py-5 items-center w-[98%]'>
             <button className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" onClick={fetchData}>
             Tampil Jadwal

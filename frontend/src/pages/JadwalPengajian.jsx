@@ -40,29 +40,6 @@ const JadwalPengajian = () => {
         }
     }
 
-    const getHistory = async ()=> {
-        try {
-            const response = await fetch("http://localhost:3000/genetarePengajian")
-            const tanggaljumat = await response.json()
-            let tampilHistory = []
-
-            tanggaljumat.forEach(value => {
-                tampilHistory.push({
-                    "HistoryBulan":value.bulan,
-                    "HistoryTahun":value.tahun
-                })
-            });
-            setData2(tampilHistory) 
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    useEffect(() => {
-        fetchData()
-        getHistory()
-    }, [])
-
     return (
         // <div className='bg-bg h-screen w-screen overflow-hidden'>
         <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
