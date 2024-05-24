@@ -12,7 +12,7 @@ const [showModal, setShowModal] = useState(false);
             type="button"
             onClick={() => setShowModal(true)}
           >
-           <MdOutlineMosque className="h-7 w-7 mr-1"/> Tambah Pimpinan Jemaah
+           <MdOutlineMosque className="h-6 w-7 mr-1 text-center"/> Tambah Pimpinan Jemaah
           </button>
           {showModal ? (
             <>

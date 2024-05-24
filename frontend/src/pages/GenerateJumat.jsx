@@ -59,7 +59,7 @@ const GenerateJumat = () => {
                 <FaCalendarAlt className="ml-2" />
             </div>
             <div className='flex justify-end py-5 items-center w-[98%]'>
-                <button type="button" onClick={postData}>
+                <button className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" onClick={postData}>
                 Generate
                 </button>
             </div>

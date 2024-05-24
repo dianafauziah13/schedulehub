@@ -36,7 +36,7 @@ const KelolaPimpinanJemaah = () => {
         <div className='flex flex-col items-center w-[100%] ml-[80px] pt-6'>
         <h1 className='text-[30px] font-montserrat mb-7'>Kelola Pimpinan Jemaah</h1>
         <div  className='flex justify-start w-[100%] pb-10'>  
-            <button className="flex items-center bg-[#556B2F] text-white px-4 py-2 mr-2 " >
+            <button className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" >
             <ModalAddPJ />
             </button>
         </div>

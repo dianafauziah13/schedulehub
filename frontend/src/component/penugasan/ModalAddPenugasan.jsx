@@ -11,7 +11,7 @@ const [showModal, setShowModal] = useState(false);
             type="button"
             onClick={() => setShowModal(true)}
           >
-           <BiUserPlus className="h-7 w-7 mr-1"/> Tambah Tempat Penugasan
+           <BiUserPlus className="h-6 w-7 mr-1 text-center"/> Tambah Tempat Penugasan
           </button>
           {showModal ? (
             <>

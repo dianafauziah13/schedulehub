@@ -56,6 +56,7 @@ const GeneratePengajian = () => {
             </div>
             <div className='flex justify-end py-5 items-center w-[98%]'>
                 <button
+                    className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                     type="button"
                     onClick={postData} // Tambahkan event handler onClick untuk memanggil getData
                 >

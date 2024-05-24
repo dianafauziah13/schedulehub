@@ -11,7 +11,7 @@ const ModalDeletePenugasan = () => {
           type="button"
           onClick={() => setShowDeleteModal(true)}
         >
-          <FaRegTrashAlt className="mr-2"/>
+          <FaRegTrashAlt  className="mr-2"/>
         </button>
   
         {showDeleteModal ? (
