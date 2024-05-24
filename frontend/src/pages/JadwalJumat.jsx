@@ -2,11 +2,19 @@ import React, { useState } from 'react'
 import {FaCalendarAlt} from "react-icons/fa"
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
+import * as XLSX from 'xlsx'
 
 const JadwalJumat = () => {
     const [startDate, setStartDate] = useState(new Date())
     const [data, setData] = useState([])
     const [data2, setData2] = useState([])
+
+    const exportToExcel = () => {
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+        XLSX.writeFile(workbook, "jadwal.xlsx");
+    }
 
     const fetchData = async () => {
         try {
@@ -94,8 +102,13 @@ const JadwalJumat = () => {
                 </div>
             </div>
         </div>
-    </div>
-        // </div>
-    );
-  };
-export default JadwalJumat;
+
+        <div className='flex justify-center py-5 items-center w-[98%]'>
+            <button className="text-white bg-[#293a8e] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" onClick={exportToExcel}>
+                Download Jadwal Khutbah Jumat
+            </button>
+        </div>
+</div>
+)
+}
+export default JadwalJumat

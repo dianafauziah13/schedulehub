@@ -2,11 +2,18 @@ import React, { useState, useEffect } from 'react';
 import {FaCalendarAlt} from "react-icons/fa";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
+import * as XLSX from 'xlsx'
 
 const JadwalPengajian = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [data, setData] = useState([]);
-    const [data2, setData2] = useState([]);
+
+    const exportToExcel = () => {
+        const worksheet = XLSX.utils.json_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+        XLSX.writeFile(workbook, "Jadwal Pengajian Rutin.xlsx");
+    }
 
     const fetchData = async () => {
         try {
@@ -55,25 +62,6 @@ const JadwalPengajian = () => {
             <FaCalendarAlt className="ml-2" />
         </div>
 
-        <div className="flex flex-col items-center w-[98%] ml-[80px] pt-6">
-            <table className="table-auto w-full border-separate border-spacing-y-3">
-                <tbody className=''>
-                    {
-                        data2.map((v,i)=>{
-                            return <tr className='bg-[#F5F5F5] rounded-md shadow-md' >
-                            <td className="relative text-center px-10 py-2 rounded-l-lg">History Jadwal Pengajian Rutin</td>
-                            <td className="relative items-center px-4 py-2 rounded-r-lg ">{v.HistoryBulan}</td>
-                            <td className="relative items-center px-4 py-2 rounded-r-lg ">{v.HistoryTahun}</td>
-                            <div className='flex justify-center m-2'></div>
-                            <td className=" relative items-center px-4 py-2 rounded-r-lg">
-                            </td>
-                        </tr>
-                        })
-                    }       
-                </tbody>
-            </table>
-        </div>
-
         <div className='flex justify-end py-5 items-center w-[98%]'>
             <button className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" onClick={fetchData}>
             Tampil Jadwal
@@ -110,8 +98,12 @@ const JadwalPengajian = () => {
                 </div>
             </div>
         </div>
+        <div className='flex justify-center py-5 items-center w-[98%]'>
+            <button className="text-white bg-[#293a8e] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" onClick={exportToExcel}>
+                Download Jadwal Pengajian Rutin
+            </button>
+        </div>
     </div>
-        // </div>
     );
   };
 export default JadwalPengajian;
