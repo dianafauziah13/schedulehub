@@ -52,7 +52,7 @@ const KelolaMubaligh = () => {
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">No</th>
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Nama Mubaligh</th>
                                     <th className="px-30 py-1 border-line border-b-2 text-line font-normal">Lingkup Dakwah</th>
-                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Ketersediaan Waktu</th>
+                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Ketersediaan Waktu Jumat</th>
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Ketersediaan Waktu Pengajian</th>
                                     <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Actions</th>
                                 </tr>
