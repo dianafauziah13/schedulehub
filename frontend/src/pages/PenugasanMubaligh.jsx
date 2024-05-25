@@ -4,31 +4,67 @@ import ModalDeletePenugasan from '../component/penugasan/ModalDeletePenugasan';
 import ModalUpdatePenugasan from '../component/penugasan/ModalUpdatePenugasan';
 import ModalDetailPenugasan from '../component/penugasan/ModalDetailPenugasan';
 import ModalAddPenugasan from '../component/penugasan/ModalAddPenugasan';
+import { FaRegTrashAlt } from 'react-icons/fa';
 
 const PenugasanMubaligh = () => {
     const [data, setData] = useState(null)
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
+
     useEffect(() => { 
-        const fetchData = async ()=> {
-            try {
-                const response = await fetch("http://localhost:3000/tempatpenugasan")
-                const penugasan = await response.json()
-                console.log(penugasan)
-                let tampilPenugasan = []
-                penugasan.forEach(value => {
-                    tampilPenugasan.push({
-                        "Nama": value.Penugasan.pimpinan ? value.Penugasan.pimpinan.Nama : null,
-                        "mubalighJumatName" : value.Penugasan.mubaligh_khutbah_jumat.map(m => m.mubalighName),
-                        "mubalighPengajianName" : value.Penugasan.Mubaligh_Khutbah_pengajian.map(m => m.mubalighName),
-                        "TopikKajian": value.TopikKajian || null
-                    })
-                });
-                setData(tampilPenugasan) 
-            } catch (error) {
-                console.log(error)
-            }
-        }
-    fetchData()
+        fetchData()
     }, [])
+
+    const openModal = (Id) => {
+        console.log(Id);
+        setSelectedId(Id);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const fetchData = async ()=> {
+        try {
+            const response = await fetch("http://localhost:3000/tempatpenugasan")
+            const penugasan = await response.json()
+            console.log(penugasan)
+            let tampilPenugasan = []
+            penugasan.forEach(value => {
+                tampilPenugasan.push({
+                    "_id" : value._id,
+                    "Nama": value.Penugasan.pimpinan ? value.Penugasan.pimpinan.Nama : null,
+                    "mubalighJumatName" : value.Penugasan.mubaligh_khutbah_jumat.map(m => m.mubalighName),
+                    "mubalighPengajianName" : value.Penugasan.Mubaligh_Khutbah_pengajian.map(m => m.mubalighName),
+                    "TopikKajian": value.TopikKajian || null
+                })
+            });
+            setData(tampilPenugasan) 
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const deletePenugasan = async () => {
+        try {
+        const response = await fetch(`http://localhost:3000/tempatpenugasan/${selectedId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        if (response.ok) {
+            console.log("Data successfully deleted!");
+            fetchData(); // Setelah penghapusan berhasil, perbarui daftar PJ.
+            closeModal(); // Tutup modal setelah penghapusan selesai.
+        } else {
+            console.error("Failed to delete data");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    };
 
         if (!data) {
             return <div> Loading </div>
@@ -72,9 +108,33 @@ const PenugasanMubaligh = () => {
                                                     <button>
                                                     <ModalUpdatePenugasan/>
                                                     </button>
-                                                    <button>
-                                                    <ModalDeletePenugasan/>
+                                                    <button onClick={() => openModal(v._id)}>
+                                                    <FaRegTrashAlt className="mr-2"/>
                                                     </button>
+                                                    {isModalOpen && (
+                                            <div className="flex items-center justify-center fixed inset-0 z-50 outline-none focus:outline-none">
+                                            <div className="bg-white p-8 rounded-lg shadow-md">
+                                              <h3 className="text-lg font-semibold mb-4">Hapus Tempat Penugasan</h3>
+                                              <p>Anda yakin ingin menghapus tempat penugasan ini?</p>
+                                              <div className="flex justify-center mt-6">
+                                                <button
+                                                  className="text-white bg-[#FA8072] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                                  type="button"
+                                                  onClick={closeModal}
+                                                >
+                                                  Batal
+                                                </button>
+                                                <button
+                                                  className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                                  type="button"
+                                                  onClick={deletePenugasan}
+                                                >
+                                                  Hapus
+                                                </button>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        )}
                                                 </div>
                                             </td>
                                             <td className=" relative items-center px-4 py-2 rounded-r-lg">

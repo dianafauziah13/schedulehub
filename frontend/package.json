@@ -13,7 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/react-select": "^5.0.1",
     "autoprefixer": "^9.8.6",
-    "axios": "^1.6.8",
+    "axios": "^1.7.2",
     "framer-motion": "^10.16.16",
     "html2canvas": "^1.4.1",
     "postcss": "^8.4.32",
