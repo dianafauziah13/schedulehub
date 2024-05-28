@@ -17,7 +17,8 @@ const GeneratePengajian = () => {
             const response = await fetch("http://localhost:3000/generatePengajian/by-date", {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept'  : 'application/json'
             },    
             body: JSON.stringify(
                     {
@@ -26,9 +27,15 @@ const GeneratePengajian = () => {
                     }
                 )
             });
-            const result = await response.json();
-            console.log(result);
-            if(result.statusValidasi){
+            // console.log("result",reponse);
+            let result;
+            try{
+                result =  await response.json();
+            }catch{
+                result = null
+            }
+           
+            if(result?.statusValidasi){
                 setStatusValidasi(true);
             }else{
                 postData();
@@ -54,8 +61,13 @@ const GeneratePengajian = () => {
                     }
                 )
             });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
             const result = await response.json();
-            // console.log(result);
+            console.log(result);
             
             // Setelah POST, tambahkan data baru ke state
             let tampilJadwal = [];
