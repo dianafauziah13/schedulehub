@@ -34,13 +34,19 @@ const PenugasanMubaligh = () => {
             penugasan.forEach(value => {
                 tampilPenugasan.push({
                     "_id" : value._id,
+                    "tglAwal" : value.tgl_awal,
+                    "tglAkhir" : value.tgl_akhir,
+                    "idPimpinan" : value.Penugasan.pimpinan._id,
                     "Nama": value.Penugasan.pimpinan ? value.Penugasan.pimpinan.Nama : null,
+                    "idmubalighjumat" :value.Penugasan.mubaligh_khutbah_jumat.map(m => m._id),
+                    "idmubalighpengajian" : value.Penugasan.Mubaligh_Khutbah_pengajian.map(m => m._id),
                     "mubalighJumatName" : value.Penugasan.mubaligh_khutbah_jumat.map(m => m.mubalighName),
                     "mubalighPengajianName" : value.Penugasan.Mubaligh_Khutbah_pengajian.map(m => m.mubalighName),
                     "TopikKajian": value.TopikKajian || null
                 })
             });
             setData(tampilPenugasan) 
+            console.log("tampildata", tampilPenugasan)
         } catch (error) {
             console.log(error)
         }
@@ -106,7 +112,7 @@ const PenugasanMubaligh = () => {
                                                     <ModalDetailPenugasan/>
                                                     </button>
                                                     <button>
-                                                    <ModalUpdatePenugasan/>
+                                                    <ModalUpdatePenugasan penugasan_id={v._id} initialValues={{tgl_awal: v.tglAwal, tgl_akhir: v.tglAkhir, TopikKajian:v.TopikKajian, pimpinan:v.idPimpinan, selectedMubalighKhutbahJumat: v.idmubalighjumat, selectedMubalighPengajian: v.idmubalighpengajian }}/>
                                                     </button>
                                                     <button onClick={() => openModal(v._id)}>
                                                     <FaRegTrashAlt className="mr-2"/>
