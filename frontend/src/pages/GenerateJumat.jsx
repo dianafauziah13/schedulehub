@@ -54,6 +54,7 @@ const GenerateJumat = () => {
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
                     dateFormat="MM/yyyy"
+                    minDate={new Date()}
                     showMonthYearPicker
                 />
                 <FaCalendarAlt className="ml-2" />
