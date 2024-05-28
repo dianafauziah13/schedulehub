@@ -1,34 +1,11 @@
-import React, { useState } from 'react'
-import {FaCalendarAlt} from "react-icons/fa"
-import DatePicker from 'react-datepicker'
-import "react-datepicker/dist/react-datepicker.css"
-import * as XLSX from 'xlsx'
+import React, { useState, useEffect } from 'react';
 
-const JadwalJumat = () => {
-    const [startDate, setStartDate] = useState(new Date())
+const TampilHasilGenerate = () => {
     const [data, setData] = useState([])
-
-    const exportToExcel = () => {
-        const worksheet = XLSX.utils.json_to_sheet(data);
-        const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
-        XLSX.writeFile(workbook, "Jadwal Khutbah Jumat.xlsx");
-    }
 
     const fetchData = async () => {
         try {
-            const response = await fetch("http://localhost:3000/generatejadwaljumat/by-date", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },    
-            body: JSON.stringify(
-                    {
-                        bulan: startDate.getMonth()+1 ,
-                        tahun: startDate.getFullYear()
-                    }
-                )
-            });
+            const response = await fetch("http://localhost:3000/generatejadwaljumat/by-date?bulan=${bulan}&tahun=${tahun}")
             const result = await response.json();
             console.log(result);
 
@@ -48,26 +25,14 @@ const JadwalJumat = () => {
             console.log(error)
         }
     }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
     
     return (
-        // <div className='bg-bg h-screen w-screen overflow-hidden'>
         <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
         <h1 className='text-[30px] font-montserrat mb-7'>Jadwal Khutbah Jumat</h1>
-        <div className='flex items-center w-[98%] pb-10'>
-            <DatePicker
-                className="rounded mx-auto text-center"
-                selected={startDate}
-                onChange={(date) => setStartDate(date)}
-                dateFormat="MM/yyyy"
-                showMonthYearPicker
-            />
-            <FaCalendarAlt className="ml-2" />
-        </div>
-        <div className='flex justify-end py-5 items-center w-[98%]'>
-            <button className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" onClick={fetchData}>
-            Tampil Jadwal
-            </button>
-        </div>
         <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
             <div className="flex flex-col items-center w-[98%] bg-white px-5 py-3 shadow-md font-montserrat rounded-md">
                 <div className="w-full">
@@ -102,12 +67,12 @@ const JadwalJumat = () => {
             </div>
         </div>
 
-        <div className='flex justify-center py-5 items-center w-[98%]'>
+        {/* <div className='flex justify-center py-5 items-center w-[98%]'>
             <button className="text-white bg-[#293a8e] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" onClick={exportToExcel}>
                 Download Jadwal Khutbah Jumat
             </button>
-        </div>
+        </div> */}
 </div>
 )
-}
-export default JadwalJumat
+  };
+export default TampilHasilGenerate;

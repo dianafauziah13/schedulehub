@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
-import { FaBars, FaCalendarAlt, FaCalendarCheck, FaFile, FaUser } from "react-icons/fa";
-import {FaUserGroup} from "react-icons/fa6"
+import { FaBars, FaCalendarAlt, FaFile, FaUser } from "react-icons/fa";
+import { RiAiGenerate } from "react-icons/ri";
 import { MdMosque } from "react-icons/md";
 import { AiTwotoneFileExclamation } from "react-icons/ai";
 import { useState } from "react";
@@ -73,45 +73,27 @@ const routes = [
       },
     ],
   },
-  // {
-  //   path: "/dashboard/validate",
-  //   name: "Validasi Jadwal",
-  //   icon: <FaCalendarCheck />,
-  //   subRoutes: [
-  //     {
-  //       path: "/dashboard/validate/jumat",
-  //       name: "Khutbah Jum'at ",
-  //       // icon: <FaUser />,
-  //     },
-  //     {
-  //       path: "/dashboard/validate/pengajian",
-  //       name: "Pengajian Rutin",
-  //       // icon: <FaLock />,
-  //     },
-  //   ],
-  // },
+  {
+    path: "/dashboard/hasil-generate",
+    name: "Hasil Generate",
+    icon: <RiAiGenerate  />,
+    subRoutes: [
+      {
+        path: "/dashboard/hasil-generate/jumat",
+        name: "Khutbah Jum'at ",
+      },
+      {
+        path: "/dashboard/hasil-generate/pengajian",
+        name: "Pengajian Rutin",
+      },
+    ],
+  }
 ];
 
 const SideBar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  // const inputAnimation = {
-  //   hidden: {
-  //     width: 0,
-  //     padding: 0,
-  //     transition: {
-  //       duration: 0.2,
-  //     },
-  //   },
-  //   show: {
-  //     width: "140px",
-  //     padding: "5px 15px",
-  //     transition: {
-  //       duration: 0.2,
-  //     },
-  //   },
-  // };
-
+  
   const showAnimation = {
     hidden: {
       width: 0,
