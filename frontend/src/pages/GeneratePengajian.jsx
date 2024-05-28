@@ -7,11 +7,11 @@ const GeneratePengajian = () => {
     const [startDate, setStartDate] = useState(new Date())
     const [data, setData] = useState([])
     const [data2, setData2] = useState([]);
-    const [statusValidasi, setStatusValidasi] = useState(true);
+    const [statusValidasi, setStatusValidasi] = useState(false);
 
-    useEffect(() => { 
-        fetchData()
-    }, [])
+    // useEffect(() => { 
+    //     fetchData()
+    // }, [])
 
     const fetchData = async () => {
         try {
@@ -32,7 +32,7 @@ const GeneratePengajian = () => {
             if(result.statusValidasi){
                 setStatusValidasi(true);
             }else{
-                postData()
+                postData();
                 setStatusValidasi(false);
             }
         } catch (error) {
@@ -94,10 +94,7 @@ const GeneratePengajian = () => {
                     className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                     type="button"
                    // Tambahkan event handler onClick untuk memanggil getData
-                    onClick={() => {
-                        fetchData();
-                    }}
-
+                    onClick={fetchData}
                 >
                     Generate
                 </button>
