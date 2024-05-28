@@ -19,7 +19,8 @@ const GenerateJumat = () => {
                 body: JSON.stringify(
                     {
                         bulan: startDate.getMonth()+1 ,
-                        tahun: startDate.getFullYear()
+                        tahun: startDate.getFullYear(),
+                        statusValidasi: false
                     }
                 )
             });

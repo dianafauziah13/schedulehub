@@ -12,5 +12,6 @@ export class JadwalDto {
 export class JadwalJumatSchemaDto {
     bulan : number; 
     tahun : number;
+    statusValidasi: boolean;
     Jadwal :  JadwalDto [];
 }

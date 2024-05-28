@@ -118,29 +118,29 @@ const PenugasanMubaligh = () => {
                                                     <FaRegTrashAlt className="mr-2"/>
                                                     </button>
                                                     {isModalOpen && (
-                                            <div className="flex items-center justify-center fixed inset-0 z-50 outline-none focus:outline-none">
-                                            <div className="bg-white p-8 rounded-lg shadow-md">
-                                              <h3 className="text-lg font-semibold mb-4">Hapus Tempat Penugasan</h3>
-                                              <p>Anda yakin ingin menghapus tempat penugasan ini?</p>
-                                              <div className="flex justify-center mt-6">
-                                                <button
-                                                  className="text-white bg-[#FA8072] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                                  type="button"
-                                                  onClick={closeModal}
-                                                >
-                                                  Batal
-                                                </button>
-                                                <button
-                                                  className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                                  type="button"
-                                                  onClick={deletePenugasan}
-                                                >
-                                                  Hapus
-                                                </button>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        )}
+                                                    <div className="flex items-center justify-center fixed inset-0 z-50 outline-none focus:outline-none">
+                                                    <div className="bg-white p-8 rounded-lg shadow-md">
+                                                    <h3 className="text-lg font-semibold mb-4">Hapus Tempat Penugasan</h3>
+                                                    <p>Anda yakin ingin menghapus tempat penugasan ini?</p>
+                                                    <div className="flex justify-center mt-6">
+                                                        <button
+                                                        className="text-white bg-[#FA8072] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                                        type="button"
+                                                        onClick={closeModal}
+                                                        >
+                                                        Batal
+                                                        </button>
+                                                        <button
+                                                        className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                                        type="button"
+                                                        onClick={deletePenugasan}
+                                                        >
+                                                        Hapus
+                                                        </button>
+                                                    </div>
+                                                    </div>
+                                                </div>
+                                                )}
                                                 </div>
                                             </td>
                                             <td className=" relative items-center px-4 py-2 rounded-r-lg">

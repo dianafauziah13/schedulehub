@@ -24,6 +24,9 @@ export class JadwalJumatSchema extends Document {
   @Prop({ type: Number })
   tahun: number;
 
+  @Prop({type: Boolean})
+  statusValidasi: boolean = false;
+
   @Prop({ type: [Jadwal] })
   Jadwal : Jadwal[] = [];
 }

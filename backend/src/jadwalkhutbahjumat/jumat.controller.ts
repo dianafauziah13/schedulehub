@@ -39,6 +39,24 @@ async deleteJadwalJumat(@Param('id') id:string): Promise<void>{
   
   await jadwal; 
 }
+
+@Get(':id')
+async getJadwalJumatById(@Param('id') id: string): Promise<JadwalJumatSchema> {
+  const isPimpinanJamaah = await this.profileMatchingServiceJumat.findJadwalJumatById(id);
+
+  if (!isPimpinanJamaah)
+    throw new HttpException('Data Pimpinan Jamaah Tidak Ditemukan', HttpStatus.NOT_FOUND);
+
+  return isPimpinanJamaah;
+}
+
+@Put(':id')
+async updateJadwalJumat(
+  @Param('id') id: string,
+  @Body() jadwalJumatDTO: JadwalJumatSchema,
+): Promise<JadwalJumatSchema> {
+  return await this.profileMatchingServiceJumat.updateStatusJumat(id, jadwalJumatDTO);
+}
   // @Get()
   // async generateJadwalJumat() {
   //   const generateJadwalJumat = await this.profileMatchingServiceJumat.generateProfileJumat();

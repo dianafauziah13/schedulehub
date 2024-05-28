@@ -277,12 +277,21 @@ async findAllJadwalJumat(): Promise<JadwalJumatSchema[]> {
   return await this.jadwalJumatModel.find().exec();
 }
 
+async findJadwalJumatById(id: string): Promise<JadwalJumatSchema> {
+  return await this.jadwalJumatModel.findById(id)
+  .exec();
+}
+
 async findByDate(bulan : number, tahun: number): Promise<JadwalJumatSchema > {
   const jumatList = await this.jadwalJumatModel.find({
     bulan: bulan,
     tahun: tahun
   }).exec();
   return await jumatList.at(0) ;
+}
+
+async updateStatusJumat(id: string, jadwalJumatDTO: JadwalJumatSchema): Promise<JadwalJumatSchema> {
+  return await this.jadwalJumatModel.findByIdAndUpdate(id, jadwalJumatDTO, { new: true }).exec();
 }
 
 async deleteJadwalJumat(id: string): Promise<JadwalJumatSchema> {
