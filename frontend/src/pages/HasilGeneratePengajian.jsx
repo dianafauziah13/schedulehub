@@ -140,7 +140,7 @@ const GeneratePengajian = () => {
     
     return (
         <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
-            <h1 className='text-[30px] font-montserrat mb-7'>Hasil Generate Khutbah Jum'at</h1>
+            <h1 className='text-[30px] font-montserrat mb-7'>Hasil Generate Pengajian Rutin</h1>
 
             <div className="flex flex-col items-center w-[98%] ml-[80px] pt-6">
                 <table className="table-auto w-full border-separate border-spacing-y-3">
