@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { FaCalendarAlt } from 'react-icons/fa';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -6,7 +6,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 const GeneratePengajian = () => {
     const [startDate, setStartDate] = useState(new Date())
     const [data, setData] = useState([])
-    const [data2, setData2] = useState([]);
     const [statusValidasi, setStatusValidasi] = useState(false);
 
     // useEffect(() => { 
