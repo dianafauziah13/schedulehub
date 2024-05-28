@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { FaCalendarAlt } from 'react-icons/fa';
 import 'react-datepicker/dist/react-datepicker.css';
-import ParentJumat from '../component/generate/ParentJumat';
 
 const GenerateJumat = () => {
     // const [startDate, setStartDate] = useState(new Date());
@@ -45,28 +44,6 @@ const GenerateJumat = () => {
         }
     }
 
-    const getHistory = async ()=> {
-        try {
-            const response = await fetch("http://localhost:3000/generatejadwaljumat")
-            const tanggaljumat = await response.json()
-            let tampilHistory = []
-
-            tanggaljumat.forEach(value => {
-                tampilHistory.push({
-                    "HistoryBulan":value.bulan,
-                    "HistoryTahun":value.tahun
-                })
-            });
-            setData2(tampilHistory) 
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    useEffect(() => {
-        getHistory()
-    }, [])
-
     return (
         <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
             <h1 className='text-[30px] font-montserrat mb-7'>Generate Khutbah Jum'at</h1>
@@ -81,24 +58,6 @@ const GenerateJumat = () => {
                 <FaCalendarAlt className="ml-2" />
             </div>
 
-            <div className="flex flex-col items-center w-[98%] ml-[80px] pt-6">
-                <table className="table-auto w-full border-separate border-spacing-y-3">
-                    <tbody className=''>
-                        {
-                            data2.map((v,i)=>{
-                                return <tr className='bg-[#F5F5F5] rounded-md shadow-md' >
-                                <td className="relative text-center px-10 py-2 rounded-l-lg">History Jadwal Khutbah Jumat</td>
-                                <td className="relative items-center px-4 py-2 rounded-r-lg ">{v.HistoryBulan}</td>
-                                <td className="relative items-center px-4 py-2 rounded-r-lg ">{v.HistoryTahun}</td>
-                                <div className='flex justify-center m-2'></div>
-                                <td className=" relative items-center px-4 py-2 rounded-r-lg">
-                                </td>
-                            </tr>
-                            })
-                        }       
-                    </tbody>
-                </table>
-            </div>
             <div className='flex justify-end py-5 items-center w-[98%]'>
                 <button className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" onClick={postData}>
                 Generate
@@ -127,8 +86,6 @@ const GenerateJumat = () => {
                                         <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_3}</td>
                                         <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_4}</td>
                                         <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_5}</td>
-                                        <td className=" relative items-center px-4 py-2 rounded-r-lg">
-                                        </td>
                                     </tr>
                                     })
                                 }

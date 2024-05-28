@@ -155,6 +155,7 @@ const ModalAddPenugasan = () => {
                           <div className="flex items-start justify-between p-5 rounded-t">
                               <h3 className="text-black text-xl font-semibold">Tambah Penugasan</h3>
                            </div>
+                            <div className="relative px-6 flex-auto flex flex-wrap">
                                 <div className="w-full lg:w-1/2 px-4 mb-4">
                                     <label className="flex justify-start text-black text-sm mt-4 mb-1">
                                         Tanggal Awal
@@ -179,7 +180,7 @@ const ModalAddPenugasan = () => {
                                         onChange={handleTglAkhirChange}
                                     />
                                  </div>
-                                <div className="relative px-6 flex-auto flex flex-wrap">
+                                
                                     {/* Kolom Kiri */}
                                     <div className="w-full lg:w-1/2 px-4 mb-4">
                                         <form className="rounded w-full">
