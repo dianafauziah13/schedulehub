@@ -7,6 +7,7 @@ import * as XLSX from 'xlsx'
 const JadwalPengajian = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [data, setData] = useState([]);
+    const [statusValidasi, setStatusValidasi] = useState(true);
 
     const exportToExcel = () => {
         const worksheet = XLSX.utils.json_to_sheet(data);
@@ -17,7 +18,7 @@ const JadwalPengajian = () => {
 
     const fetchData = async () => {
         try {
-            const response = await fetch("http://localhost:3000/genetarePengajian/by-date", {
+            const response = await fetch("http://localhost:3000/generatePengajian/by-date", {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json'
@@ -33,6 +34,7 @@ const JadwalPengajian = () => {
             console.log(result);
 
             let tampilJadwal = [];
+            if(result.statusValidasi){
             result.jadwal.forEach(value => {
                 tampilJadwal.push({
                     "PimpinanJemaah":value.PimpinanJamaah,
@@ -42,6 +44,10 @@ const JadwalPengajian = () => {
                 })
             });
             setData(tampilJadwal);
+            setStatusValidasi(true);
+            }else{
+                setStatusValidasi(false);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -67,6 +73,15 @@ const JadwalPengajian = () => {
             Tampil Jadwal
             </button>
         </div>
+                {/* Tambahkan kondisi untuk menampilkan pesan jika statusValidasi false */}
+        {!statusValidasi && (
+            <div className='flex justify-center py-5 items-center w-[98%]'>
+                <span className="text-red-500 text-2xl">Jadwal Belum Disetujui atau Belum Digenerate</span>
+            </div>
+        )}
+
+        {statusValidasi && (
+            <>
         <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
             <div className="flex flex-col items-center w-[98%] bg-white px-5 py-3 shadow-md font-montserrat rounded-md">
                 <div className="w-full">
@@ -103,6 +118,9 @@ const JadwalPengajian = () => {
                 Download Jadwal Pengajian Rutin
             </button>
         </div>
+        </>
+        )}
+
     </div>
     );
   };

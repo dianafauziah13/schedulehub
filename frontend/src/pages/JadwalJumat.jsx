@@ -7,6 +7,7 @@ import * as XLSX from 'xlsx'
 const JadwalJumat = () => {
     const [startDate, setStartDate] = useState(new Date())
     const [data, setData] = useState([])
+    const [statusValidasi, setStatusValidasi] = useState(true);
 
     const exportToExcel = () => {
         const worksheet = XLSX.utils.json_to_sheet(data);
@@ -33,17 +34,23 @@ const JadwalJumat = () => {
             console.log(result);
 
             let tampilJadwal = [];
-            result.Jadwal.forEach(value => {
-                tampilJadwal.push({
-                    "PimpinanJemaah":value.PimpinanJemaah,
-                    "Minggu_ke_1": value.Jumat.find(m=>m.minggu_ke == 1)?.Mubaligh,
-                    "Minggu_ke_2": value.Jumat.find(m=>m.minggu_ke == 2)?.Mubaligh,
-                    "Minggu_ke_3": value.Jumat.find(m=>m.minggu_ke == 3)?.Mubaligh,
-                    "Minggu_ke_4": value.Jumat.find(m=>m.minggu_ke == 4)?.Mubaligh,
-                    "Minggu_ke_5": value.Jumat.find(m=>m.minggu_ke == 5)?.Mubaligh,
-                })
-            });
-            setData(tampilJadwal)
+            if(result.statusValidasi){
+                result.Jadwal.forEach(value => {
+                    tampilJadwal.push({
+                        "PimpinanJemaah":value.PimpinanJemaah,
+                        "Minggu_ke_1": value.Jumat.find(m=>m.minggu_ke == 1)?.Mubaligh,
+                        "Minggu_ke_2": value.Jumat.find(m=>m.minggu_ke == 2)?.Mubaligh,
+                        "Minggu_ke_3": value.Jumat.find(m=>m.minggu_ke == 3)?.Mubaligh,
+                        "Minggu_ke_4": value.Jumat.find(m=>m.minggu_ke == 4)?.Mubaligh,
+                        "Minggu_ke_5": value.Jumat.find(m=>m.minggu_ke == 5)?.Mubaligh,
+                    })
+                });
+                setData(tampilJadwal)
+                setStatusValidasi(true);
+            }else{
+                setStatusValidasi(false);
+            }
+
         } catch (error) {
             console.log(error)
         }
@@ -68,6 +75,15 @@ const JadwalJumat = () => {
             Tampil Jadwal
             </button>
         </div>
+        {/* Tambahkan kondisi untuk menampilkan pesan jika statusValidasi false */}
+        {(!statusValidasi) && (
+            <div className='flex justify-center py-5 items-center w-[98%]'>
+                <span className="text-red-500 text-2xl">Jadwal Belum Disetujui atau Belum Digenerate</span>
+            </div>
+        )}
+
+        {statusValidasi && (
+            <>
         <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
             <div className="flex flex-col items-center w-[98%] bg-white px-5 py-3 shadow-md font-montserrat rounded-md">
                 <div className="w-full">
@@ -101,12 +117,15 @@ const JadwalJumat = () => {
                 </div>
             </div>
         </div>
-
         <div className='flex justify-center py-5 items-center w-[98%]'>
-            <button className="text-white bg-[#293a8e] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" onClick={exportToExcel}>
-                Download Jadwal Khutbah Jumat
-            </button>
+                <button className="text-white bg-[#293a8e] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" onClick={exportToExcel}>
+                    Download Jadwal Khutbah Jumat
+                </button>
         </div>
+            </>
+        )}
+
+
 </div>
 )
 }
