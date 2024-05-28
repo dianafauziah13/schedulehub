@@ -10,7 +10,7 @@ const GeneratePengajian = () => {
 
     const postData = async () => {
         try {
-            const response = await fetch("http://localhost:3000/genetarePengajian", {
+            const response = await fetch("http://localhost:3000/generatePengajian", {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -18,7 +18,8 @@ const GeneratePengajian = () => {
                 body: JSON.stringify(
                     {
                         bulan: startDate.getMonth()+1 ,
-                        tahun: startDate.getFullYear()
+                        tahun: startDate.getFullYear(),
+                        statusValidasi: false
                     }
                 )
             });

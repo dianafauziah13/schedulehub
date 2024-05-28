@@ -190,6 +190,15 @@ export class ProfileMatchingService {
     return await pengajianList.at(0) ;
   }
 
+  async findJadwalPengajianById(id: string): Promise<PengajianSchema> {
+    return await this.pengajianModel.findById(id)
+    .exec();
+  }
+
+  async updateStatusPengajian(id: string, jadwalPengajianDTO: PengajianSchema): Promise<PengajianSchema> {
+    return await this.pengajianModel.findByIdAndUpdate(id, jadwalPengajianDTO, { new: true }).exec();
+  }
+
   async deleteJadwalPengajian(id: string): Promise<PengajianSchema> {
     return await this.pengajianModel.findByIdAndDelete(id).exec();
   }

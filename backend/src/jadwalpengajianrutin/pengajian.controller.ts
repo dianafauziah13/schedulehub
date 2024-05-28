@@ -3,7 +3,7 @@ import { ProfileMatchingService } from './profileMatching.service';
 import { PengajianSchema } from './schemas/pengajian.schema';
 import { PengajianSchemaDTO } from './dto/create-pengajian.dto';
 
-@Controller('genetarePengajian')
+@Controller('generatePengajian')
 export class JadwalPengajianController {
   constructor(private readonly profilematchingService: ProfileMatchingService) {}
 
@@ -40,6 +40,26 @@ async deleteJadwalPengajian(@Param('id') id:string): Promise<void>{
   
   await jadwal; 
 }
+
+@Put(':id')
+async updateJadwalPengajian(
+  @Param('id') id: string,
+  @Body() jadwalPengajianDTO: PengajianSchema,
+): Promise<PengajianSchema> {
+  return await this.profilematchingService.updateStatusPengajian(id, jadwalPengajianDTO);
+}
+
+@Get(':id')
+async getJadwalPengajianById(@Param('id') id: string): Promise<PengajianSchema> {
+  const isPimpinanJamaah = await this.profilematchingService.findJadwalPengajianById(id);
+
+  if (!isPimpinanJamaah)
+    throw new HttpException('Data Pimpinan Jamaah Tidak Ditemukan', HttpStatus.NOT_FOUND);
+
+  return isPimpinanJamaah;
+}
+
+
   // @Get()
   // async generateJadwalJumat() {
   //   const generateJadwalJumat = await this.profilematchingService.generateProfilePengajian();

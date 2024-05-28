@@ -26,6 +26,9 @@ export class PengajianSchema extends Document {
   @Prop({ type: Number })
   tahun: number;
 
+  @Prop({type: Boolean})
+  statusValidasi: boolean = false;
+  
   @Prop({ type: [jadwal] })
   jadwal: jadwal[] = [];
 

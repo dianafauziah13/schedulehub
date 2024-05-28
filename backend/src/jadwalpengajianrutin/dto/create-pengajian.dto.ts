@@ -10,5 +10,6 @@ export class jadwalDTO{
 export class PengajianSchemaDTO {
     bulan: number;
     tahun: number;
+    statusValidasi: boolean = false;
     jadwal: jadwalDTO[];
   }
