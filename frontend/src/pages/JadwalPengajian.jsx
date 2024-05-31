@@ -36,11 +36,13 @@ const JadwalPengajian = () => {
             let tampilJadwal = [];
             if(result.statusValidasi){
             result.jadwal.forEach(value => {
+                const tanggal = getDateByWeekAndDay(startDate.getFullYear(), startDate.getMonth(), value.minggu_ke, value.hari);
                 tampilJadwal.push({
                     "PimpinanJemaah":value.PimpinanJamaah,
                     "Minggu_ke": value.minggu_ke,
                     "hari":value.hari,
-                    "Mubaligh":value.Mubaligh
+                    "Mubaligh":value.Mubaligh,
+                    "tanggal": tanggal,
                 })
             });
             setData(tampilJadwal);
@@ -52,6 +54,18 @@ const JadwalPengajian = () => {
             console.log(error);
         }
     }
+
+    const getDateByWeekAndDay = (year, month, week, day) => {
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+        const dayIndex = (day === 'Minggu') ? 0 : (day === 'Senin') ? 1 : (day === 'Selasa') ? 2 : (day === 'Rabu') ? 3 : (day === 'Kamis') ? 4 : (day === 'Jumat') ? 5 : (day === 'Sabtu') ? 6 : -1;
+        if (dayIndex === -1) return 'Invalid Day';
+
+        const dayOffset = (dayIndex - firstDayOfMonth + 7) % 7;
+        const firstOccurrence = 1 + dayOffset;
+        const date = new Date(year, month, firstOccurrence + (week - 1) * 7);
+
+        return date;
+    };
 
     return (
         // <div className='bg-bg h-screen w-screen overflow-hidden'>
@@ -91,6 +105,7 @@ const JadwalPengajian = () => {
                                 <th className="px-4 py-1 border-line border-b-2 text-line font-normal">No</th>
                                 <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Pimpinan Jemaah</th>
                                 <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke</th>
+                                <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Tanggal</th>
                                 <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Detail Hari</th>
                                 <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Nama Mubaligh</th>
                             </tr>
@@ -101,6 +116,7 @@ const JadwalPengajian = () => {
                                     <td className="text-center w-36 px-4 py-2 rounded-l-lg">{i+1}</td>
                                     <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.PimpinanJemaah}</td>
                                     <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke}</td>
+                                    <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.tanggal instanceof Date && !isNaN(v.tanggal) ? v.tanggal.toLocaleDateString() : 'Invalid Date'}</td>
                                     <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.hari}</td>
                                     <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Mubaligh}</td>
                                     <td className=" relative items-center px-4 py-2 rounded-r-lg">
