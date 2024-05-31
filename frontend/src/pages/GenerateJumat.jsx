@@ -8,38 +8,43 @@ const GenerateJumat = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [data, setData] = useState([]);
     const [data2, setData2] = useState([]);
-    // const [statusValidasi, setStatusValidasi] = useState(true);
+    const [statusValidasi, setStatusValidasi] = useState(false);
 
-    // const fetchData = async () => {
-    //     try {
-    //         const response = await fetch("http://localhost:3000/generatejadwaljumat/by-date", {
-    //         method: "POST",
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },    
-    //         body: JSON.stringify(
-    //                 {
-    //                     bulan: startDate.getMonth()+1 ,
-    //                     tahun: startDate.getFullYear()
-    //                 }
-    //             )
-    //         });
-    //         const result = await response.json();
-    //         console.log(result);
+    const fetchDataJumat = async () => {
+        try {
+            const response = await fetch("http://localhost:3000/generatejadwaljumat/by-date", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },    
+            body: JSON.stringify(
+                    {
+                        bulan: startDate.getMonth()+1 ,
+                        tahun: startDate.getFullYear()
+                    }
+                )
+            });
 
-    //         if(result.statusValidasi){
-    //             setStatusValidasi(true);
-    //         }else{
-    //             postData();
-    //             setStatusValidasi(false);
-    //         }
+            let result;
+            try{
+                result =  await response.json();
+            }catch{
+                result = null
+            }
 
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
+            if(result?.statusValidasi){
+                setStatusValidasi(true);
+            }else{
+                postDataJumat();
+                setStatusValidasi(false);
+            }
 
-    const postData = async () => {
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const postDataJumat = async () => {
         try {
             const response = await fetch("http://localhost:3000/generatejadwaljumat", {
                 method: "POST",
@@ -92,22 +97,20 @@ const GenerateJumat = () => {
 
             <div className='flex justify-end py-5 items-center w-[98%]'>
                 <button className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" 
-                    onClick={() => {
-                    postData();
-                    }}
+                    onClick={fetchDataJumat}
                 >
                 Generate
                 </button>
             </div>
-{/* 
+
             {statusValidasi && (
             <div className='flex justify-center py-5 items-center w-[98%]'>
                 <span className="text-red-500 text-2xl">Jadwal Telah Disetujui</span>
             </div>
-            )} */}
+            )}
 
-            {/* {!statusValidasi && (
-            <> */}
+            {!statusValidasi && (
+            <>
             <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
                 <div className="flex flex-col items-center w-[98%] bg-white px-5 py-3 shadow-md font-montserrat rounded-md">
                     <div className="w-full">
@@ -139,8 +142,8 @@ const GenerateJumat = () => {
                     </div>
                 </div>
             </div>
-            {/* </>
-        )} */}
+            </>
+        )}
         </div>
     );
 };
