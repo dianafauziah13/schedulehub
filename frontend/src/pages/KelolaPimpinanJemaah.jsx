@@ -5,12 +5,15 @@ import ModalAddPJ from "../component/pimpinanJemaah/ModalAddPJ";
 // import ModalDeletePJ from "../component/pimpinanJemaah/ModalDeletePJ";
 import ModalUpdateMubaligh from '../component/mubaligh/ModalUpdateMubaligh';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import { FiAlertCircle } from "react-icons/fi";
 
 const KelolaPimpinanJemaah = () => {
     const [data, setData] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDetailOpen, setIsDetailOpen] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
-
+    const [data2, setData2] = useState([])
+    
     useEffect(() => { 
         fetchData()
     }, [])
@@ -20,6 +23,16 @@ const KelolaPimpinanJemaah = () => {
         setSelectedId(Id);
         setIsModalOpen(true);
     };
+
+    const openDetail = (id) => {
+        setSelectedId(id);
+        fetchDataByID(id)
+        setIsDetailOpen(true);
+    }
+
+    const closeDetail = () => {
+        setIsDetailOpen(false);
+    }
 
     const closeModal = () => {
         setIsModalOpen(false);
@@ -39,6 +52,36 @@ const KelolaPimpinanJemaah = () => {
                 })
             });
             setData(tampilPimpinanJemaah) 
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const fetchDataByID = async(selectedId)=>{
+        try{
+            const response = await fetch(`http://localhost:3000/pimpinanjemaah/${selectedId}`)
+            const pimpinan = await response.json()
+            // console.log(pimpinan)
+            let tampilProfil = []
+
+            // pimpinan.forEach(value => {
+                
+                tampilProfil.push({
+                    "ketuaPJ":pimpinan.KetuaPJ,
+                    "NamaPJ": pimpinan.Nama,
+                    "mingguPengajian": pimpinan.scope_dakwah_pengajian.Minggu_ke,
+                    "hariPengajian": pimpinan.scope_dakwah_pengajian.hari,
+                    "detailWaktuPengajian": pimpinan.scope_dakwah_pengajian.detailWaktu,
+                    "scopeDakwaJumat1": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 1)?.Nama,
+                    "scopeDakwaJumat2": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 2)?.Nama,
+                    "scopeDakwaJumat3": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 3)?.Nama,
+                    "scopeDakwaJumat4": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 4)?.Nama,
+                    "scopeDakwaJumat5": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 5)?.Nama,
+                })
+            // });
+            console.log(tampilProfil)
+            setData2(tampilProfil)
+
         } catch (error) {
             console.log(error)
         }
@@ -86,7 +129,6 @@ const KelolaPimpinanJemaah = () => {
                             <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Nama Pimpinan Jemaah</th>
                             <th className="px-30 py-1 border-line border-b-2 text-line font-normal">Ketua Pimpinan Jemaah</th>
                             <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Actions</th>
-
                         </tr>
                     </thead>
                     <tbody className=''>
@@ -98,6 +140,86 @@ const KelolaPimpinanJemaah = () => {
                                 <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.KetuaPJ}</td>
                                 <td className=" relative items-center px-4 py-2 rounded-r-lg">
                                     <div className='flex justify-center m-2'>
+                                        <button onClick={()=> openDetail(v._id)}>
+                                        <FiAlertCircle className="mr-2"/>
+                                        </button>
+                                        {isDetailOpen && (
+                                <>
+                                <div className="flex w-[98%] ml-[80px] justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                                    <div className="relative  w-auto my-6 mx-auto max-w-6xl mt-24">
+                                        <div className="border-0 rounded-lg shadow relative flex flex-col w-full bg-white outline-none focus:outline-none px-10 font-montserrat">
+                                            <div className="flex items-start justify-between p-5 rounded-t">
+                                                <h3 className='text-[20px] font-montserrat mb-5 font-bold'>Requirement Pimpinan Jamaah</h3>
+                                            </div>
+                                            <div className="w-full">
+                                                
+                                                {data2.map((val, i) => (
+                                                    <>
+                                                <div className="mb-4">
+                                                <div className="text-[15px] font-montserrat mb-2">
+                                                    <span className="w-1/3 font-bold">=================== Khutbah Pengajian Rutin ===================</span>
+                                                </div>
+                                                    <div className="flex text-[15px] font-montserrat mb-2">
+                                                        <span className="w-2/3">Pimpinan Jemaah:</span>
+                                                        <span className="w-2/3">{val.NamaPJ}</span>
+                                                    </div>
+                                                    <div className="flex text-[15px] font-montserrat mb-2">
+                                                        <span className="w-2/3">Ketua PJ:</span>
+                                                        <span className="w-2/3">{val.ketuaPJ}</span>
+                                                    </div>
+                                                    <div className="flex text-[15px] font-montserrat mb-2">
+                                                        <span className="w-2/3">Khutbah Pengajian:</span>
+                                                        <span className="w-2/3">Minggu-ke {val.mingguPengajian}</span>
+                                                    </div>
+                                                    <div className="flex text-[15px] font-montserrat mb-7">
+                                                        <span className="w-2/3">Waktu Detail:</span>
+                                                        <span className="w-2/3">Hari {val.hariPengajian} {val.detailWaktuPengajian}</span>
+                                                    </div>
+                                                <div className="text-[15px] font-montserrat mb-2">
+                                                    <span className="w-1/3 font-bold">======================= Khutbah Jumat ======================</span>
+                                                </div>
+                                                    <div className="flex text-[15px] font-montserrat mb-2">
+                                                        <span className="w-2/3">Lingkup Dakwah Minggu Ke-1: </span>
+                                                        <span className="w-2/3">{val.scopeDakwaJumat1}</span>
+                                                    </div>
+                                                    <div className="flex text-[15px] font-montserrat mb-2">
+                                                        <span className="w-2/3">Lingkup Dakwah Minggu Ke-2: </span>
+                                                        <span className="w-2/3">{val.scopeDakwaJumat2}</span>
+                                                    </div>
+                                                    <div className="flex text-[15px] font-montserrat mb-2">
+                                                        <span className="w-2/3">Lingkup Dakwah Minggu Ke-3: </span>
+                                                        <span className="w-2/3">{val.scopeDakwaJumat3}</span>
+                                                    </div>
+                                                    <div className="flex text-[15px] font-montserrat mb-2">
+                                                        <span className="w-2/3">Lingkup Dakwah Minggu Ke-4: </span>
+                                                        <span className="w-2/3">{val.scopeDakwaJumat4}</span>
+                                                    </div>
+                                                    <div className="flex text-[15px] font-montserrat mb-2">
+                                                        <span className="w-2/3">Lingkup Dakwah Minggu Ke-5: </span>
+                                                        <span className="w-2/3">{val.scopeDakwaJumat5}</span>
+                                                    </div>
+                                                </div>
+                                                    </>
+                                                 ))} 
+                                                </div>
+                                                  <div className="flex items-center justify-between p-6 rounded-b">
+                                                      <button
+                                                           className="text-black bg-[#F4F4F4] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                                          type="button"
+                                                          onClick={closeDetail}
+                                                      >
+                                                          Kembali
+                                                      </button>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                     </>
+                                 )}
+
+
+
+
                                            <ModalUpdateMubaligh/>
                                         <button onClick={() => openModal(v._id)}>
                                             <FaRegTrashAlt className="mr-2"/>

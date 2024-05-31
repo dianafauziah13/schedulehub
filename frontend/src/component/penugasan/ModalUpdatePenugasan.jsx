@@ -22,15 +22,29 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
     };
 
     const updateData = async (id, data) => {
+      console.log("update data",data )
         try {
           const response = await fetch(`http://localhost:3000/tempatpenugasan/${id}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify(
+              {
+                tgl_awal: data.tgl_awal,
+                tgl_akhir: data.tgl_akhir,
+                TopikKajian: data.TopikKajian,
+                Penugasan: {
+                  pimpinan: {
+                    _id: selectedPJ
+                  },
+                  mubaligh_khutbah_jumat: selectedMubalighKhutbahJumat.map(option => ({ _id: option })),
+                  mubaligh_khutbah_pengajian: selectedMubalighPengajian.map(option => ({ _id: option }))
+                }
+              }
+            )
           });
-      
+
           if (response.ok) {
             console.log("Data successfully updated!");
             return await response.json();
