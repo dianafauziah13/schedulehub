@@ -99,7 +99,7 @@ const GenerateJumat = () => {
                 <button className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" 
                     onClick={fetchDataJumat}
                 >
-                Generate
+                Buat
                 </button>
             </div>
 

@@ -107,7 +107,7 @@ const GeneratePengajian = () => {
                    // Tambahkan event handler onClick untuk memanggil getData
                     onClick={fetchData}
                 >
-                    Generate
+                    Buat
                 </button>
             </div>
 

@@ -31,7 +31,7 @@ const routes = [
   // },
   {
     path: "/dashboard/PimpinanJemaah",
-    name: "Pimpinan Jemaah",
+    name: "Pimpinan Jamaah",
     icon: <MdMosque />,
   },
   {
@@ -58,7 +58,7 @@ const routes = [
   },
   {
     path: "/dashboard/generate-jadwal",
-    name: "Generate Jadwal",
+    name: "Buat Jadwal",
     icon: <AiTwotoneFileExclamation />,
     subRoutes: [
       {
@@ -75,7 +75,7 @@ const routes = [
   },
   {
     path: "/dashboard/hasil-generate",
-    name: "Hasil Generate",
+    name: "Persetujuan Jadwal",
     icon: <RiAiGenerate  />,
     subRoutes: [
       {
