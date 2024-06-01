@@ -5,14 +5,19 @@ import ModalUpdatePenugasan from '../component/penugasan/ModalUpdatePenugasan';
 import ModalDetailPenugasan from '../component/penugasan/ModalDetailPenugasan';
 import ModalAddPenugasan from '../component/penugasan/ModalAddPenugasan';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import {FaRegEdit } from "react-icons/fa";
+import Select from "react-select";
 
 const PenugasanMubaligh = () => {
     const [data, setData] = useState(null)
+    const [data2, setData2] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
 
+
     useEffect(() => { 
-        fetchData()
+        fetchData();
+        // fetchPimpinanJemaah();
     }, [])
 
     const openModal = (Id) => {
@@ -20,7 +25,6 @@ const PenugasanMubaligh = () => {
         setSelectedId(Id);
         setIsModalOpen(true);
     };
-
     const closeModal = () => {
         setIsModalOpen(false);
     };
@@ -51,6 +55,7 @@ const PenugasanMubaligh = () => {
             console.log(error)
         }
     }
+    
 
     const deletePenugasan = async () => {
         try {
@@ -71,6 +76,7 @@ const PenugasanMubaligh = () => {
         console.log(error);
     }
     };
+
 
         if (!data) {
             return <div> Loading </div>
@@ -113,9 +119,10 @@ const PenugasanMubaligh = () => {
                                                     </button>
                                                     <button>
                                                     <ModalUpdatePenugasan penugasan_id={v._id} initialValues={{tgl_awal: v.tglAwal, tgl_akhir: v.tglAkhir, TopikKajian:v.TopikKajian, pimpinan:v.idPimpinan, selectedMubalighKhutbahJumat: v.idmubalighjumat, selectedMubalighPengajian: v.idmubalighpengajian }}/>
+                                                        {/* <FaRegEdit className="mr-2"/> */}
                                                     </button>
                                                     <button onClick={() => openModal(v._id)}>
-                                                    <FaRegTrashAlt className="mr-2"/>
+                                                        <FaRegTrashAlt className="mr-2"/>
                                                     </button>
                                                     {isModalOpen && (
                                                     <div className="flex items-center justify-center fixed inset-0 z-50 outline-none focus:outline-none">

@@ -38,8 +38,8 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
                   pimpinan: {
                     _id: selectedPJ
                   },
-                  mubaligh_khutbah_jumat: selectedMubalighKhutbahJumat.map(option => ({ _id: option })),
-                  mubaligh_khutbah_pengajian: selectedMubalighPengajian.map(option => ({ _id: option }))
+                  mubaligh_khutbah_jumat: selectedMubalighKhutbahJumat.map(option => ({ _id: option.value })),
+                  mubaligh_khutbah_pengajian: selectedMubalighPengajian.map(option => ({ _id: option.value }))
                 }
               }
             )
@@ -108,8 +108,8 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
         console.log("ini data", data);
         try {
           const response = await updateData(penugasan_id,data); // Using postData module to send data
-          closeModal(); // Tutup modal setelah penghapusan selesai.
-        //   window.location.reload();
+          // closeModal(); // Tutup modal setelah penghapusan selesai.
+          window.location.reload();
           console.log("Response from server:", response);
           // Handle response from server
         } catch (error) {
@@ -205,7 +205,7 @@ return (
                                                 className=" appearance-none rounded w-full text-black"
                                                 placeholder="Pilih Pimpinan Jemaah"
                                                 options={PJOptions}
-                                                value={selectedPJ}
+                                                value={PJOptions.find(p=> p.value == selectedPJ)}
                                                 onChange={handlePJChange}
                                             />
                                         </form>
@@ -220,8 +220,8 @@ return (
                                                 className="appearance-none rounded w-full text-black"
                                                 placeholder="Pilih Mubaligh"
                                                 options={mubalighOptions}
-                                                isMulti
-                                                value={selectedMubalighKhutbahJumat}
+                                                isMulti 
+                                                defaultValue={mubalighOptions.filter(m=> selectedMubalighKhutbahJumat.includes(m.value))}
                                                 onChange={handleSelectChangeJumat}
                                             />
                                         </form>
@@ -251,7 +251,7 @@ return (
                                                 placeholder="Pilih Mubaligh"
                                                 options={mubalighOptions}
                                                 isMulti
-                                                value={selectedMubalighPengajian}
+                                                defaultValue={mubalighOptions.filter(m=> selectedMubalighPengajian.includes(m.value))}
                                                 onChange={handleSelectChangePengajian}
                                             />
                                         </form>
