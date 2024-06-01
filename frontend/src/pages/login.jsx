@@ -28,7 +28,7 @@ const Login = () => {
         {/* Login Section */}
         <div className="w-full md:w-1/2 flex flex-col overflow-hidden">
           <div className="flex justify-center md:justify-start pt-12 md:pl-12 md:-mb-24">
-            <a href="https://www.polban.ac.id/" className="bg-black text-white font-bold text-xl p-4">SCHEDULEHUB</a>
+            <a href="https://profil.persisbanjaran.org" className="bg-black text-white font-bold text-xl p-4">SCHEDULEHUB</a>
           </div>
           <div className="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
             <p className="text-center text-3xl">Ahlan Wa Sahlan</p>
@@ -67,7 +67,7 @@ const Login = () => {
         <div className="w-1/2 shadow-2xl overflow-hidden">
           <img
             className="object-cover w-full h-full hidden md:block"
-            src="./logoPersis.png"
+            src="./kantor-depan2.jpeg"
             alt="Login Background"
           />
         </div>
