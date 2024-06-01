@@ -30,10 +30,7 @@ export class MubalighService {
 
   async findMubalighById(id: string): Promise<MubalighSchema> {
     // return await (await this.mubalighModel.findById(id)).populated('idScopeDakwah').exec();
-    const mubaligh = await (await this.mubalighModel.findById(id)).populate({
-      path: 'ListKeahlian',
-      populate: {path: 'idListKeahlian'}
-    });
+    const mubaligh = await (await this.mubalighModel.findById(id))
     console.log(mubaligh);
     return mubaligh;
   }

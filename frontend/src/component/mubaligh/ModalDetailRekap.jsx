@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
+import { FiAlertCircle } from "react-icons/fi";
 
 const ModalDetailRekap = ({ no, nama, penugasan, tanggal, onClose }) => {
   const [showModal, setShowModal] = useState(false);
@@ -10,11 +11,11 @@ const ModalDetailRekap = ({ no, nama, penugasan, tanggal, onClose }) => {
   return (
     <div>
       <button
-        className="flex text-blue-500 font-semibold"
+        className="flex text-black-500 font-semibold"
         type="button"
         onClick={handleShowModal}
       >
-        <FaSearch className="mr-2"/>
+        <FiAlertCircle  className="mr-2"/>
       </button>
     {showModal && (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">

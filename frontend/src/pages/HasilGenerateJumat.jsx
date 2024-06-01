@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const GenerateJumat = () => {
+    const [startDate, setStartDate] = useState(new Date());
     const [data, setData] = useState([]);
     const [data2, setData2] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -139,6 +140,18 @@ const GenerateJumat = () => {
               }
             }
     }
+
+
+    const getFridays = (year, month, week) => {
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+        const dayIndex = 5
+       
+        const dayOffset = (dayIndex - firstDayOfMonth + 7) % 7;
+        const firstOccurrence = 1 + dayOffset;
+        const date = new Date(year, month, firstOccurrence + (week - 1) * 7);
+
+        return date;
+    };
     
     return (
         <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
@@ -193,11 +206,11 @@ const GenerateJumat = () => {
                                             <div className="w-full">
                                                 <div className="grid grid-cols-6 gap-3 border-b-2 pb-2">
                                                     <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Pimpinan Jemaah</div>
-                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-1</div>
-                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-2</div>
-                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-3</div>
-                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-4</div>
-                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-5</div>
+                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-1 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 1).toLocaleDateString()}</p></div>
+                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-2 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 2).toLocaleDateString()}</p></div>
+                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-3 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 3).toLocaleDateString()}</p></div>
+                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-4 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 4).toLocaleDateString()}</p></div>
+                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-5 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 5).toLocaleDateString()}</p></div>
                                                 </div>
                                                 {data2.map((v, i) => (
                                                     <div key={i} className="grid grid-cols-6 gap-3 bg-[#F5F5F5] rounded-md shadow-md mt-3">
@@ -206,7 +219,9 @@ const GenerateJumat = () => {
                                                     <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_2}</div>
                                                     <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_3}</div>
                                                     <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_4}</div>
-                                                    <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_5}</div>
+                                                    {getFridays (startDate.getFullYear(), startDate.getMonth(), 4).getMonth() == getFridays (startDate.getFullYear(), startDate.getMonth(), 5).getMonth()
+                                                        ?
+                                                    <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_5} </div> : <div className="text-center w-36 px-4 py-2"> </div> }
                                                     </div>
                                                 ))}
                                                 </div>
