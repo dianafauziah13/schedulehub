@@ -10,7 +10,17 @@ const JadwalJumat = () => {
     const [statusValidasi, setStatusValidasi] = useState(true);
 
     const exportToExcel = () => {
-        const worksheet = XLSX.utils.json_to_sheet(data);
+        
+        const exportData = [...data]
+        exportData.unshift({
+            "PimpinanJemaah":"",
+            "Minggu_ke_1": getFridays(startDate.getFullYear(), startDate.getMonth(), 1).toLocaleDateString(),
+            "Minggu_ke_2": getFridays(startDate.getFullYear(), startDate.getMonth(), 2).toLocaleDateString(),
+            "Minggu_ke_3": getFridays(startDate.getFullYear(), startDate.getMonth(), 3).toLocaleDateString(),
+            "Minggu_ke_4": getFridays(startDate.getFullYear(), startDate.getMonth(), 4).toLocaleDateString(),
+            "Minggu_ke_5": getFridays(startDate.getFullYear(), startDate.getMonth(), 5).toLocaleDateString()
+        })
+        const worksheet = XLSX.utils.json_to_sheet(exportData);
         const workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
         XLSX.writeFile(workbook, "Jadwal Khutbah Jumat.xlsx");
@@ -32,7 +42,7 @@ const JadwalJumat = () => {
             });
             const result = await response.json();
             console.log(result);
-
+            const with5 = getFridays (startDate.getFullYear(), startDate.getMonth(), 4).getMonth() == getFridays (startDate.getFullYear(), startDate.getMonth(), 5).getMonth()
             let tampilJadwal = [];
             if(result.statusValidasi){
                 result.Jadwal.forEach(value => {
@@ -42,7 +52,7 @@ const JadwalJumat = () => {
                         "Minggu_ke_2": value.Jumat.find(m=>m.minggu_ke == 2)?.Mubaligh,
                         "Minggu_ke_3": value.Jumat.find(m=>m.minggu_ke == 3)?.Mubaligh,
                         "Minggu_ke_4": value.Jumat.find(m=>m.minggu_ke == 4)?.Mubaligh,
-                        "Minggu_ke_5": value.Jumat.find(m=>m.minggu_ke == 5)?.Mubaligh,
+                        "Minggu_ke_5": with5?value.Jumat.find(m=>m.minggu_ke == 5)?.Mubaligh:""
                     })
                 });
                 setData(tampilJadwal)
@@ -55,6 +65,17 @@ const JadwalJumat = () => {
             console.log(error)
         }
     }
+
+    const getFridays = (year, month, week) => {
+        const firstDayOfMonth = new Date(year, month, 1).getDay();
+        const dayIndex = 5
+       
+        const dayOffset = (dayIndex - firstDayOfMonth + 7) % 7;
+        const firstOccurrence = 1 + dayOffset;
+        const date = new Date(year, month, firstOccurrence + (week - 1) * 7);
+
+        return date;
+    };
     
     return (
         // <div className='bg-bg h-screen w-screen overflow-hidden'>
@@ -91,14 +112,15 @@ const JadwalJumat = () => {
                         <thead>
                             <tr>
                                 <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Pimpinan Jemaah</th>
-                                <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-1</th>
-                                <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-2</th>
-                                <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-3</th>
-                                <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-4</th>
-                                <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-5</th>
+                                <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Jumat ke-1 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 1).toLocaleDateString()}</p></th>
+                                <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Jumat ke-2 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 2).toLocaleDateString()}</p></th>
+                                <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Jumat ke-3 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 3).toLocaleDateString()}</p></th>
+                                <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Jumat ke-4 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 4).toLocaleDateString()}</p></th>
+                                <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Jumat ke-5 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 5).toLocaleDateString()}</p></th>
                             </tr>
                         </thead>
                         <tbody>
+
                         {data.map((v,i)=>{
                                     return <tr className='bg-[#F5F5F5] rounded-md shadow-md' >
                                     <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.PimpinanJemaah}</td>
@@ -106,9 +128,9 @@ const JadwalJumat = () => {
                                     <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_2}</td>
                                     <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_3}</td>
                                     <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_4}</td>
-                                    <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_5}</td>
-                                    <td className=" relative items-center px-4 py-2 rounded-r-lg">
-                                    </td>
+                                    {getFridays (startDate.getFullYear(), startDate.getMonth(), 4).getMonth() == getFridays (startDate.getFullYear(), startDate.getMonth(), 5).getMonth()
+                                        ?
+                                    <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_5}</td> : <td className="text-center w-36 px-4 py-2 rounded-l-lg"> </td> }
                                 </tr>
                                 })
                             }
