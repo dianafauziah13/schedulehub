@@ -17,13 +17,13 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
         fetchMubalighJumat();
         fetchPimpinanJemaah();
       }, []);
-    const closeModal = () => {
-        setShowModal(false);
-    };
+
+    // const closeModal = () => {
+    //     setShowModal(false);
+    // };
 
     const updateData = async (id, data) => {
-      console.log("update data",data )
-        try {
+      try {
           const response = await fetch(`http://localhost:3000/tempatpenugasan/${id}`, {
             method: "PUT",
             headers: {
@@ -38,8 +38,8 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
                   pimpinan: {
                     _id: selectedPJ
                   },
-                  mubaligh_khutbah_jumat: selectedMubalighKhutbahJumat.map(option => ({ _id: option })),
-                  mubaligh_khutbah_pengajian: selectedMubalighPengajian.map(option => ({ _id: option }))
+                  mubaligh_khutbah_jumat: mubalighOptions.filter(option => selectedMubalighKhutbahJumat.includes(option.value)).map(option => ({ _id: option.value })),
+                  mubaligh_khutbah_pengajian: mubalighOptions.filter(option => selectedMubalighPengajian.includes(option.value)).map(option => ({ _id: option.value }))
                 }
               }
             )
@@ -60,7 +60,7 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
         try {
           const response = await fetch("http://localhost:3000/mubaligh/");
           const mubalighData = await response.json();
-          console.log(mubalighData);
+          // console.log(mubalighData);
     
           const mubalighList = mubalighData.map((mubaligh) => ({
             value: mubaligh._id,
@@ -68,6 +68,7 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
           }));
     
           setMubalighOptions(mubalighList);
+          
         } catch (error) {
           console.error("Error fetching mubaligh:", error);
         }
@@ -77,7 +78,7 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
         try {
           const response = await fetch("http://localhost:3000/pimpinanjemaah/");
           const PJData = await response.json();
-          console.log(PJData);
+          // console.log(PJData);
     
           const PJList = PJData.map((pj) => ({
             value: pj._id,
@@ -108,8 +109,8 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
         console.log("ini data", data);
         try {
           const response = await updateData(penugasan_id,data); // Using postData module to send data
-          closeModal(); // Tutup modal setelah penghapusan selesai.
-        //   window.location.reload();
+          // closeModal(); // Tutup modal setelah penghapusan selesai.
+          window.location.reload();
           console.log("Response from server:", response);
           // Handle response from server
         } catch (error) {
@@ -119,12 +120,12 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
       };
     
       const handleSelectChangeJumat = (selectedOptions) => {
-          setSelectedMubalighKhutbahJumat(selectedOptions);
+          setSelectedMubalighKhutbahJumat(selectedOptions.map(o=>o.value));
     
       };
   
       const handleSelectChangePengajian = (selectedOptions) => {
-          setSelectedMubalighPengajian(selectedOptions);
+          setSelectedMubalighPengajian(selectedOptions.map(s=>s.value));
     
       };
     
@@ -205,7 +206,7 @@ return (
                                                 className=" appearance-none rounded w-full text-black"
                                                 placeholder="Pilih Pimpinan Jemaah"
                                                 options={PJOptions}
-                                                value={selectedPJ}
+                                                value={PJOptions.find(p=> p.value === selectedPJ)}
                                                 onChange={handlePJChange}
                                             />
                                         </form>
@@ -220,8 +221,8 @@ return (
                                                 className="appearance-none rounded w-full text-black"
                                                 placeholder="Pilih Mubaligh"
                                                 options={mubalighOptions}
-                                                isMulti
-                                                value={selectedMubalighKhutbahJumat}
+                                                isMulti 
+                                                defaultValue={mubalighOptions.filter(m=> selectedMubalighKhutbahJumat.includes(m.value))}
                                                 onChange={handleSelectChangeJumat}
                                             />
                                         </form>
@@ -251,7 +252,7 @@ return (
                                                 placeholder="Pilih Mubaligh"
                                                 options={mubalighOptions}
                                                 isMulti
-                                                value={selectedMubalighPengajian}
+                                                defaultValue={mubalighOptions.filter(m=> selectedMubalighPengajian.includes(m.value))}
                                                 onChange={handleSelectChangePengajian}
                                             />
                                         </form>
