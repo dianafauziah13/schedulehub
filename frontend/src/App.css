@@ -112,7 +112,7 @@
 }
 .link:hover {
   border-right: 4px solid white;
-  background: rgb(142, 148, 231);
+  background: grey;
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 .active {

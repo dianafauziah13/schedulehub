@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
 import { FiAlertCircle } from "react-icons/fi";
 
 const ModalDetailRekap = ({ no, nama, penugasan, tanggal, onClose }) => {

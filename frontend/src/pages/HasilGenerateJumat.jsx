@@ -225,29 +225,31 @@ const GenerateJumat = () => {
                                                     </div>
                                                 ))}
                                                 </div>
-                                                  <div className="flex items-center justify-between p-6 rounded-b">
-                                                      <button
-                                                           className="text-black bg-[#F4F4F4] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                                          type="button"
-                                                          onClick={closeModal}
-                                                      >
-                                                          Kembali
-                                                      </button>
-                                                      <button
-                                                           className="text-white bg-[#FA8072] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                                          type="button"
-                                                          onClick={deleteJadwalJumat}
-                                                      >
-                                                          Tidak Setuju
-                                                      </button>
-                                                      <button
-                                                          className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                                          type="button"
-                                                          onClick={() => updateStatus(selectedId)}
-                                                      >
-                                                          Setujui
-                                                      </button>
-                                                  </div>
+                                                <div className="flex items-center justify-between p-6 rounded-b">
+                                                    <button
+                                                        className="text-black bg-[#F4F4F4] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                                        type="button"
+                                                        onClick={closeModal}
+                                                    >
+                                                        Kembali
+                                                    </button>
+                                                    <div className="flex space-x-2">
+                                                        <button
+                                                        className="text-white bg-[#FA8072] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                                        type="button"
+                                                        onClick={deleteJadwalJumat}
+                                                        >
+                                                        Tidak Setuju
+                                                        </button>
+                                                        <button
+                                                        className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                                        type="button"
+                                                        onClick={() => updateStatus(selectedId)}
+                                                        >
+                                                        Setujui
+                                                        </button>
+                                                    </div>
+                                                    </div>
                                               </div>
                                           </div>
                                       </div>

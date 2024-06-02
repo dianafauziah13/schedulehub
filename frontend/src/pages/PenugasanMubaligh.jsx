@@ -1,12 +1,8 @@
 import React, { useState, useEffect} from 'react';
 import "react-datepicker/dist/react-datepicker.css";
-import ModalDeletePenugasan from '../component/penugasan/ModalDeletePenugasan';
 import ModalUpdatePenugasan from '../component/penugasan/ModalUpdatePenugasan';
-import ModalDetailPenugasan from '../component/penugasan/ModalDetailPenugasan';
 import ModalAddPenugasan from '../component/penugasan/ModalAddPenugasan';
 import { FaRegTrashAlt } from 'react-icons/fa';
-import {FaRegEdit } from "react-icons/fa";
-import Select from "react-select";
 
 const PenugasanMubaligh = () => {
     const [data, setData] = useState(null)
@@ -114,9 +110,7 @@ const PenugasanMubaligh = () => {
                                             <td className="text-center px-4 py-2">{v.TopikKajian}</td>
                                             <td className=" relative items-center px-4 py-2 rounded-r-lg">
                                                 <div className='flex justify-center m-2'>
-                                                    <button>
-                                                    <ModalDetailPenugasan/>
-                                                    </button>
+                                                    
                                                     <button>
                                                     <ModalUpdatePenugasan penugasan_id={v._id} initialValues={{tgl_awal: v.tglAwal, tgl_akhir: v.tglAkhir, TopikKajian:v.TopikKajian, pimpinan:v.idPimpinan, selectedMubalighKhutbahJumat: v.idmubalighjumat, selectedMubalighPengajian: v.idmubalighpengajian }}/>
                                                         {/* <FaRegEdit className="mr-2"/> */}

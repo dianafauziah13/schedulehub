@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ModalAddMubaligh from "../component/mubaligh/ModalAddMubaligh";
 import ModalUpdateMubaligh from "../component/mubaligh/ModalUpdateMubaligh";
-import ModalDeleteMubaligh from "../component/mubaligh/ModalDeleteMubaligh";
-import ModalDetailRekap from "../component/mubaligh/ModalDetailRekap";
 import { FiAlertCircle } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
 
@@ -128,6 +126,8 @@ const KelolaMubaligh = () => {
                 </div>
                 <div className="flex flex-col items-center w-full bg-white px-5 py-3 shadow-md font-montserrat rounded-md">
                     <div className=" w-full">
+
+                        
                         <table className="table-auto w-full border-separate border-spacing-y-3">
                             <thead>
                                 <tr>
@@ -149,11 +149,6 @@ const KelolaMubaligh = () => {
                                         <td className="text-center px-4 py-2">{v.AvailableKhutbahJumat.toString()}</td>
                                         <td className="text-center px-4 py-2"> {v.Minggu_ke}</td>
                                         <td className=" relative items-center px-4 py-2 rounded-r-lg">
-                                            {/* <div className='flex justify-center m-2'>
-                                                <ModalDetailRekap/>
-                                                <ModalUpdateMubaligh/>
-                                                <ModalDeleteMubaligh/>
-                                            </div> */}
                                         <div className='flex justify-center m-2'>
                                         <button onClick={()=> openDetail(v._id)}>
                                         <FiAlertCircle className="mr-2"/>

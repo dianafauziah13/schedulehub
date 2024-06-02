@@ -189,15 +189,15 @@ const GeneratePengajian = () => {
                                                 <h3 className='text-[30px] font-montserrat mb-7'>Jadwal Khutbah Pengajian</h3>
                                             </div>
                                             <div className="w-full">
-                                                <div className="grid grid-cols-6 gap-3 border-b-2 pb-2">
+                                                <div className="grid grid-cols-5 gap-3 border-b-2 pb-2">
                                                 <div className="px-4 py-1 border-line border-b-2 text-line font-normal">No</div>
                                                 <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Pimpinan Jemaah</div>
                                                 <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-</div>
                                                 <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Detail Hari</div>
                                                 <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Nama Mubaligh</div>
-                                                </div>
+                                            </div>
                                                 {data2.map((v, i) => (
-                                                    <div key={i} className="grid grid-cols-6 gap-3 bg-[#F5F5F5] rounded-md shadow-md mt-3">
+                                                    <div key={i} className="grid grid-cols-5 gap-3 bg-[#F5F5F5] rounded-md shadow-md mt-3">
                                                     <div className="text-center max-w-[25px] h-auto px-4 py-2">{i+1}</div>
                                                     <div className="text-center max-w-[25px] h-auto px-4 py-2">{v.PimpinanJemaah}</div>
                                                     <div className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke}</div>
@@ -206,29 +206,31 @@ const GeneratePengajian = () => {
                                                     </div>
                                                 ))}
                                                 </div>
-                                                  <div className="flex items-center justify-between p-6 rounded-b">
-                                                      <button
-                                                           className="text-black bg-[#F4F4F4] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                                          type="button"
-                                                          onClick={closeModal}
-                                                      >
-                                                          Kembali
-                                                      </button>
-                                                      <button
-                                                           className="text-white bg-[#FA8072] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                                          type="button"
-                                                          onClick={deleteJadwalPengajian}
-                                                      >
-                                                          Tidak Setuju
-                                                      </button>
-                                                      <button
-                                                          className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                                          type="button"
-                                                          onClick={() => updateStatus(selectedId)}
-                                                      >
-                                                          Setujui
-                                                      </button>
-                                                  </div>
+                                                <div className="flex items-center justify-between p-6 rounded-b">
+                                                    <button
+                                                        className="text-black bg-[#F4F4F4] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                                        type="button"
+                                                        onClick={closeModal}
+                                                    >
+                                                        Kembali
+                                                    </button>
+                                                    <div className="flex">
+                                                        <button
+                                                            className="text-white bg-[#FA8072] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                                            type="button"
+                                                            onClick={deleteJadwalPengajian}
+                                                        >
+                                                            Tidak Setuju
+                                                        </button>
+                                                        <button
+                                                            className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                                            type="button"
+                                                            onClick={() => updateStatus(selectedId)}
+                                                        >
+                                                            Setuju
+                                                        </button>
+                                                    </div>
+                                                </div>
                                               </div>
                                           </div>
                                       </div>
