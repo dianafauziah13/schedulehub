@@ -98,12 +98,12 @@ export class ProfileMatchingService {
     let mubaligh_terjadwal = [];
 
     penugasan.forEach(a=>{
+      keahlian_mubaligh = [];
       const PimpinanJemaah = a.Penugasan.pimpinan;
       const Mubaligh = a.Penugasan.Mubaligh_Khutbah_pengajian;
       const pimpinanjemaah_available_minggu = a.Penugasan.pimpinan.scope_dakwah_pengajian.Minggu_ke;
       const pimpinan_available_hari = a.Penugasan.pimpinan.scope_dakwah_pengajian.hari;
-
-
+      
       /* Melakukan filter Mubaligh berdasarkan Available khutbah pengajian pada pimpinan jemaah */
         let mubaligh_available =  Mubaligh.filter(m=>{
           const mubaligh_minggu_ke = m.AvailablePengajianRutin.Minggu_ke;
@@ -125,7 +125,7 @@ export class ProfileMatchingService {
           if(isKeahlian) return true;
           else return false;
       });
-
+      // console.log(mubaligh_terpilih.map(a=>a.mubalighName))
         pimpinan_jemaah.forEach(p => {
         mubaligh_terpilih.forEach(element=>{
           const indexKriteria = keahlian_mubaligh.findIndex(a=>a.nama==element.mubalighName);
@@ -144,6 +144,8 @@ export class ProfileMatchingService {
           else keahlian_mubaligh.push(keahlian);
         })
       });
+      // console.log(PimpinanJemaah.Nama, mubaligh_terpilih.map(a=>a.mubalighName))
+      // console.log(PimpinanJemaah.Nama, keahlian_mubaligh.map(a=>a.nama))
 
       keahlian_mubaligh = keahlian_mubaligh.map(t => {
       /* Melakukan Perhitungan rata-rata secondary factor yang dimiliki mubaligh*/
@@ -153,11 +155,12 @@ export class ProfileMatchingService {
         return t;
         // console.log(t.hasilPerhitungan);
       }).sort((a,b)=>b.total_GAP - a.total_GAP);
+      // console.log(PimpinanJemaah.Nama, keahlian_mubaligh)
 
       const terpilih = keahlian_mubaligh.filter(m=> !mubaligh_terjadwal.includes(m)).at(0)
       if( !terpilih || mubaligh_terjadwal.find(m=> m.nama == terpilih.nama)) return;
       mubaligh_terjadwal.push(terpilih);
-      console.log(terpilih);
+      // console.log(terpilih);
       const jadwal = new this.jadwalModel;
       jadwal.PimpinanJamaah = PimpinanJemaah.Nama;
       jadwal.Mubaligh = terpilih.nama;
@@ -165,8 +168,8 @@ export class ProfileMatchingService {
       jadwal.hari = pimpinan_available_hari;
 
       newJadwalPengajian.jadwal.push(jadwal);
-      console.log(keahlian_mubaligh);
-      console.log(terpilih.nama);
+      // console.log(keahlian_mubaligh);
+      // console.log(terpilih.nama);
 
     })
 
