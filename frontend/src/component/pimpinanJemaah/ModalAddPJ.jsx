@@ -18,6 +18,15 @@ const [selectedLingkup3, setSelectedLingkup3] = useState(null);
 const [selectedLingkup4, setSelectedLingkup4] = useState(null);
 const [selectedLingkup5, setSelectedLingkup5] = useState(null);
 const [KeahlianOptions, setKeahlianOptions] = useState([]);
+const [keahlianInputs, setKeahlianInputs] = useState([{ keahlian: null, minimal: '' }]);
+// const [selectedKeahlian1, setSelectedKeahlian1] = useState({});
+// const [SelectedMinimal1, setSelectedMinimal1] = useState({});
+// const [selectedKeahlian2, setSelectedKeahlian2] = useState({});
+// const [SelectedMinimal2, setSelectedMinimal2] = useState({});
+// const [selectedKeahlian3, setSelectedKeahlian3] = useState({});
+// const [SelectedMinimal3, setSelectedMinimal3] = useState({});
+// const [selectedKeahlian4, setSelectedKeahlian4] = useState({});
+// const [SelectedMinimal4, setSelectedMinimal4] = useState({});
 
 
 useEffect(() => {
@@ -103,6 +112,19 @@ const fetchMubalighJumat = async () => {
   };
 
   const handleTambahClick = async () => {
+    const scope_dakwah_pengajian = {
+        Keahlian: keahlianInputs
+          .filter(input => input.keahlian && input.minimal)
+          .map(input => ({
+            idKeahlian: input.keahlian.value,
+            nama: input.keahlian.label,
+            MinimalKeahlian: input.minimal
+          })),
+        Minggu_ke: selectedNumbers.value,
+        hari: selectedDays.label,
+        detailWaktu: selectedTimes.label,
+      };
+
     const data = {
         idKetuaPJ: selectedMubaligh.value,
         Nama: namaPJ,
@@ -128,18 +150,7 @@ const fetchMubalighJumat = async () => {
                 minggu_ke: 5,
             },
         ],
-        scope_dakwah_pengajian: {
-            Keahlian: [
-                {
-                    idKeahlian: null,
-                    nama: "contoh",
-                    MinimalKeahlian : 5
-                }
-            ],
-            Minggu_ke: selectedNumbers.value,
-            hari: selectedDays.label,
-            detailWaktu: selectedTimes.label,
-        }
+        scope_dakwah_pengajian,
     }
 
     console.log("ini data", data);
@@ -218,6 +229,28 @@ const fetchMubalighJumat = async () => {
   const handleLingkupChange5 = (selectedOption)=>{
     setSelectedLingkup5(selectedOption)
   }
+
+// Handle change for keahlian and minimal inputs
+  const handleKeahlianChange = (index, selectedOption) => {
+    const newKeahlianInputs = [...keahlianInputs];
+    newKeahlianInputs[index].keahlian = selectedOption;
+    setKeahlianInputs(newKeahlianInputs);
+  };
+
+  const handleMinimalChange = (index, event) => {
+    const newKeahlianInputs = [...keahlianInputs];
+    const minimalValue = parseInt(event.target.value, 10); // Mengonversi input menjadi integer
+    if (!isNaN(minimalValue)) {
+      newKeahlianInputs[index].minimal = minimalValue;
+    } else {
+      newKeahlianInputs[index].minimal = '';
+    }
+    setKeahlianInputs(newKeahlianInputs);
+  };
+
+  const handleTambahKeahlian = () => {
+    setKeahlianInputs([...keahlianInputs, { keahlian: null, minimal: '' }]);
+  };
 
     return (
         <>
@@ -408,7 +441,11 @@ const fetchMubalighJumat = async () => {
                                             Bidang Keahlian
                                         </p>
                                     </div>
-                                    <div className="w-full lg:w-1/2 px-4 mb-4" >
+                                    <div className="flex flex-wrap">
+                                    {keahlianInputs.map((input, index) => (
+                                    <>
+                                    <React.Fragment key={index}>
+                                    <div  className="w-full lg:w-1/2 px-4 mb-4" >
                                         <form className="rounded w-full">
                                             <label className="flex justify-start text-black text-sm mt-4 mb-1">
                                                 Nama Keahlian
@@ -418,6 +455,8 @@ const fetchMubalighJumat = async () => {
                                                 className=" appearance-none rounded w-full text-black"
                                                 placeholder="Pilih Keahlian"
                                                 options={KeahlianOptions}
+                                                value={input.keahlian}
+                                                onChange={(selectedOption) => handleKeahlianChange(index, selectedOption)}
                                             />
                                         </form>
                                     </div>
@@ -428,9 +467,24 @@ const fetchMubalighJumat = async () => {
                                         <input
                                             required
                                             className="shadow appearance-none border border-line rounded w-full p-2 text-black"
-                                            placeholder="Masukan Minimal Keahlian" />
+                                            placeholder="Masukan Minimal Keahlian" 
+                                            value={input.minimal}
+                                            onChange={(event) => handleMinimalChange(index, event)}
+                                        />
                                     </div>
+                                    </React.Fragment>
+                                    </> 
                                     
+                                     ))}
+                                          <div className="w-full px-4 mb-4">
+                                                <button 
+                                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                                onClick={handleTambahKeahlian}
+                                                >
+                                                Tambah Keahlian
+                                                </button>
+                                            </div>
+                                    </div>
                                 </div>
                                 <div className="flex items-center justify-between p-6 rounded-b">
                                     <button
