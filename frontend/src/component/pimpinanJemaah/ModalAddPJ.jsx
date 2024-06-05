@@ -19,14 +19,6 @@ const [selectedLingkup4, setSelectedLingkup4] = useState(null);
 const [selectedLingkup5, setSelectedLingkup5] = useState(null);
 const [KeahlianOptions, setKeahlianOptions] = useState([]);
 const [keahlianInputs, setKeahlianInputs] = useState([{ keahlian: null, minimal: '' }]);
-// const [selectedKeahlian1, setSelectedKeahlian1] = useState({});
-// const [SelectedMinimal1, setSelectedMinimal1] = useState({});
-// const [selectedKeahlian2, setSelectedKeahlian2] = useState({});
-// const [SelectedMinimal2, setSelectedMinimal2] = useState({});
-// const [selectedKeahlian3, setSelectedKeahlian3] = useState({});
-// const [SelectedMinimal3, setSelectedMinimal3] = useState({});
-// const [selectedKeahlian4, setSelectedKeahlian4] = useState({});
-// const [SelectedMinimal4, setSelectedMinimal4] = useState({});
 
 
 useEffect(() => {
