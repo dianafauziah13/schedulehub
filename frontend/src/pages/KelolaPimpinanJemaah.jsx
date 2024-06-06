@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 // import styles from '../index.css';
 import ModalAddPJ from "../component/pimpinanJemaah/ModalAddPJ";
 // import ModalDeletePJ from "../component/pimpinanJemaah/ModalDeletePJ";
-import ModalUpdateMubaligh from '../component/mubaligh/ModalUpdateMubaligh';
+import ModalUpdatePJ from '../component/pimpinanJemaah/ModalUpdatePJ'
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { FiAlertCircle } from "react-icons/fi";
+
 
 const KelolaPimpinanJemaah = () => {
     const [data, setData] = useState(null)
@@ -23,6 +24,7 @@ const KelolaPimpinanJemaah = () => {
         setSelectedId(Id);
         setIsModalOpen(true);
     };
+
 
     const openDetail = (id) => {
         setSelectedId(id);
@@ -42,16 +44,20 @@ const KelolaPimpinanJemaah = () => {
         try {
             const response = await fetch("http://localhost:3000/pimpinanjemaah")
             const pimpinanJemaah = await response.json()
-            console.log(pimpinanJemaah)
+            // console.log(pimpinanJemaah)
             let tampilPimpinanJemaah = []
             pimpinanJemaah.forEach(value => {
                 tampilPimpinanJemaah.push({
                     "_id": value._id,
                     "Nama": value.Nama,
+                    "idketua": value.idKetuaPJ,
                     "KetuaPJ": value.KetuaPJ,
+                    "scope_dakwah_jumat": value.scope_dakwah_jumat,
+                    "scope_dakwah_pengajian": value.scope_dakwah_pengajian
                 })
             });
             setData(tampilPimpinanJemaah) 
+            console.log("ppp",tampilPimpinanJemaah);
         } catch (error) {
             console.log(error)
         }
@@ -62,25 +68,33 @@ const KelolaPimpinanJemaah = () => {
             const response = await fetch(`http://localhost:3000/pimpinanjemaah/${selectedId}`)
             const pimpinan = await response.json()
             // console.log(pimpinan)
-            let tampilProfil = []
+            let profilMubaligh= []
 
-            // pimpinan.forEach(value => {
-                
-                tampilProfil.push({
-                    "ketuaPJ":pimpinan.KetuaPJ,
-                    "NamaPJ": pimpinan.Nama,
-                    "mingguPengajian": pimpinan.scope_dakwah_pengajian.Minggu_ke,
-                    "hariPengajian": pimpinan.scope_dakwah_pengajian.hari,
-                    "detailWaktuPengajian": pimpinan.scope_dakwah_pengajian.detailWaktu,
-                    "scopeDakwaJumat1": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 1)?.Nama,
-                    "scopeDakwaJumat2": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 2)?.Nama,
-                    "scopeDakwaJumat3": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 3)?.Nama,
-                    "scopeDakwaJumat4": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 4)?.Nama,
-                    "scopeDakwaJumat5": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 5)?.Nama,
+            let tampilProfil = {
+                "ketuaPJ":pimpinan.KetuaPJ,
+                "NamaPJ": pimpinan.Nama,
+                "mingguPengajian": pimpinan.scope_dakwah_pengajian.Minggu_ke,
+                "hariPengajian": pimpinan.scope_dakwah_pengajian.hari,
+                "detailWaktuPengajian": pimpinan.scope_dakwah_pengajian.detailWaktu,
+                "scopeDakwaJumat1": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 1)?.Nama,
+                "scopeDakwaJumat2": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 2)?.Nama,
+                "scopeDakwaJumat3": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 3)?.Nama,
+                "scopeDakwaJumat4": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 4)?.Nama,
+                "scopeDakwaJumat5": pimpinan.scope_dakwah_jumat.find(m=>m.minggu_ke == 5)?.Nama,
+                "Keahlian": []
+            }
+
+            pimpinan.scope_dakwah_pengajian.Keahlian.forEach(k =>{
+                tampilProfil.Keahlian.push({
+                    "namaKeahlian": k.nama,
+                    "Minimal" : k.MinimalKeahlian
                 })
+            })
+            // pimpinan.forEach(value => {
+                profilMubaligh.push(tampilProfil)
             // });
-            console.log(tampilProfil)
-            setData2(tampilProfil)
+            console.log(profilMubaligh)
+            setData2(profilMubaligh)
 
         } catch (error) {
             console.log(error)
@@ -175,6 +189,17 @@ const KelolaPimpinanJemaah = () => {
                                                         <span className="w-2/3">Waktu Detail:</span>
                                                         <span className="w-2/3">Hari {val.hariPengajian} {val.detailWaktuPengajian}</span>
                                                     </div>
+                                                    <div className="text-[15px] font-montserrat mb-2">
+                                                         <span className="w-1/3 font-bold"> List Keahlian </span>
+                                                            </div>
+                                                            {val.Keahlian.map((val2, i) => (
+                                                            <div className="flex text-[15px] font-montserrat mb-2">
+                                                                <span className="w-2/3">Nama Keahlian: </span>
+                                                                <span className="w-2/3">{val2.namaKeahlian}</span>
+                                                                <span className="w-2/3">Rating Keahlian: </span>
+                                                                <span className="w-2/3">{val2.Minimal}</span>
+                                                            </div>
+                                                        ))}
                                                 <div className="text-[15px] font-montserrat mb-2">
                                                     <span className="w-1/3 font-bold">======================= Khutbah Jumat ======================</span>
                                                 </div>
@@ -216,11 +241,7 @@ const KelolaPimpinanJemaah = () => {
                                       </div>
                                      </>
                                  )}
-
-
-
-
-                                           <ModalUpdateMubaligh/>
+                                           <ModalUpdatePJ  idPJ = {v._id} initialValues={{NamaPJ: v.Nama, namaKetua: v.KetuaPJ, idKetua:v.idketua, scopedakwahjumat: v.scope_dakwah_jumat, scopedakwahpengajian:v.scope_dakwah_pengajian}}/>
                                         <button onClick={() => openModal(v._id)}>
                                             <FaRegTrashAlt className="mr-2"/>
                                         </button>
