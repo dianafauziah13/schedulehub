@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 // import styles from '../index.css';
 import ModalAddPJ from "../component/pimpinanJemaah/ModalAddPJ";
 // import ModalDeletePJ from "../component/pimpinanJemaah/ModalDeletePJ";
-import ModalUpdateMubaligh from '../component/mubaligh/ModalUpdateMubaligh';
+import ModalUpdatePJ from '../component/pimpinanJemaah/ModalUpdatePJ'
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { FiAlertCircle } from "react-icons/fi";
+
 
 const KelolaPimpinanJemaah = () => {
     const [data, setData] = useState(null)
@@ -23,6 +24,7 @@ const KelolaPimpinanJemaah = () => {
         setSelectedId(Id);
         setIsModalOpen(true);
     };
+
 
     const openDetail = (id) => {
         setSelectedId(id);
@@ -42,16 +44,20 @@ const KelolaPimpinanJemaah = () => {
         try {
             const response = await fetch("http://localhost:3000/pimpinanjemaah")
             const pimpinanJemaah = await response.json()
-            console.log(pimpinanJemaah)
+            // console.log(pimpinanJemaah)
             let tampilPimpinanJemaah = []
             pimpinanJemaah.forEach(value => {
                 tampilPimpinanJemaah.push({
                     "_id": value._id,
                     "Nama": value.Nama,
+                    "idketua": value.idKetuaPJ,
                     "KetuaPJ": value.KetuaPJ,
+                    "scope_dakwah_jumat": value.scope_dakwah_jumat,
+                    "scope_dakwah_pengajian": value.scope_dakwah_pengajian
                 })
             });
             setData(tampilPimpinanJemaah) 
+            console.log("ppp",tampilPimpinanJemaah);
         } catch (error) {
             console.log(error)
         }
@@ -235,11 +241,7 @@ const KelolaPimpinanJemaah = () => {
                                       </div>
                                      </>
                                  )}
-
-
-
-
-                                           <ModalUpdateMubaligh/>
+                                           <ModalUpdatePJ  idPJ = {v._id} initialValues={{NamaPJ: v.Nama, namaKetua: v.KetuaPJ, idKetua:v.idketua, scopedakwahjumat: v.scope_dakwah_jumat, scopedakwahpengajian:v.scope_dakwah_pengajian}}/>
                                         <button onClick={() => openModal(v._id)}>
                                             <FaRegTrashAlt className="mr-2"/>
                                         </button>

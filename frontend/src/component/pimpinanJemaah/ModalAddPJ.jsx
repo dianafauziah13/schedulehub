@@ -124,22 +124,27 @@ const fetchMubalighJumat = async () => {
             {
                 Nama: selectedLingkup1.label,
                 minggu_ke: 1,
+                _id: selectedLingkup1.value
             },
             {
                 Nama: selectedLingkup2.label,
                 minggu_ke: 2,
+                _id: selectedLingkup2.value
             },
             {
                 Nama: selectedLingkup3.label,
                 minggu_ke: 3,
+                _id: selectedLingkup3.value
             },
             {
                 Nama: selectedLingkup4.label,
                 minggu_ke: 4,
+                _id: selectedLingkup4.value
             },
             {
                 Nama: selectedLingkup5.label,
                 minggu_ke: 5,
+                _id: selectedLingkup5.value
             },
         ],
         scope_dakwah_pengajian,

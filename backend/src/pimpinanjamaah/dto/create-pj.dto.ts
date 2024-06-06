@@ -1,7 +1,7 @@
 import { Schema as MongooseSchema } from 'mongoose';
 
 export class ScopeDakwahJumatDto {
-  Nama: String;
+  Nama: string;
   minggu_ke: number;
   _id: MongooseSchema.Types.ObjectId;
 }

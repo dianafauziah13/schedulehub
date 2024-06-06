@@ -11,10 +11,10 @@ export class ScopeDakwahJumat extends Document {
   minggu_ke: number;
 
   @Prop({ type: String })
-  Nama: String;
+  Nama: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'ScopeDakwahSchema' })
-  _id: ScopeDakwahSchema;
+  @Prop({ type: mongoose.Schema.Types.ObjectId  })
+  _id: mongoose.Schema.Types.ObjectId;
 }
 
 @Schema()

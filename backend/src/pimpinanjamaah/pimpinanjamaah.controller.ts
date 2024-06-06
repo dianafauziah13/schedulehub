@@ -4,6 +4,7 @@ import { PimpinanjemaahSchemaDto } from './dto/create-pj.dto';
 import { PimpinanjemaahSchema } from './schemas/pimpinanjamaah.schema';
 
 import mongoose from 'mongoose';
+import { UpdatePimpinanjemaahDto } from './dto/update-pimpinanjemaah.dto';
 
 @Controller('pimpinanjemaah')
 export class PimpinanjemaanController {
@@ -31,12 +32,20 @@ export class PimpinanjemaanController {
   }
 
   @Put(':id')
-  async updatePimpinanjemaan(
+  async update(
     @Param('id') id: string,
-    @Body() pimpinanjemaanDTO: PimpinanjemaahSchemaDto,
+    @Body() updatePimpinanjemaahDto: UpdatePimpinanjemaahDto
   ): Promise<PimpinanjemaahSchema> {
-    return await this.pimpinanjemaanService.updatePimpinanjemaan(id, pimpinanjemaanDTO);
+    return this.pimpinanjemaanService.update(id, updatePimpinanjemaahDto);
   }
+
+  // @Put(':id')
+  // async updatePimpinanjemaan(
+  //   @Param('id') id: string,
+  //   @Body() pimpinanjemaanDTO: PimpinanjemaahSchemaDto,
+  // ): Promise<PimpinanjemaahSchema> {
+  //   return await this.pimpinanjemaanService.updatePimpinanjemaan(id, pimpinanjemaanDTO);
+  // }
 
   @Delete(':id')
   async deletePimpinanjemaan(@Param('id') id: string): Promise<void> {
