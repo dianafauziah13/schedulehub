@@ -157,8 +157,8 @@ const ModalUpdatePJ = ({  idPJ, initialValues }) => {
         console.log("ini data", data);
         try {
             const response = await updateData(idPJ, data); // Using postData module to send data
-            // closeModal(); // Tutup modal setelah penghapusan selesai.
-            // window.location.reload();
+            closeModal(); // Tutup modal setelah penghapusan selesai.
+            window.location.reload();
             console.log("Response from server:", response);
             // Handle response from server
         } catch (error) {
