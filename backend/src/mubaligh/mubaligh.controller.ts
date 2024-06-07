@@ -2,6 +2,8 @@ import { Body, Controller, Post,  Get, Param, Put, Delete, HttpException, HttpSt
 import { MubalighService } from './mubaligh.service'
 import { MubalighSchemaDto } from './dto/create-mubaligh.dto';
 import { MubalighSchema } from './schemas/mubaligh.schema';
+import { UpdateMubalighSchemaDto } from './dto/update-mubaligh.dto';
+
 
 @Controller('mubaligh')
 export class MubalighController {
@@ -30,7 +32,7 @@ export class MubalighController {
   @Put(':id')
   async updateMubaligh(
     @Param('id') id: string,
-    @Body() MubalighDto: MubalighSchemaDto,
+    @Body() MubalighDto: UpdateMubalighSchemaDto,
   ): Promise<MubalighSchema> {
     return await this.mubalighService.updateMubaligh(id, MubalighDto);
   }

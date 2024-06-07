@@ -1,9 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { MubalighSchema } from './schemas/mubaligh.schema';
 import { MubalighSchemaDto } from './dto/create-mubaligh.dto';
 import { ScopeDakwahSchema } from 'src/scopeDakwah/schemas/scopedakwah.schema';
+import { UpdateMubalighSchemaDto } from './dto/update-mubaligh.dto';
+
 
 
 @Injectable()
@@ -35,8 +37,15 @@ export class MubalighService {
     return mubaligh;
   }
 
-  async updateMubaligh(id: string, mubalighDto: MubalighSchemaDto): Promise<MubalighSchema> {
-    return await this.mubalighModel.findByIdAndUpdate(id, mubalighDto, { new: true }).exec();
+  async updateMubaligh(id: string, updatemubalighDto: UpdateMubalighSchemaDto): Promise<MubalighSchema> {
+    const existingMubaligh = await this.mubalighModel.findById(id).exec();
+    const scopeDakwah = await this.scopeModel.findById(updatemubalighDto.idScopeDakwah);
+    existingMubaligh.scope_dakwah = scopeDakwah.LingkupDakwah;
+    if (!existingMubaligh) {
+      throw new NotFoundException(`Mubaligh with ID ${id} not found`);
+    }
+    Object.assign(existingMubaligh, updatemubalighDto);
+    return existingMubaligh.save()
   }
 
   async deleteMubaligh(id: string): Promise<MubalighSchema> {
