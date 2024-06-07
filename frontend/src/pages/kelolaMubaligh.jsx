@@ -17,7 +17,7 @@ const KelolaMubaligh = () => {
     }, [])
 
     const openModal = (Id) => {
-        console.log(Id);
+        // console.log(Id);
         setSelectedId(Id);
         setIsModalOpen(true);
     };
@@ -40,19 +40,28 @@ const KelolaMubaligh = () => {
         try {
             const response = await fetch("http://localhost:3000/mubaligh");
             const mubaligh = await response.json();
-            console.log(mubaligh);
+            // console.log(mubaligh);
             let tampilMubaligh = [];
+            
             mubaligh.forEach(value => {
+                // console.log("asadsda", value)
                 tampilMubaligh.push({
                     "_id": value._id,
                     "mubalighName": value.mubalighName,
                     "scope_dakwah": value.scope_dakwah,
                     "AvailableKhutbahJumat": value.AvailableKhutbahJumat,
-                    "Minggu_ke": value.AvailablePengajianRutin?.Minggu_ke?.toString()
+                    "Minggu_ke": value.AvailablePengajianRutin?.Minggu_ke?.toString(),
+                    "Hari": value.AvailablePengajianRutin?.Hari || [],
+                    "Keahlian": value.ListKeahlian?.map(k=>{
+                        return {
+                            Nama : k.nama,
+                            rating : k.Rating
+                        }
+                    })
                 })
             });
             setData(tampilMubaligh);
-            console.log(tampilMubaligh)
+            // console.log(tampilMubaligh)
         } catch (error) {
             console.log(error);
         }
@@ -82,7 +91,7 @@ const KelolaMubaligh = () => {
         tampilProfil.push(profilMubaligh);
 
             
-            console.log(tampilProfil)
+            // console.log(tampilProfil)
             setData2(tampilProfil)
 
         } catch (error) {
@@ -204,10 +213,6 @@ const KelolaMubaligh = () => {
                                                                 <span className="w-2/3">{val2.RatingKeahlian}</span>
                                                             </div>
                                                         ))}
-                                                            {/* <div className="flex text-[15px] font-montserrat mb-7">
-                                                                <span className="w-2/3">Rating Keahlian</span>
-                                                                <span className="w-2/3">{val.RatingKeahlian}</span>
-                                                            </div> */}
 
                                                         </div>
                                                             </>
@@ -227,7 +232,7 @@ const KelolaMubaligh = () => {
                                             </div>
                                             </>
                                             )}
-                                           <ModalUpdateMubaligh/>
+                                           <ModalUpdateMubaligh idMubaligh = {v._id} initialValues={{NamaMubaligh: v.mubalighName, LingkupDakwah: v.scope_dakwah, AvailableKhutbahJumat:v.AvailableKhutbahJumat, AvailablePengajianRutin: v.Minggu_ke, hari:v.Hari, keahlian:v.Keahlian }}/>
                                         <button onClick={() => openModal(v._id)}>
                                             <FaRegTrashAlt className="mr-2"/>
                                         </button>
