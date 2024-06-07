@@ -103,9 +103,9 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
     ];
     const handleEditClick = async () => {
         const data = {
-            idScopeDakwah: selectedLingkup.value,
+            idScopeDakwah: selectedLingkup,
             mubalighName: namaMubaligh,
-            scope_dakwah: selectedLingkup.label,
+            
             AvailableKhutbahJumat: selectedWaktuJumat.value,
             AvailablePengajianRutin: {
                 // Minggu_ke: selectedWaktuPengajian.value,
@@ -134,7 +134,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
     
   
     const handleLingkupChange = (selectedOption) => {
-      setSelectedLingkup(selectedOption.label);
+      setSelectedLingkup(selectedOption);
     };
     const handleWaktuChangeJumat = (selectedOptions) => {
         setSelectedWaktuJumat(selectedOptions.map(a=> a.value));
@@ -219,7 +219,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
                                                 className="appearance-none rounded w-full text-black"
                                                 placeholder="Lingkup Dakwah"
                                                 options={scopeOptions}
-                                                defaultValue={scopeOptions.find(l=>l.label == initialValues.LingkupDakwah)}
+                                                defaultValue={scopeOptions.find(l=>l.value == initialValues.LingkupDakwah)}
                                                 onChange={handleLingkupChange}
                                                 
                                             />

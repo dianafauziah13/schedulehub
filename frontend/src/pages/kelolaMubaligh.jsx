@@ -48,6 +48,7 @@ const KelolaMubaligh = () => {
                 tampilMubaligh.push({
                     "_id": value._id,
                     "mubalighName": value.mubalighName,
+                    "idscopedakwah": value.idScopeDakwah,
                     "scope_dakwah": value.scope_dakwah,
                     "AvailableKhutbahJumat": value.AvailableKhutbahJumat,
                     "Minggu_ke": value.AvailablePengajianRutin?.Minggu_ke?.toString(),
@@ -232,7 +233,7 @@ const KelolaMubaligh = () => {
                                             </div>
                                             </>
                                             )}
-                                           <ModalUpdateMubaligh idMubaligh = {v._id} initialValues={{NamaMubaligh: v.mubalighName, LingkupDakwah: v.scope_dakwah, AvailableKhutbahJumat:v.AvailableKhutbahJumat, AvailablePengajianRutin: v.Minggu_ke, hari:v.Hari, keahlian:v.Keahlian }}/>
+                                           <ModalUpdateMubaligh idMubaligh = {v._id} initialValues={{NamaMubaligh: v.mubalighName, LingkupDakwah: v.idScopeDakwah, AvailableKhutbahJumat:v.AvailableKhutbahJumat, AvailablePengajianRutin: v.Minggu_ke, hari:v.Hari, keahlian:v.Keahlian }}/>
                                         <button onClick={() => openModal(v._id)}>
                                             <FaRegTrashAlt className="mr-2"/>
                                         </button>
