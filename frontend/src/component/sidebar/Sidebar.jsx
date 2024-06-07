@@ -6,7 +6,8 @@ import { AiTwotoneFileExclamation } from "react-icons/ai";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
-const routes = [
+
+const ketuaRoutes = [
   {
     path: "/",
     name: "Jadwal Khutbah",
@@ -24,11 +25,43 @@ const routes = [
       },
     ],
   },
-  // {
-  //   path: "/dashboard/accounts",
-  //   name: "Kelola Akun",
-  //   icon: <FaUserGroup />,
-  // },
+  {
+    path: "/dashboard/hasil-generate",
+    name: "Persetujuan Jadwal",
+    icon: <RiAiGenerate  />,
+    subRoutes: [
+      {
+        path: "/dashboard/hasil-generate/jumat",
+        name: "Khutbah Jum'at ",
+      },
+      {
+        path: "/dashboard/hasil-generate/pengajian",
+        name: "Pengajian Rutin",
+      },
+    ],
+  }
+]
+
+
+
+const bidgarRoutes = [
+  {
+    path: "/",
+    name: "Jadwal Khutbah",
+    icon: <FaCalendarAlt />,
+    subRoutes: [
+      {
+        path: "/dashboard/JadwalJumat",
+        name: "Khutbah Jum'at ",
+        // icon: <FaUser />,
+      },
+      {
+        path: "/dashboard/JadwalPengajian",
+        name: "Pengajian Rutin",
+        // icon: <FaLock />,
+      },
+    ],
+  },
   {
     path: "/dashboard/PimpinanJemaah",
     name: "Pimpinan Jamaah",
@@ -38,18 +71,6 @@ const routes = [
     path: "/dashboard/kelolaMubaligh",
     name: "Kelola Mubaligh",
     icon: <FaUser />,
-    // subRoutes: [
-    //   {
-    //     path: "/dashboard/kelolaMubaligh",
-    //     name: "Kelola Mubaligh",
-    //     // icon: <FaUser />,
-    //   },
-    //   {
-    //     path: "/dashboard/rekapMubaligh",
-    //     name: "Rekap Mubaligh",
-    //     // icon: <FaLock />,
-    //   },
-    // ],
   },
   {
     path: "/dashboard/penugasanMubaligh",
@@ -72,23 +93,92 @@ const routes = [
         // icon: <FaLock />,
       },
     ],
-  },
-  {
-    path: "/dashboard/hasil-generate",
-    name: "Persetujuan Jadwal",
-    icon: <RiAiGenerate  />,
-    subRoutes: [
-      {
-        path: "/dashboard/hasil-generate/jumat",
-        name: "Khutbah Jum'at ",
-      },
-      {
-        path: "/dashboard/hasil-generate/pengajian",
-        name: "Pengajian Rutin",
-      },
-    ],
   }
-];
+]
+
+// const routes = [
+//   {
+//     path: "/",
+//     name: "Jadwal Khutbah",
+//     icon: <FaCalendarAlt />,
+//     subRoutes: [
+//       {
+//         path: "/dashboard/JadwalJumat",
+//         name: "Khutbah Jum'at ",
+//         // icon: <FaUser />,
+//       },
+//       {
+//         path: "/dashboard/JadwalPengajian",
+//         name: "Pengajian Rutin",
+//         // icon: <FaLock />,
+//       },
+//     ],
+//   },
+//   // {
+//   //   path: "/dashboard/accounts",
+//   //   name: "Kelola Akun",
+//   //   icon: <FaUserGroup />,
+//   // },
+//   {
+//     path: "/dashboard/PimpinanJemaah",
+//     name: "Pimpinan Jamaah",
+//     icon: <MdMosque />,
+//   },
+//   {
+//     path: "/dashboard/kelolaMubaligh",
+//     name: "Kelola Mubaligh",
+//     icon: <FaUser />,
+//     // subRoutes: [
+//     //   {
+//     //     path: "/dashboard/kelolaMubaligh",
+//     //     name: "Kelola Mubaligh",
+//     //     // icon: <FaUser />,
+//     //   },
+//     //   {
+//     //     path: "/dashboard/rekapMubaligh",
+//     //     name: "Rekap Mubaligh",
+//     //     // icon: <FaLock />,
+//     //   },
+//     // ],
+//   },
+//   {
+//     path: "/dashboard/penugasanMubaligh",
+//     name: "Penugasan Mubaligh",
+//     icon: <FaFile/> ,
+//   },
+//   {
+//     path: "/dashboard/generate-jadwal",
+//     name: "Buat Jadwal",
+//     icon: <AiTwotoneFileExclamation />,
+//     subRoutes: [
+//       {
+//         path: "/dashboard/jadwal/jumat",
+//         name: "Khutbah Jum'at ",
+//         // icon: <FaUser />,
+//       },
+//       {
+//         path: "/dashboard/jadwal/pengajian",
+//         name: "Pengajian Rutin",
+//         // icon: <FaLock />,
+//       },
+//     ],
+//   },
+//   {
+//     path: "/dashboard/hasil-generate",
+//     name: "Persetujuan Jadwal",
+//     icon: <RiAiGenerate  />,
+//     subRoutes: [
+//       {
+//         path: "/dashboard/hasil-generate/jumat",
+//         name: "Khutbah Jum'at ",
+//       },
+//       {
+//         path: "/dashboard/hasil-generate/pengajian",
+//         name: "Pengajian Rutin",
+//       },
+//     ],
+//   }
+// ];
 
 const SideBar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -163,7 +253,7 @@ const SideBar = ({ children }) => {
             </AnimatePresence>
           </div> */}
           <section className="routes">
-            {routes.map((route, index) => {
+            {(localStorage.getItem("role") == "ketua" ? ketuaRoutes : bidgarRoutes).map((route, index) => {
               if (route.subRoutes) {
                 return (
                   <SidebarMenu
