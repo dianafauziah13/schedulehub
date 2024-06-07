@@ -62,7 +62,7 @@ const KelolaMubaligh = () => {
                 })
             });
             setData(tampilMubaligh);
-            // console.log(tampilMubaligh)
+            console.log(tampilMubaligh)
         } catch (error) {
             console.log(error);
         }
