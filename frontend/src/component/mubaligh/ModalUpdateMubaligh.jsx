@@ -19,6 +19,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
     useEffect(() => {
         fetchScopeOptions();
         fetchKeahlianOptions()
+        console.log(initialValues,"aasdasdasda")
       }, []);
 
     
@@ -55,7 +56,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
         try {
           const response = await fetch("http://localhost:3000/scope-dakwah");
           const scopeDakwahData = await response.json();
-          console.log(scopeDakwahData);
+        //   console.log(scopeDakwahData);
     
           const scopeList = scopeDakwahData.map((scope) => ({
             value: scope._id,
@@ -72,7 +73,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
         try {
           const response = await fetch("http://localhost:3000/keahlian");
           const keahlianData = await response.json();
-          console.log(keahlianData);
+        //   console.log(keahlianData);
     
           const keahlianList = keahlianData.map((keahlian) => ({
             value: keahlian._id,
@@ -105,13 +106,15 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
         const data = {
             idScopeDakwah: selectedLingkup,
             mubalighName: namaMubaligh,
-            
-            AvailableKhutbahJumat: selectedWaktuJumat.value,
+            AvailableKhutbahJumat : selectedWaktuJumat,
+            // AvailableKhutbahJumat: waktuOptions.filter(option => selectedWaktuJumat.map(o=> o.value).includes(option.value)).map(o=> o.value),
             AvailablePengajianRutin: {
                 // Minggu_ke: selectedWaktuPengajian.value,
                 // Hari: selectedHariPengajian.value
-                Minggu_ke : waktuOptions.filter(option => selectedWaktuJumat.includes(option.value)),
-                Hari : hariOptions.filter(option => selectedHariPengajian.includes(option.value))
+                Minggu_ke : selectedWaktuPengajian,
+                // Minggu_ke : waktuOptions.filter(option => selectedWaktuPengajian.includes(option.value)).map(o=>o.value),
+                Hari : selectedHariPengajian
+                // Hari : hariOptions.filter(option => selectedHariPengajian.includes(option.value)).map(o=>o.value)
             },
             ListKeahlian: keahlianInputs
             .filter(input => input.keahlian && input.minimal)
@@ -121,7 +124,8 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
                 Rating: input.minimal
             }))
         };
-        console.log("ini data", data);
+        console.log("ini data", selectedWaktuJumat);
+        // return
         try {
             const response = await updateMubaligh(idMubaligh, data);
             closeModal();
@@ -134,16 +138,17 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
     
   
     const handleLingkupChange = (selectedOption) => {
-      setSelectedLingkup(selectedOption);
+      setSelectedLingkup(selectedOption.value);
     };
     const handleWaktuChangeJumat = (selectedOptions) => {
-        setSelectedWaktuJumat(selectedOptions.map(a=> a.value));
+        console.log(selectedOptions)
+        setSelectedWaktuJumat(selectedOptions.map(o=>o.value));
     };
     const handleWaktuChangePengajian = (selectedOptions) => {
-        setSelectedWaktuPengajian(selectedOptions.map(b=>b.value));
+        setSelectedWaktuPengajian(selectedOptions.map(o=>o.value));
     };
     const handleHariChange = (selectedOptions) => {
-        setSelectedHariPengajian(selectedOptions.map(c=>c.value));
+        setSelectedHariPengajian(selectedOptions.map(o=>o.value));
     }
     
     const handleNameChange = (event) => {
@@ -166,7 +171,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
         setKeahlianInputs(newKeahlianInputs);
     };
     
-    const handleTambahKeahlian = () => {
+    const handleEditKeahlian = () => {
         setKeahlianInputs([...keahlianInputs, { keahlian: null, minimal: '' }]);
     };
 
@@ -236,7 +241,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
                                                 className="appearance-none rounded w-full text-black"
                                                 placeholder="Ketersediaan Waktu"
                                                 options={waktuOptions}
-                                                defaultValue={waktuOptions.filter(wj=> selectedWaktuJumat.includes(wj.value))}
+                                                defaultValue={waktuOptions.filter(wj=> initialValues.AvailableKhutbahJumat.includes(wj.value))}
                                                 onChange={handleWaktuChangeJumat}
                                                 
                                             />
@@ -326,9 +331,9 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
                                                 </button>
                                                 <button
                                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                                    onClick={handleTambahKeahlian}
+                                                    onClick={handleEditKeahlian}
                                                 >
-                                                    Tambah Keahlian
+                                                    Edit Keahlian
                                                 </button>
                                             </div>
                                         </React.Fragment>
@@ -351,7 +356,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
                                         type="button"
                                         onClick={handleEditClick}
                                     >
-                                        Tambah
+                                        Edit
                                     </button>
                                     {/* <button
                                         className="text-white bg-[#1026cd] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none"
@@ -359,7 +364,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
                                         onClick={handleAddKeahlian}
                                     
                                     >
-                                        Tambah List Keahlian
+                                        Edit List Keahlian
                                     </button> */}
                                     </div>
                                 </div>

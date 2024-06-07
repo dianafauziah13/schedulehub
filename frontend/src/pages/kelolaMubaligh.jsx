@@ -44,14 +44,13 @@ const KelolaMubaligh = () => {
             let tampilMubaligh = [];
             
             mubaligh.forEach(value => {
-                // console.log("asadsda", value)
                 tampilMubaligh.push({
                     "_id": value._id,
                     "mubalighName": value.mubalighName,
                     "idscopedakwah": value.idScopeDakwah,
                     "scope_dakwah": value.scope_dakwah,
                     "AvailableKhutbahJumat": value.AvailableKhutbahJumat,
-                    "Minggu_ke": value.AvailablePengajianRutin?.Minggu_ke?.toString(),
+                    "Minggu_ke": value.AvailablePengajianRutin?.Minggu_ke,
                     "Hari": value.AvailablePengajianRutin?.Hari || [],
                     "Keahlian": value.ListKeahlian?.map(k=>{
                         return {
@@ -62,7 +61,7 @@ const KelolaMubaligh = () => {
                 })
             });
             setData(tampilMubaligh);
-            // console.log(tampilMubaligh)
+            console.log(tampilMubaligh)
         } catch (error) {
             console.log(error);
         }
@@ -157,7 +156,7 @@ const KelolaMubaligh = () => {
                                         <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.mubalighName}</td>
                                         <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.scope_dakwah}</td>
                                         <td className="text-center px-4 py-2">{v.AvailableKhutbahJumat.toString()}</td>
-                                        <td className="text-center px-4 py-2"> {v.Minggu_ke}</td>
+                                        <td className="text-center px-4 py-2"> {v.Minggu_ke.toString()}</td>
                                         <td className=" relative items-center px-4 py-2 rounded-r-lg">
                                         <div className='flex justify-center m-2'>
                                         <button onClick={()=> openDetail(v._id)}>
@@ -233,7 +232,7 @@ const KelolaMubaligh = () => {
                                             </div>
                                             </>
                                             )}
-                                           <ModalUpdateMubaligh idMubaligh = {v._id} initialValues={{NamaMubaligh: v.mubalighName, LingkupDakwah: v.idScopeDakwah, AvailableKhutbahJumat:v.AvailableKhutbahJumat, AvailablePengajianRutin: v.Minggu_ke, hari:v.Hari, keahlian:v.Keahlian }}/>
+                                           <ModalUpdateMubaligh idMubaligh = {v._id} initialValues={{NamaMubaligh: v.mubalighName, LingkupDakwah: v.idscopedakwah, AvailableKhutbahJumat:v.AvailableKhutbahJumat, AvailablePengajianRutin: v.Minggu_ke, hari:v.Hari, keahlian:v.Keahlian }}/>
                                         <button onClick={() => openModal(v._id)}>
                                             <FaRegTrashAlt className="mr-2"/>
                                         </button>
