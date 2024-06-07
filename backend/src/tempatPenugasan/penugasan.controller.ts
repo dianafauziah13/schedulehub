@@ -1,9 +1,13 @@
-import { Body, Controller, Post,  Get, Param, Put, HttpException, HttpStatus, Delete  } from '@nestjs/common';
+import { Body, Controller, Post,  Get, Param, Put, HttpException, HttpStatus, Delete, UseGuards  } from '@nestjs/common';
 import { TempatPenugasanService } from './penugasan.service'
 import { TempatPenugasanSchemaDto } from './dto/create-penugasan.dto';
 import { TempatPenugasanSchema } from './schemas/penugasan.schema';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 @Controller('tempatpenugasan')
+
 export class TempatPenugasanController {
   constructor(private readonly tempatPenugasanService: TempatPenugasanService) {}
 
@@ -14,6 +18,7 @@ export class TempatPenugasanController {
   }
 
   @Get()
+  // @UseGuards(AuthGuard())
   async getAllTempatPenugasan(): Promise<TempatPenugasanSchema[]> {
     return await this.tempatPenugasanService.findAllTempatPenugasan();
   }

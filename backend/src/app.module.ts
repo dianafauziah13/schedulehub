@@ -1,9 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Module, Logger } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Logger } from '@nestjs/common';
-// import  config  from './config/keys';
 import { PimpinanJemaahModule } from './pimpinanjamaah/pimpinanjamaah.module';
 import { ScopeDakwahModule } from './scopeDakwah/scopedakwah.module';
 import { KeahlianModule } from './keahlian/keahlian.module';
@@ -12,38 +11,60 @@ import { TempatPenugasanModule } from './tempatpenugasan/penugasan.module';
 import { HitungKhutbahModule } from './hitungjumlahkhutbah/hitungkhutbah.module';
 import { JadwalJumatModule } from './jadwalkhutbahjumat/jumat.module';
 import { JadwalPengajianModule } from './jadwalpengajianrutin/pengajian.module';
+import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './auth/roles.guard';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
-  imports: [MongooseModule.forRoot('mongodb+srv://aziztaufiqurrahman:Doq22486@atlascluster.2lyt9lm.mongodb.net/?retryWrites=true&w=majority&appName=AtlasCluster', {
-    
-    connectionFactory: (connection) => {
-      const logger = new Logger('MongooseConnection');
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true, // Makes ConfigModule globally available
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('MONGODB_URI'),
+        connectionFactory: (connection) => {
+          const logger = new Logger('MongooseConnection');
 
-      connection.on('connecting', () => {
-        console.log("test")
-        logger.log('Connecting to MongoDB...');
-      });
+          connection.on('connecting', () => {
+            logger.log('Connecting to MongoDB...');
+          });
 
-      connection.on('connected', () => {
-        console.log("test")
-        logger.log('Connected to MongoDB');
-      });
+          connection.on('connected', () => {
+            logger.log('Connected to MongoDB');
+          });
 
-      connection.on('error', (err) => {
-        console.log("test")
-        logger.error('Error connecting to MongoDB', err);
-      });
+          connection.on('error', (err) => {
+            logger.error('Error connecting to MongoDB', err);
+          });
 
-      connection.on('disconnected', () => {
-        logger.warn('Disconnected from MongoDB');
-      });
+          connection.on('disconnected', () => {
+            logger.warn('Disconnected from MongoDB');
+          });
 
-      return connection;
-    },
-  }), PimpinanJemaahModule, ScopeDakwahModule, KeahlianModule, MubalighModule, TempatPenugasanModule, HitungKhutbahModule, JadwalJumatModule, JadwalPengajianModule
-],
-
+          return connection;
+        },
+      }),
+      inject: [ConfigService],
+    }),
+    PimpinanJemaahModule,
+    ScopeDakwahModule,
+    KeahlianModule,
+    MubalighModule,
+    TempatPenugasanModule,
+    HitungKhutbahModule,
+    JadwalJumatModule,
+    JadwalPengajianModule,
+    AuthModule,
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JwtService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    }
+  ],
 })
 export class AppModule {}
