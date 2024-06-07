@@ -270,7 +270,7 @@ const ModalUpdatePJ = ({  idPJ, initialValues }) => {
                       <div className="flex items-start justify-between p-5 rounded-t">
                           <h3 className="text-black text-xl font-semibold">Tambah Pimpinan Jemaah</h3>
                        </div>
-                            <div className="relative px-6 flex-auto flex flex-wrap relative px-6 flex-auto flex flex-wrap overflow-y-auto max-h-[calc(100vh-200px)] scrollable-content">
+                            <div className="flex-wrap relative px-6 flex-auto flex flex-wrap overflow-y-auto max-h-[calc(100vh-200px)] scrollable-content">
                                 {/* Kolom Kiri */}
                                 <div className="w-full lg:w-1/2 px-4 mb-4">
                                     <label className="flex justify-start text-black text-sm mt-4 mb-1">

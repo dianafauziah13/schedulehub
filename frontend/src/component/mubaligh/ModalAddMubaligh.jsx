@@ -50,7 +50,7 @@ const ModalAddMubaligh = () => {
         try {
           const response = await fetch("http://localhost:3000/scope-dakwah");
           const scopeDakwahData = await response.json();
-          console.log(scopeDakwahData);
+        //   console.log(scopeDakwahData);
     
           const scopeList = scopeDakwahData.map((scope) => ({
             value: scope._id,
@@ -67,7 +67,7 @@ const ModalAddMubaligh = () => {
         try {
           const response = await fetch("http://localhost:3000/keahlian");
           const keahlianData = await response.json();
-          console.log(keahlianData);
+        //   console.log(keahlianData);
     
           const keahlianList = keahlianData.map((keahlian) => ({
             value: keahlian._id,
@@ -119,7 +119,7 @@ const ModalAddMubaligh = () => {
             const response = await postData(data);
             closeModal();
             window.location.reload();
-            console.log("Response from server:", response);
+            // console.log("Response from server:", response);
         } catch (error) {
             console.error("Error posting data:", error);
         }
@@ -186,7 +186,7 @@ const ModalAddMubaligh = () => {
                           <div className="flex items-start justify-between p-5 rounded-t">
                               <h3 className="text-black text-xl font-semibold">Tambah Mubaligh</h3>
                            </div>
-                           <div className="relative px-6 flex-auto flex flex-wrap relative px-6 flex-auto flex flex-wrap overflow-y-auto max-h-[calc(100vh-200px)] scrollable-content">
+                           <div className="flex-wrap relative px-6 flex-auto flex overflow-y-auto max-h-[calc(100vh-200px)] scrollable-content">
                                     {/* Kolom Kiri */}
                                     <div className="w-full lg:w-1/2 px-4 mb-4">
                                         <label className="flex justify-start text-black text-sm mt-4 mb-1">
