@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
 import { MdOutlineMosque } from "react-icons/md";
 import {FaRegEdit } from "react-icons/fa";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
+import { Button, Modal } from 'react-bootstrap'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ModalUpdatePJ = ({  idPJ, initialValues }) => {
     const [showModal, setShowModal] = useState(false);
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     const [namaPJ, setNamaPJ] = useState(initialValues.NamaPJ);
     const [mubalighOptions, setMubalighOptions] = useState([]);
     const [LingkupOptions, setLingkupOptions] = useState([]);
@@ -21,6 +26,8 @@ const ModalUpdatePJ = ({  idPJ, initialValues }) => {
     const [KeahlianOptions, setKeahlianOptions] = useState([]);
     const [keahlianInputs, setKeahlianInputs] = useState([{ keahlian: null, minimal: '' }]);
     
+    const toast = useRef(null);
+
     useEffect(() => {
         fetchMubalighJumat();
         fetchLingkupDakwah();
@@ -116,9 +123,9 @@ const ModalUpdatePJ = ({  idPJ, initialValues }) => {
                 nama: input.keahlian.label,
                 MinimalKeahlian: input.minimal
               })),
-            Minggu_ke: selectedNumbers.value,
-            hari: selectedDays.label,
-            detailWaktu: selectedTimes.label,
+            Minggu_ke: selectedNumbers,
+            hari: selectedDays,
+            detailWaktu: selectedTimes,
           };
     
         const data = {
@@ -158,23 +165,25 @@ const ModalUpdatePJ = ({  idPJ, initialValues }) => {
         try {
             const response = await updateData(idPJ, data); // Using postData module to send data
             closeModal(); // Tutup modal setelah penghapusan selesai.
+            setShowConfirmationModal(false);
             window.location.reload();
             console.log("Response from server:", response);
-            // Handle response from server
-        } catch (error) {
-            console.error("Error posting data:", error);
+            toast.current?.show({ severity: 'success', summary: 'Berhasil', detail: 'Pimpinan Jemaah berhasil diperbarui', life: 3000 });
+            } catch (error) {
+                console.error("Error posting data:", error);
+                toast.current?.show({ severity: 'error', summary: 'Error', detail: `Gagal Memperbarui Pimpinan Jemaah: ${error.message}`, life: 3000 });
             // Handle error if necessary
         }
     };
 
       const days = [
-        { value: 'sunday', label: 'Minggu' },
-        { value: 'monday', label: 'Senin' },
-        { value: 'tuesday', label: 'Selasa' },
-        { value: 'wednesday', label: 'Rabu' },
-        { value: 'thursday', label: 'Kamis' },
-        { value: 'friday', label: 'Jumat' },
-        { value: 'saturday', label: 'Sabtu' }
+        { value: "Minggu", label: "Minggu"},
+        { value: "Senin", label: "Senin" },
+        { value: "Selasa", label: "Selasa" },
+        { value: "Rabu", label: "Rabu" },
+        { value: "Kamis", label: "Kamis" },
+        { value: "Jumat", label: "Jumat" },
+        { value: "Sabtu", label: "Sabtu" }
     ];
 
     const timesOfDay = [
@@ -194,7 +203,7 @@ const ModalUpdatePJ = ({  idPJ, initialValues }) => {
       };
 
     const handleSelectNumberChange = (selectedOption) => {
-        setSelectedNumbers(selectedOption)
+        setSelectedNumbers(selectedOption.value)
     };
   
   const handleMubalighChange = (selectedOption) => {
@@ -203,11 +212,11 @@ const ModalUpdatePJ = ({  idPJ, initialValues }) => {
   };
 
   const handleDayChange = (selectedOptions)=>{
-    setSelectedDays(selectedOptions)
+    setSelectedDays(selectedOptions.value)
   }
 
   const handleTimeChange = (selectedOptions)=>{
-    setSelectedTimes(selectedOptions)
+    setSelectedTimes(selectedOptions.label)
   }
   
   const handleLingkupChange1 = (selectedOption)=>{
@@ -252,6 +261,15 @@ const ModalUpdatePJ = ({  idPJ, initialValues }) => {
   const handleTambahKeahlian = () => {
     setKeahlianInputs([...keahlianInputs, { keahlian: null, minimal: '' }]);
   };
+
+  const handleConfirmReject = () => {
+    setShowConfirmationModal(false)
+    toast.current?.show({ severity: 'info', summary: 'Dibatalkan', detail: 'Berhasil membatalkan perbarui pimpinan jemaah', life: 3000 });
+};
+
+const handleConfirmAccept = () => {
+    setShowConfirmationModal(true);
+};
     
   return (
     <>
@@ -498,7 +516,7 @@ const ModalUpdatePJ = ({  idPJ, initialValues }) => {
                                 <button
                                     className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                     type="button"
-                                    onClick={handleEditClick}
+                                    onClick={handleConfirmAccept}
                                 >
                                     Perbarui
                                 </button>
@@ -508,6 +526,23 @@ const ModalUpdatePJ = ({  idPJ, initialValues }) => {
                 </div>
         </>
       ) : null}
+       {/* Modal Konfirmasi */}
+       <Modal show={showConfirmationModal} onHide={() => setShowConfirmationModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Pesan Konfirmasi</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Apakah Anda yakin ingin memperbarui Pimpinan Jemaah ini?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleConfirmReject}>
+                        Batal
+                    </Button>
+                    <Button variant="primary" onClick={handleEditClick}>
+                        Ya, perbarui
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <ConfirmDialog />
+            <Toast ref={toast} />
     </>
   );
 };

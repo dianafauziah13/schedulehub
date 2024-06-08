@@ -26,7 +26,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
     useEffect(() => {
         fetchScopeOptions();
         fetchKeahlianOptions()
-        console.log(initialValues,"aasdasdasda")
+        // console.log(initialValues,"aasdasdasda")
       }, []);
 
     

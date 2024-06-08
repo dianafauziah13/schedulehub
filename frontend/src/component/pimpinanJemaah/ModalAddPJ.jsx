@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { MdOutlineMosque } from "react-icons/md";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
+import { Button, Modal } from 'react-bootstrap'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 const ModalAddPJ = () => {
 const [showModal, setShowModal] = useState(false);
+const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 const [namaPJ, setNamaPJ] = useState('');
 const [mubalighOptions, setMubalighOptions] = useState([]);
 const [LingkupOptions, setLingkupOptions] = useState([]);
@@ -20,6 +25,7 @@ const [selectedLingkup5, setSelectedLingkup5] = useState(null);
 const [KeahlianOptions, setKeahlianOptions] = useState([]);
 const [keahlianInputs, setKeahlianInputs] = useState([{ keahlian: null, minimal: '' }]);
 
+const toast = useRef(null);
 
 useEffect(() => {
     fetchMubalighJumat();
@@ -155,10 +161,15 @@ const fetchMubalighJumat = async () => {
         const response = await postData(data); // Using postData module to send data
         closeModal(); // Tutup modal setelah penghapusan selesai.
         window.location.reload();
+        setShowConfirmationModal(false);
+        window.location.reload();
         console.log("Response from server:", response);
+        // Menampilkan pesan sukses
+        toast.current?.show({ severity: 'success', summary: 'Berhasil', detail: 'Pimpinan jemaah berhasil ditambahkan', life: 3000 });
         // Handle response from server
     } catch (error) {
         console.error("Error posting data:", error);
+        toast.current?.show({ severity: 'error', summary: 'Error', detail: `Gagal menambahkan pimpinan jemaah: ${error.message}`, life: 3000 });
         // Handle error if necessary
     }
 };
@@ -248,6 +259,15 @@ const fetchMubalighJumat = async () => {
   const handleTambahKeahlian = () => {
     setKeahlianInputs([...keahlianInputs, { keahlian: null, minimal: '' }]);
   };
+
+  const handleConfirmReject = () => {
+    setShowConfirmationModal(false)
+    toast.current?.show({ severity: 'info', summary: 'Dibatalkan', detail: 'Berhasil membatalkan tambah pimpinan jemaah', life: 3000 });
+};
+
+const handleConfirmAccept = () => {
+    setShowConfirmationModal(true);
+};
 
     return (
         <>
@@ -494,7 +514,7 @@ const fetchMubalighJumat = async () => {
                                     <button
                                         className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                         type="button"
-                                        onClick={handleTambahClick}
+                                        onClick={handleConfirmAccept}
                                     >
                                         Tambah
                                     </button>
@@ -504,6 +524,23 @@ const fetchMubalighJumat = async () => {
                     </div>
             </>
           ) : null}
+           {/* Modal Konfirmasi */}
+           <Modal show={showConfirmationModal} onHide={() => setShowConfirmationModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Pesan Konfirmasi</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Apakah Anda yakin ingin menambahkan pimpinan jemaah ini?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleConfirmReject}>
+                        Batal
+                    </Button>
+                    <Button variant="primary" onClick={handleTambahClick}>
+                        Ya, Tambah
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <ConfirmDialog />
+            <Toast ref={toast} />
         </>
       );
 }; 

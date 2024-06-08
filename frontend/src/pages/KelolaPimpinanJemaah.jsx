@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 // import axios from "../axiosConfig";
 // import styles from '../index.css';
 import ModalAddPJ from "../component/pimpinanJemaah/ModalAddPJ";
-// import ModalDeletePJ from "../component/pimpinanJemaah/ModalDeletePJ";
 import ModalUpdatePJ from '../component/pimpinanJemaah/ModalUpdatePJ'
 import { FaRegTrashAlt } from 'react-icons/fa';
 import { FiAlertCircle } from "react-icons/fi";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 
 
 const KelolaPimpinanJemaah = () => {
@@ -15,6 +16,8 @@ const KelolaPimpinanJemaah = () => {
     const [selectedId, setSelectedId] = useState(null);
     const [data2, setData2] = useState([])
     
+    const toast = useRef(null);
+
     useEffect(() => { 
         fetchData()
     }, [])
@@ -113,11 +116,13 @@ const KelolaPimpinanJemaah = () => {
             console.log("Data successfully deleted!");
             fetchData(); // Setelah penghapusan berhasil, perbarui daftar PJ.
             closeModal(); // Tutup modal setelah penghapusan selesai.
+            toast.current?.show({ severity: 'success', summary: 'Berhasil', detail: 'Mubaligh berhasil dihapus', life: 3000 });
         } else {
             console.error("Failed to delete data");
-        }
-    } catch (error) {
-        console.log(error);
+            }
+            } catch (error) {
+                console.log(error);
+                toast.current?.show({ severity: 'error', summary: 'Error', detail: `Gagal menghapus Mubaligh: ${error.message}`, life: 3000 });
     }
     };
     
@@ -277,7 +282,8 @@ const KelolaPimpinanJemaah = () => {
                     </tbody>
                 </table>
             </div>
-           
+            <ConfirmDialog />
+            <Toast ref={toast} />
         </div>
     </div>
         // </div>
