@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import {FaRegEdit } from "react-icons/fa";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
+import { Button, Modal } from 'react-bootstrap'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
     const [showModal, setShowModal] = useState(false);
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     const [namaMubaligh, setNamaMubaligh] = useState(initialValues.NamaMubaligh);
     const [mubalighOptions, setMubalighOptions] = useState([])
     const [lingkupDakwah, setLingkupDakwah] = useState([])
@@ -15,6 +21,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
     const [KeahlianOptions, setKeahlianOptions] = useState([]);
     const [keahlianInputs, setKeahlianInputs] = useState(initialValues.keahlian);
 
+    const toast = useRef(null);
     
     useEffect(() => {
         fetchScopeOptions();
@@ -129,10 +136,13 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
         try {
             const response = await updateMubaligh(idMubaligh, data);
             closeModal();
+            setShowConfirmationModal(false);
             window.location.reload();
             console.log("Response from server:", response);
-        } catch (error) {
-            console.error("Error posting data:", error);
+            toast.current?.show({ severity: 'success', summary: 'Berhasil', detail: 'Mubaligh berhasil diperbarui', life: 3000 });
+            } catch (error) {
+                console.error("Error posting data:", error);
+                toast.current?.show({ severity: 'error', summary: 'Error', detail: `Gagal Memperbarui Mubaligh: ${error.message}`, life: 3000 });
         }
     };
     
@@ -179,6 +189,15 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
         const newKeahlianInputs = [...keahlianInputs];
         newKeahlianInputs.splice(index, 1);
         setKeahlianInputs(newKeahlianInputs);
+    };
+
+    const handleConfirmReject = () => {
+        setShowConfirmationModal(false)
+        toast.current?.show({ severity: 'info', summary: 'Dibatalkan', detail: 'Berhasil membatalkan perbarui mubaligh', life: 3000 });
+    };
+
+    const handleConfirmAccept = () => {
+        setShowConfirmationModal(true);
     };
     
 
@@ -354,18 +373,10 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
                                     <button
                                         className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none"
                                         type="button"
-                                        onClick={handleEditClick}
+                                        onClick={handleConfirmAccept}
                                     >
                                         Edit
                                     </button>
-                                    {/* <button
-                                        className="text-white bg-[#1026cd] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none"
-                                        type="button"
-                                        onClick={handleAddKeahlian}
-                                    
-                                    >
-                                        Edit List Keahlian
-                                    </button> */}
                                     </div>
                                 </div>
                             </div>
@@ -373,6 +384,23 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
                     </div>
             </>
           ) : null}
+          {/* Modal Konfirmasi */}
+          <Modal show={showConfirmationModal} onHide={() => setShowConfirmationModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Pesan Konfirmasi</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Apakah Anda yakin ingin memperbarui mubaligh ini?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleConfirmReject}>
+                        Batal
+                    </Button>
+                    <Button variant="primary" onClick={handleEditClick}>
+                        Ya, perbarui
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <ConfirmDialog />
+            <Toast ref={toast} />
         </>
       );
     

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ModalAddMubaligh from "../component/mubaligh/ModalAddMubaligh";
 import ModalUpdateMubaligh from "../component/mubaligh/ModalUpdateMubaligh";
 import { FiAlertCircle } from "react-icons/fi";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 
 
 const KelolaMubaligh = () => {
@@ -12,6 +14,8 @@ const KelolaMubaligh = () => {
     const [selectedId, setSelectedId] = useState(null);
     const [data2, setData2] = useState([])
     
+    const toast = useRef(null);
+
     useEffect(() => { 
         fetchData()
     }, [])
@@ -111,11 +115,13 @@ const KelolaMubaligh = () => {
             console.log("Data successfully deleted!");
             fetchData(); // Setelah penghapusan berhasil, perbarui daftar PJ.
             closeModal(); // Tutup modal setelah penghapusan selesai.
+            toast.current?.show({ severity: 'success', summary: 'Berhasil', detail: 'Mubaligh berhasil dihapus', life: 3000 });
         } else {
             console.error("Failed to delete data");
         }
     } catch (error) {
         console.log(error);
+        toast.current?.show({ severity: 'error', summary: 'Error', detail: `Gagal menghapus Mubaligh: ${error.message}`, life: 3000 });
     }
     }
         
@@ -268,7 +274,8 @@ const KelolaMubaligh = () => {
                             </tbody>
                         </table>
                     </div>
-                   
+                    <ConfirmDialog />
+                    <Toast ref={toast} />
                 </div>
             </div>
         // </div>
