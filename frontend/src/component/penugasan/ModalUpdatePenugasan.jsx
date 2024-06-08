@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import {FaRegEdit } from "react-icons/fa";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 
 const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
     const [showModal, setShowModal] = useState(false);
@@ -12,6 +14,8 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
     const [selectedPJ, setSelectedPJ] = useState(initialValues.pimpinan);
     const [tglAwal, setTglAwal] = useState(initialValues.tgl_awal.split('T')[0])
     const [tglAkhir, setTglAkhir] = useState(initialValues.tgl_akhir.split('T')[0])
+
+    const toast = useRef(null);
 
     useEffect(() => {
         fetchMubalighJumat();
@@ -113,9 +117,11 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
           window.location.reload();
           console.log("Response from server:", response);
           // Handle response from server
+          toast.current?.show({ severity: 'success', summary: 'Berhasil', detail: 'Penugasan berhasil di perbarui', life: 3000 });
         } catch (error) {
           console.error("Error posting data:", error);
-          // Handle error if necessary
+          toast.current?.show({ severity: 'error', summary: 'Error', detail: `Gagal mengahapus penugasan: ${error.message}`, life: 3000 });
+        // Handle error if necessary
         }
       };
     
@@ -276,9 +282,11 @@ return (
                                 </div>
                             </div>
                         </div>
-                    </div>
+                     </div>
         </>
       ) : null}
+      <ConfirmDialog />
+      <Toast ref={toast} />
     </>
   );
     
