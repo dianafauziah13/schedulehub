@@ -116,7 +116,7 @@ const Login = () => {
       }
     } catch (error) {
       console.error('Login error:', error);
-      setError('Login failed. Please check your credentials.');
+      setError('Login gagal. Silakan periksa kembali username dan password Anda');
     }
   };
 

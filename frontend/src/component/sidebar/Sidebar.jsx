@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom";
-import { FaBars, FaCalendarAlt, FaFile, FaUser } from "react-icons/fa";
+import { NavLink, useNavigate } from "react-router-dom";
+import { FaBars, FaCalendarAlt, FaFile, FaUser, FaSignOutAlt } from "react-icons/fa";
 import { RiAiGenerate } from "react-icons/ri";
 import { MdMosque } from "react-icons/md";
 import { AiTwotoneFileExclamation } from "react-icons/ai";
@@ -16,19 +16,17 @@ const ketuaRoutes = [
       {
         path: "/dashboard/JadwalJumat",
         name: "Khutbah Jum'at ",
-        // icon: <FaUser />,
       },
       {
         path: "/dashboard/JadwalPengajian",
         name: "Pengajian Rutin",
-        // icon: <FaLock />,
       },
     ],
   },
   {
     path: "/dashboard/hasil-generate",
     name: "Persetujuan Jadwal",
-    icon: <RiAiGenerate  />,
+    icon: <RiAiGenerate />,
     subRoutes: [
       {
         path: "/dashboard/hasil-generate/jumat",
@@ -42,8 +40,6 @@ const ketuaRoutes = [
   }
 ]
 
-
-
 const bidgarRoutes = [
   {
     path: "/",
@@ -53,12 +49,10 @@ const bidgarRoutes = [
       {
         path: "/dashboard/JadwalJumat",
         name: "Khutbah Jum'at ",
-        // icon: <FaUser />,
       },
       {
         path: "/dashboard/JadwalPengajian",
         name: "Pengajian Rutin",
-        // icon: <FaLock />,
       },
     ],
   },
@@ -75,7 +69,7 @@ const bidgarRoutes = [
   {
     path: "/dashboard/penugasanMubaligh",
     name: "Penugasan Mubaligh",
-    icon: <FaFile/> ,
+    icon: <FaFile />,
   },
   {
     path: "/dashboard/generate-jadwal",
@@ -85,105 +79,20 @@ const bidgarRoutes = [
       {
         path: "/dashboard/jadwal/jumat",
         name: "Khutbah Jum'at ",
-        // icon: <FaUser />,
       },
       {
         path: "/dashboard/jadwal/pengajian",
         name: "Pengajian Rutin",
-        // icon: <FaLock />,
       },
     ],
   }
 ]
 
-// const routes = [
-//   {
-//     path: "/",
-//     name: "Jadwal Khutbah",
-//     icon: <FaCalendarAlt />,
-//     subRoutes: [
-//       {
-//         path: "/dashboard/JadwalJumat",
-//         name: "Khutbah Jum'at ",
-//         // icon: <FaUser />,
-//       },
-//       {
-//         path: "/dashboard/JadwalPengajian",
-//         name: "Pengajian Rutin",
-//         // icon: <FaLock />,
-//       },
-//     ],
-//   },
-//   // {
-//   //   path: "/dashboard/accounts",
-//   //   name: "Kelola Akun",
-//   //   icon: <FaUserGroup />,
-//   // },
-//   {
-//     path: "/dashboard/PimpinanJemaah",
-//     name: "Pimpinan Jamaah",
-//     icon: <MdMosque />,
-//   },
-//   {
-//     path: "/dashboard/kelolaMubaligh",
-//     name: "Kelola Mubaligh",
-//     icon: <FaUser />,
-//     // subRoutes: [
-//     //   {
-//     //     path: "/dashboard/kelolaMubaligh",
-//     //     name: "Kelola Mubaligh",
-//     //     // icon: <FaUser />,
-//     //   },
-//     //   {
-//     //     path: "/dashboard/rekapMubaligh",
-//     //     name: "Rekap Mubaligh",
-//     //     // icon: <FaLock />,
-//     //   },
-//     // ],
-//   },
-//   {
-//     path: "/dashboard/penugasanMubaligh",
-//     name: "Penugasan Mubaligh",
-//     icon: <FaFile/> ,
-//   },
-//   {
-//     path: "/dashboard/generate-jadwal",
-//     name: "Buat Jadwal",
-//     icon: <AiTwotoneFileExclamation />,
-//     subRoutes: [
-//       {
-//         path: "/dashboard/jadwal/jumat",
-//         name: "Khutbah Jum'at ",
-//         // icon: <FaUser />,
-//       },
-//       {
-//         path: "/dashboard/jadwal/pengajian",
-//         name: "Pengajian Rutin",
-//         // icon: <FaLock />,
-//       },
-//     ],
-//   },
-//   {
-//     path: "/dashboard/hasil-generate",
-//     name: "Persetujuan Jadwal",
-//     icon: <RiAiGenerate  />,
-//     subRoutes: [
-//       {
-//         path: "/dashboard/hasil-generate/jumat",
-//         name: "Khutbah Jum'at ",
-//       },
-//       {
-//         path: "/dashboard/hasil-generate/pengajian",
-//         name: "Pengajian Rutin",
-//       },
-//     ],
-//   }
-// ];
-
 const SideBar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
-  
+  const navigate = useNavigate();
+
   const showAnimation = {
     hidden: {
       width: 0,
@@ -201,20 +110,25 @@ const SideBar = ({ children }) => {
     },
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("role");
+    navigate("/login");
+  };
+
   return (
     <>
-      <div className="main-container">
+      <div className="main-container" style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
         <motion.div
           animate={{
             width: isOpen ? "200px" : "45px",
-
             transition: {
               duration: 0.5,
               type: "spring",
               damping: 10,
             },
           }}
-          className={`sidebar `}
+          className={`sidebar`}
+          style={{ display: 'flex', flexDirection: 'column' }}
         >
           <div className="top_section">
             <AnimatePresence>
@@ -235,28 +149,12 @@ const SideBar = ({ children }) => {
               <FaBars onClick={toggle} />
             </div>
           </div>
-          {/* <div className="search">
-            <div className="search_icon">
-              <BiSearch />
-            </div>
-            <AnimatePresence>
-              {isOpen && (
-                <motion.input
-                  initial="hidden"
-                  animate="show"
-                  exit="hidden"
-                  variants={inputAnimation}
-                  type="text"
-                  placeholder="Search"
-                />
-              )}
-            </AnimatePresence>
-          </div> */}
-          <section className="routes">
-            {(localStorage.getItem("role") == "ketua" ? ketuaRoutes : bidgarRoutes).map((route, index) => {
+          <section className="routes" style={{ flexGrow: 1 }}>
+            {(localStorage.getItem("role") === "ketua" ? ketuaRoutes : bidgarRoutes).map((route, index) => {
               if (route.subRoutes) {
                 return (
                   <SidebarMenu
+                    key={index}
                     setIsOpen={setIsOpen}
                     route={route}
                     showAnimation={showAnimation}
@@ -290,6 +188,24 @@ const SideBar = ({ children }) => {
               );
             })}
           </section>
+          <div className="logout-section" style={{ marginTop: 'auto' }}>
+            <div className="link" onClick={handleLogout}>
+              <div className="icon"><FaSignOutAlt /></div>
+              <AnimatePresence>
+                {isOpen && (
+                  <motion.div
+                    variants={showAnimation}
+                    initial="hidden"
+                    animate="show"
+                    exit="hidden"
+                    className="link_text"
+                  >
+                    Exit
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
         </motion.div>
 
         <main>{children}</main>
