@@ -1,8 +1,10 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import "react-datepicker/dist/react-datepicker.css";
 import ModalUpdatePenugasan from '../component/penugasan/ModalUpdatePenugasan';
 import ModalAddPenugasan from '../component/penugasan/ModalAddPenugasan';
 import { FaRegTrashAlt } from 'react-icons/fa';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 
 const PenugasanMubaligh = () => {
     const [data, setData] = useState(null)
@@ -10,6 +12,7 @@ const PenugasanMubaligh = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
 
+    const toast = useRef(null);
 
     useEffect(() => { 
         fetchData();
@@ -65,11 +68,15 @@ const PenugasanMubaligh = () => {
             console.log("Data successfully deleted!");
             fetchData(); // Setelah penghapusan berhasil, perbarui daftar PJ.
             closeModal(); // Tutup modal setelah penghapusan selesai.
+             // Handle response from server
+            toast.current?.show({ severity: 'success', summary: 'Berhasil', detail: 'Penugasan berhasil di hapus', life: 3000 });
         } else {
             console.error("Failed to delete data");
         }
     } catch (error) {
         console.log(error);
+        toast.current?.show({ severity: 'error', summary: 'Error', detail: `Gagal mengahapus penugasan: ${error.message}`, life: 3000 });
+        // Handle error if necessary
     }
     };
 
@@ -152,7 +159,8 @@ const PenugasanMubaligh = () => {
                                 </tbody>
                             </table>
                         </div>
-                    
+                        <ConfirmDialog />
+                        <Toast ref={toast} />
                     </div>
                 </div>
             // </div>

@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { BiUserPlus } from "react-icons/bi";
 import {FaCalendarAlt} from "react-icons/fa";
 import DatePicker from 'react-datepicker';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 
 const ModalAddPenugasan = () => {
     const [showModal, setShowModal] = useState(false);
@@ -15,6 +17,8 @@ const ModalAddPenugasan = () => {
     const [tglAwal, setTglAwal] = useState(new Date())
     const [tglAkhir, setTglAkhir] = useState(new Date())
   
+    const toast = useRef(null);
+
     useEffect(() => {
       fetchMubalighJumat();
       fetchPimpinanJemaah();
@@ -101,8 +105,10 @@ const ModalAddPenugasan = () => {
         window.location.reload();
         console.log("Response from server:", response);
         // Handle response from server
+        toast.current?.show({ severity: 'success', summary: 'Berhasil', detail: 'Penugasan berhasil ditambahkan', life: 3000 });
       } catch (error) {
         console.error("Error posting data:", error);
+        toast.current?.show({ severity: 'error', summary: 'Error', detail: `Gagal menambahkan penugasan: ${error.message}`, life: 3000 });
         // Handle error if necessary
       }
     };
@@ -265,6 +271,8 @@ const ModalAddPenugasan = () => {
                     </div>
             </>
           ) : null}
+          <ConfirmDialog />
+          <Toast ref={toast} />
         </>
       );
     

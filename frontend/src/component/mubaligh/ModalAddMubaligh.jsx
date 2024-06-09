@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Select from "react-select";
 import { BiUserPlus } from "react-icons/bi";
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
+import { Button, Modal } from 'react-bootstrap'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ModalAddMubaligh = () => {
     const [showModal, setShowModal] = useState(false);
+    const [showConfirmationModal, setShowConfirmationModal] = useState(false);
     const [namaMubaligh, setNamaMubaligh] = useState('');
     const [scopeOptions, setScopeOptions] = useState([]);
     const [selectedLingkup, setSelectedLingkup] = useState(null);
@@ -13,6 +18,7 @@ const ModalAddMubaligh = () => {
     const [KeahlianOptions, setKeahlianOptions] = useState([]);
     const [keahlianInputs, setKeahlianInputs] = useState([{ keahlian: null, minimal: '' }]);
 
+    const toast = useRef(null);
     
     useEffect(() => {
         fetchScopeOptions();
@@ -118,13 +124,15 @@ const ModalAddMubaligh = () => {
         try {
             const response = await postData(data);
             closeModal();
+            setShowConfirmationModal(false);
             window.location.reload();
             // console.log("Response from server:", response);
+            // Menampilkan pesan sukses
+            toast.current?.show({ severity: 'success', summary: 'Berhasil', detail: 'Mubaligh berhasil ditambahkan', life: 3000 });
         } catch (error) {
-            console.error("Error posting data:", error);
+            toast.current?.show({ severity: 'error', summary: 'Error', detail: `Gagal menambahkan Mubaligh: ${error.message}`, life: 3000 });
         }
     };
-    
   
     const handleLingkupChange = (selectedOption) => {
       setSelectedLingkup(selectedOption);
@@ -168,6 +176,15 @@ const ModalAddMubaligh = () => {
         setKeahlianInputs(newKeahlianInputs);
     };
     
+    const handleConfirmReject = () => {
+        setShowConfirmationModal(false)
+        toast.current?.show({ severity: 'info', summary: 'Dibatalkan', detail: 'Berhasil membatalkan tambah mubaligh', life: 3000 });
+    };
+
+    const handleConfirmAccept = () => {
+        setShowConfirmationModal(true);
+    };
+
 
     return (
         <>
@@ -340,25 +357,36 @@ const ModalAddMubaligh = () => {
                                     <button
                                         className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none"
                                         type="button"
-                                        onClick={handleTambahClick}
+                                        onClick={handleConfirmAccept}
                                     >
                                         Tambah
                                     </button>
-                                    {/* <button
-                                        className="text-white bg-[#1026cd] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none"
-                                        type="button"
-                                        onClick={handleAddKeahlian}
-                                    
-                                    >
-                                        Tambah List Keahlian
-                                    </button> */}
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
             </>
           ) : null}
+
+            {/* Modal Konfirmasi */}
+            <Modal show={showConfirmationModal} onHide={() => setShowConfirmationModal(false)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Pesan Konfirmasi</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>Apakah Anda yakin ingin menambahkan mubaligh ini?</Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleConfirmReject}>
+                        Batal
+                    </Button>
+                    <Button variant="primary" onClick={handleTambahClick}>
+                        Ya, Tambah
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <ConfirmDialog />
+            <Toast ref={toast} />
         </>
       );
     
