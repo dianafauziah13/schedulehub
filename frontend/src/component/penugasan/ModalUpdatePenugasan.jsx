@@ -172,7 +172,7 @@ return (
                   <div className="relative  w-auto my-6 mx-auto max-w-6xl mt-24">
                       <div className="border-0 rounded-lg shadow relative flex flex-col w-full bg-white outline-none focus:outline-none px-10 font-montserrat">
                           <div className="flex items-start justify-between p-5 rounded-t">
-                              <h3 className="text-black text-xl font-semibold">Tambah Penugasan</h3>
+                              <h3 className="text-black text-xl font-semibold">Perbarui Penugasan</h3>
                            </div>
                                
                                 <div className="relative px-6 flex-auto flex flex-wrap">
