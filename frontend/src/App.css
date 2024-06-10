@@ -53,14 +53,14 @@
 
 /* Sidebar */
 .sidebar {
-  background: white;
-  color: black;
+  background: #222D32;
+  color: white;
   height: 100vh;
   overflow-y: auto;
 }
 
 .icon{
-  color: black;
+  color: white;
 }
 
 .top_section {
@@ -104,7 +104,7 @@
 }
 .link {
   display: flex;
-  color: black;
+  color: white;
   gap: 10px;
   padding: 5px 10px;
   border-right: 4px solid transparent;
@@ -116,8 +116,8 @@
   transition: 0.2s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 .active {
-  border-right: 4px solid black;
-  background: rgb(142, 148, 231);
+  border-right: 4px solid white;
+  background: #20bfaa;
 }
 .link_text {
   white-space: nowrap;
@@ -126,7 +126,7 @@
 
 .menu {
   display: flex;
-  color: black;
+  color: white;
 
   padding: 5px 10px;
   border-right: 4px solid transparent;
@@ -145,6 +145,8 @@
   padding-left: 20px;
   border-bottom: black 0.5px solid;
 }
+
+
 
 /* .App-logo {
   height: 40vmin;

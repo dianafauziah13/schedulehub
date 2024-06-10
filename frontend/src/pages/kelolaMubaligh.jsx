@@ -2,10 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import ModalAddMubaligh from "../component/mubaligh/ModalAddMubaligh";
 import ModalUpdateMubaligh from "../component/mubaligh/ModalUpdateMubaligh";
 import { FiAlertCircle } from "react-icons/fi";
-import { FaRegTrashAlt } from "react-icons/fa";
+import { FaRegTrashAlt, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
-
 
 const KelolaMubaligh = () => {
     const [data, setData] = useState(null)
@@ -13,12 +12,23 @@ const KelolaMubaligh = () => {
     const [isDetailOpen, setIsDetailOpen] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [data2, setData2] = useState([])
-    
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
+
     const toast = useRef(null);
 
     useEffect(() => { 
         fetchData()
     }, [])
+
+    useEffect(() => {
+        if (data) {
+            const filtered = data.filter(item => 
+                item.mubalighName.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            setFilteredData(filtered);
+        }
+    }, [searchQuery, data]);
 
     const openModal = (Id) => {
         // console.log(Id);
@@ -125,6 +135,23 @@ const KelolaMubaligh = () => {
     }
     }
         
+    const maxRowsToShow = 5;
+    const [currentPage, setCurrentPage] = useState(1);
+    const indexOfLastRow = currentPage * maxRowsToShow;
+    const indexOfFirstRow = indexOfLastRow - maxRowsToShow;
+    const currentData = filteredData ? filteredData.slice(indexOfFirstRow, indexOfLastRow) : [];
+
+    const handleNextPage = () => {
+        if (indexOfLastRow < filteredData.length) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
 
     if (!data) {
         return <div> Loading </div>
@@ -139,26 +166,40 @@ const KelolaMubaligh = () => {
                     <ModalAddMubaligh />
                     </button>
                 </div>
-                <div className="flex flex-col items-center w-full bg-white px-5 py-3 shadow-md font-montserrat rounded-md">
+                <div className="flex flex-col items-center w-full bg-white px-0 py-0 shadow-md font-montserrat rounded-md">
                     <div className=" w-full">
-
+                    <input
+                        type="text"
+                        className="border rounded p-2"
+                        placeholder="Cari Nama mubaligh"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
                         
                         <table className="table-auto w-full border-separate border-spacing-y-3">
                             <thead>
                                 <tr>
-                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">No</th>
-                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Nama Mubaligh</th>
-                                    <th className="px-30 py-1 border-line border-b-2 text-line font-normal">Lingkup Dakwah</th>
-                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Ketersediaan Waktu Jumat</th>
-                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Ketersediaan Waktu Pengajian</th>
-                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Actions</th>
+                                    <th className="px-4 py-1 border-line border-b-2 text-line text-center font-normal">No</th>
+                                    <th className="px-4 py-1 border-line border-b-2 text-line text-center font-normal">Nama Mubaligh</th>
+                                    <th className="px-30 py-1 border-line border-b-2 text-line text-center font-normal">Lingkup Dakwah</th>
+                                    <th className="px-4 py-1 border-line border-b-2 text-line text-center font-normal">Ketersediaan Waktu Jumat</th>
+                                    <th className="px-4 py-1 border-line border-b-2 text-line text-center font-normal">Ketersediaan Waktu Pengajian</th>
+                                    <th className="px-4 py-1 border-line border-b-2 text-line text-center font-normal">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody className=''>
-                                {
-                                    data.map((v,i)=>{
+                            {currentData.length === 0 ? (
+                                    <div className="absolute flex justify-center items-center w-[90%] ">
+                                        <div className="w-full mb-10 rounded-lg bg-white p-3">
+                                            <p className="font-montserrat text-xl font-semibold mb-4 text-center">
+                                                Tidak ada Data Mubaligh
+                                            </p>
+                                        </div>
+                                    </div>
+                                ) :
+                                currentData.map((v,i)=>{
                                         return <tr className='bg-[#F5F5F5] rounded-md shadow-md' >
-                                        <td className="text-center w-10 px-4 py-2 rounded-l-lg">{i+1}</td>
+                                        <td className="text-center w-10 px-4 py-2 rounded-l-lg">{i+indexOfFirstRow + 1}</td>
                                         <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.mubalighName}</td>
                                         <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.scope_dakwah}</td>
                                         <td className="text-center px-4 py-2">{v.AvailableKhutbahJumat.toString()}</td>
@@ -276,6 +317,28 @@ const KelolaMubaligh = () => {
                     </div>
                     <ConfirmDialog />
                     <Toast ref={toast} />
+                    <div className='flex justify-between w-[100%]'>
+                        <p className='mt-2 py-2'>Showing {indexOfFirstRow + 1} to {indexOfLastRow} of {data.length} entries</p>
+                        <p className='mt-2 py-2'>{currentPage}</p>
+                        <div className='gap-0 flex'>
+                            {currentPage > 1 && (
+                                <button
+                                    className="mt-2 px-1 py-2 rounded"
+                                    onClick={handlePrevPage}
+                                >
+                                    <FaArrowLeft className='w-[25px]' />
+                                </button>
+                            )}
+                            {indexOfLastRow < data.length && (
+                                <button
+                                    className="mt-2 px-1 py-2 rounded"
+                                    onClick={handleNextPage}
+                                >
+                                    <FaArrowRight className='w-[25px]' />
+                                </button>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </div>
         // </div>
