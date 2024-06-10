@@ -83,7 +83,12 @@ const ModalAddPenugasan = () => {
       }
     };
   
-    const handleTambahClick = async () => {
+    const handleTambahClick = async (event) => {
+      event.preventDefault();
+      if (!selectedPJ || !selectedMubalighKhutbahJumat || !tglAwal || !tglAkhir ) {
+        window.alert("Pastikan Input sudah benar!");
+        return; // Stop form submission
+      }
         const formattedTglAwal = convertToISOFormat(tglAwal);
         const formattedTglAkhir = convertToISOFormat(tglAkhir);
       const data = {
