@@ -152,7 +152,9 @@ const JadwalJumat = () => {
                                 <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Jumat ke-2 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 2).toLocaleDateString()}</p></th>
                                 <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Jumat ke-3 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 3).toLocaleDateString()}</p></th>
                                 <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Jumat ke-4 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 4).toLocaleDateString()}</p></th>
-                                <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Jumat ke-5 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 5).toLocaleDateString()}</p></th>
+                                {getFridays(startDate.getFullYear(), startDate.getMonth(), 4).getMonth() === getFridays(startDate.getFullYear(), startDate.getMonth(), 5).getMonth() && (
+                                        <th className="px-4 py-1 border-line border-b-2 text-line font-normal text-center">Jumat ke-5 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 5).toLocaleDateString()}</p></th>
+                                    )}
                             </tr>
                         </thead>
                         <tbody>

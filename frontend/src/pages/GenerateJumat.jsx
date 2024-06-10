@@ -160,42 +160,48 @@ const GenerateJumat = () => {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                        <table className="table-auto w-full border-separate border-spacing-y-3">
+                       <table className="table-auto w-full border-separate border-spacing-y-3">
                             <thead>
                                 <tr>
-                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Pimpinan Jemaah</th>
-                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Jumat ke-1 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 1).toLocaleDateString()}</p></th>
-                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Jumat ke-2 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 2).toLocaleDateString()}</p></th>
-                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Jumat ke-3 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 3).toLocaleDateString()}</p></th>
-                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Jumat ke-4 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 4).toLocaleDateString()}</p></th>
-                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Jumat ke-5 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 5).toLocaleDateString()}</p></th>
+                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal text-center">Pimpinan Jemaah</th>
+                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal text-center">Jumat ke-1 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 1).toLocaleDateString()}</p></th>
+                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal text-center">Jumat ke-2 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 2).toLocaleDateString()}</p></th>
+                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal text-center">Jumat ke-3 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 3).toLocaleDateString()}</p></th>
+                                    <th className="px-4 py-1 border-line border-b-2 text-line font-normal text-center">Jumat ke-4 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 4).toLocaleDateString()}</p></th>
+                                    {getFridays(startDate.getFullYear(), startDate.getMonth(), 4).getMonth() === getFridays(startDate.getFullYear(), startDate.getMonth(), 5).getMonth() && (
+                                        <th className="px-4 py-1 border-line border-b-2 text-line font-normal text-center">Jumat ke-5 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 5).toLocaleDateString()}</p></th>
+                                    )}
                                 </tr>
                             </thead>
                             <tbody>
-                            {currentData.length === 0 ? (
+                                {currentData.length === 0 ? (
                                     <div className="absolute flex justify-center items-center w-[90%]">
                                         <div className="w-full mb-10 rounded-lg bg-white p-3">
                                             <p className="font-montserrat text-xl font-semibold mb-4 text-center">
-                                                Tidak ada jadwal 
+                                                Tidak ada jadwal
                                             </p>
                                         </div>
                                     </div>
-                                ) :
-                                currentData.map((v,i)=>{
-                                        return <tr className='bg-[#F5F5F5] rounded-md shadow-md' >
-                                        <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.PimpinanJemaah}</td>
-                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_1}</td>
-                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_2}</td>
-                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_3}</td>
-                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_4}</td>
-                                        {getFridays (startDate.getFullYear(), startDate.getMonth(), 4).getMonth() == getFridays (startDate.getFullYear(), startDate.getMonth(), 5).getMonth()
-                                        ?
-                                        <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_5}</td> : <td className="text-center w-36 px-4 py-2 rounded-l-lg"> </td> }
-                                    </tr>
+                                ) : (
+                                    currentData.map((v, i) => {
+                                        const hasFifthFriday = getFridays(startDate.getFullYear(), startDate.getMonth(), 4).getMonth() === getFridays(startDate.getFullYear(), startDate.getMonth(), 5).getMonth();
+                                        return (
+                                            <tr className="bg-[#F5F5F5] rounded-md shadow-md" key={i}>
+                                                <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.PimpinanJemaah}</td>
+                                                <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_1}</td>
+                                                <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_2}</td>
+                                                <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_3}</td>
+                                                <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_4}</td>
+                                                {hasFifthFriday && (
+                                                    <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke_5}</td>
+                                                )}
+                                            </tr>
+                                        );
                                     })
-                                }
+                                )}
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>

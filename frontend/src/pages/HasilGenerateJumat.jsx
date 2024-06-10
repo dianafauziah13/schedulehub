@@ -237,7 +237,9 @@ const GenerateJumat = () => {
                                                     <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-2 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 2).toLocaleDateString()}</p></div>
                                                     <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-3 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 3).toLocaleDateString()}</p></div>
                                                     <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-4 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 4).toLocaleDateString()}</p></div>
-                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-5 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 5).toLocaleDateString()}</p></div>
+                                                    {getFridays(startDate.getFullYear(), startDate.getMonth(), 4).getMonth() === getFridays(startDate.getFullYear(), startDate.getMonth(), 5).getMonth() && (
+                                                        <th className="px-4 py-1 border-line border-b-2 text-line font-normal text-center">Jumat ke-5 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 5).toLocaleDateString()}</p></th>
+                                                    )}
                                                 </div>
                                                 {data2.map((v, i) => (
                                                     <div key={i} className="grid grid-cols-6 gap-3 bg-[#F5F5F5] rounded-md shadow-md mt-3">
