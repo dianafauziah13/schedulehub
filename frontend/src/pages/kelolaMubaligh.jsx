@@ -198,7 +198,7 @@ const KelolaMubaligh = () => {
                                     </div>
                                 ) :
                                 currentData.map((v,i)=>{
-                                        return <tr className='bg-[#F5F5F5] rounded-md shadow-md' >
+                                        return <tr className='bg-[#F5F5F5] rounded-md shadow-md' key={v._id} >
                                         <td className="text-center w-10 px-4 py-2 rounded-l-lg">{i+indexOfFirstRow + 1}</td>
                                         <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.mubalighName}</td>
                                         <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.scope_dakwah}</td>
