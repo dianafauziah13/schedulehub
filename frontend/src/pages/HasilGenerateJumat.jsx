@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {FaArrowLeft, FaArrowRight} from "react-icons/fa";
 import 'react-datepicker/dist/react-datepicker.css';
 
 const GenerateJumat = () => {
@@ -7,6 +8,7 @@ const GenerateJumat = () => {
     const [data2, setData2] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
+    const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => { 
         getHistory()
@@ -153,27 +155,52 @@ const GenerateJumat = () => {
         return date;
     };
     
+    const maxRowsToShow = 5;
+    const [currentPage, setCurrentPage] = useState(1);
+    const indexOfLastRow = currentPage * maxRowsToShow;
+    const indexOfFirstRow = indexOfLastRow - maxRowsToShow;
+    const currentData = data ? data.slice(indexOfFirstRow, indexOfLastRow) : [];
+
+    const handleNextPage = () => {
+        if (indexOfLastRow < data.length) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
     return (
         <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
             <h1 className='text-[30px] font-montserrat mb-7'>Hasil Generate Khutbah Jum'at</h1>
-
             <div className="flex flex-col items-center w-[98%] ml-[80px] pt-6">
                 <table className="table-auto w-full border-separate border-spacing-y-3">
                     <thead>
                         <tr>
-                            <th className="px-4 py-1 border-line border-b-2 text-line font-normal">No</th>
-                            <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Keterangan</th>
-                            <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Bulan</th>
-                            <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Tahun</th>
-                            <th className="px-30 py-1 border-line border-b-2 text-line font-normal">Status</th>
+                            <th className="px-4 py-1 border-line border-b-2 text-line text-center font-normal">No</th>
+                            <th className="px-4 py-1 border-line border-b-2 text-line text-center font-normal">Keterangan</th>
+                            <th className="px-4 py-1 border-line border-b-2 text-line text-center font-normal">Bulan</th>
+                            <th className="px-4 py-1 border-line border-b-2 text-line text-center font-normal">Tahun</th>
+                            <th className="px-30 py-1 border-line border-b-2 text-line text-center font-normal">Status</th>
                         </tr>
                     </thead>
                     <tbody className=''>
-                        {
-                            data.map((v, i) => {
+                    {currentData.length === 0 ? (
+                                    <div className="absolute flex justify-center items-center w-[90%]">
+                                        <div className="w-full mb-10 rounded-lg bg-white p-3">
+                                            <p className="font-montserrat text-xl font-semibold mb-4 text-center">
+                                                Tidak ada jadwal 
+                                            </p>
+                                        </div>
+                                    </div>
+                                ) :
+                                currentData.map((v, i) => {
                             return (
                             <tr className='bg-[#F5F5F5] rounded-md shadow-md' key={i}>
-                            <td className="relative text-center px-10 py-2 rounded-l-lg">{i + 1}</td>    
+                            <td className="relative text-center px-10 py-2 rounded-l-lg">{i +indexOfFirstRow + 1}</td>    
                             <td className="relative text-center px-10 py-2 rounded-l-lg">Hasil Generate Khutbah Jumat</td>
                             <td className="relative text-center px-10 py-2 rounded-l-lg ">{v.HistoryBulan}</td>
                             <td className="relative text-center px-10 py-2 rounded-l-lg ">{v.HistoryTahun}</td>
@@ -263,6 +290,28 @@ const GenerateJumat = () => {
                     </tbody>
                 </table>
             </div>
+            <div className='flex justify-between w-[100%]'>
+                        <p className='mt-2 py-2'>Showing {indexOfFirstRow + 1} to {indexOfLastRow} of {data.length} entries</p>
+                        <p className='mt-2 py-2'>{currentPage}</p>
+                        <div className='gap-0 flex'>
+                            {currentPage > 1 && (
+                                <button
+                                    className="mt-2 px-1 py-2 rounded"
+                                    onClick={handlePrevPage}
+                                >
+                                    <FaArrowLeft className='w-[25px]' />
+                                </button>
+                            )}
+                            {indexOfLastRow < data.length && (
+                                <button
+                                    className="mt-2 px-1 py-2 rounded"
+                                    onClick={handleNextPage}
+                                >
+                                    <FaArrowRight className='w-[25px]' />
+                                </button>
+                            )}
+                        </div>
+                    </div>
         </div>
     );
 };

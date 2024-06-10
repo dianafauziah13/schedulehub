@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 // import styles from '../index.css';
 import ModalAddPJ from "../component/pimpinanJemaah/ModalAddPJ";
 import ModalUpdatePJ from '../component/pimpinanJemaah/ModalUpdatePJ'
-import { FaRegTrashAlt } from 'react-icons/fa';
+import { FaRegTrashAlt, FaArrowLeft, FaArrowRight  } from 'react-icons/fa';
 import { FiAlertCircle } from "react-icons/fi";
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
@@ -15,12 +15,23 @@ const KelolaPimpinanJemaah = () => {
     const [isDetailOpen, setIsDetailOpen] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [data2, setData2] = useState([])
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
     
     const toast = useRef(null);
 
     useEffect(() => { 
         fetchData()
     }, [])
+
+    useEffect(() => {
+        if (data) {
+            const filtered = data.filter(item => 
+                item.Nama.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            setFilteredData(filtered);
+        }
+    }, [searchQuery, data]);
 
     const openModal = (Id) => {
         console.log(Id);
@@ -125,6 +136,24 @@ const KelolaPimpinanJemaah = () => {
                 toast.current?.show({ severity: 'error', summary: 'Error', detail: `Gagal menghapus Mubaligh: ${error.message}`, life: 3000 });
     }
     };
+
+    const maxRowsToShow = 5;
+    const [currentPage, setCurrentPage] = useState(1);
+    const indexOfLastRow = currentPage * maxRowsToShow;
+    const indexOfFirstRow = indexOfLastRow - maxRowsToShow;
+    const currentData = filteredData ? filteredData.slice(indexOfFirstRow, indexOfLastRow) : [];
+
+    const handleNextPage = () => {
+        if (indexOfLastRow < filteredData.length) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
     
     if (!data) {
         return <div> Loading </div>
@@ -139,22 +168,38 @@ const KelolaPimpinanJemaah = () => {
             <ModalAddPJ />
             </button>
         </div>
-        <div className="flex flex-col items-center w-full bg-white px-5 py-3 shadow-md font-montserrat rounded-md">
+        <div className="flex flex-col items-center w-full bg-white px-0 py-0 shadow-md font-montserrat rounded-md">
             <div className=" w-full">
+            <input
+                    type="text"
+                    className="border rounded p-2"
+                    placeholder="Cari Nama Pimpinan Jemaah"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
                 <table className="table-auto w-full border-separate border-spacing-y-3">
                     <thead>
                         <tr>
-                            <th className="px-4 py-1 border-line border-b-2 text-line font-normal">No</th>
-                            <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Nama Pimpinan Jemaah</th>
-                            <th className="px-30 py-1 border-line border-b-2 text-line font-normal">Ketua Pimpinan Jemaah</th>
-                            <th className="px-4 py-1 border-line border-b-2 text-line font-normal">Actions</th>
+                            <th className="px-4 py-1 border-line border-b-2 text-line font-normal ">No</th>
+                            <th className="px-4 py-1 border-line border-b-2 text-line text-center font-normal">Nama Pimpinan Jemaah</th>
+                            <th className="px-30 py-1 border-line border-b-2 text-line text-center font-normal">Ketua Pimpinan Jemaah</th>
+                            <th className="px-4 py-1 border-line border-b-2 text-line text-center font-normal">Aksi</th>
                         </tr>
                     </thead>
                     <tbody className=''>
-                        {
-                            data.map((v,i)=>{
+                    {currentData.length === 0 ? (
+                                    <div className="absolute flex justify-center items-center w-[90%]">
+                                        <div className="w-full mb-10 rounded-lg bg-white p-3">
+                                            <p className="font-montserrat text-xl font-semibold mb-4 text-center">
+                                                Tidak ada Data Pimpinan Jemaah 
+                                            </p>
+                                        </div>
+                                    </div>
+                                ) :
+                        
+                            currentData.map((v,i)=>{
                                 return <tr className='bg-[#F5F5F5] rounded-md shadow-md' key={v._id}>
-                                <td className="text-center w-10 px-4 py-2 rounded-l-lg">{i+1}</td>
+                                <td className="text-center w-10 px-4 py-2 rounded-l-lg">{i+ indexOfFirstRow + 1}</td>
                                 <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.Nama}</td>
                                 <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.KetuaPJ}</td>
                                 <td className=" relative items-center px-4 py-2 rounded-r-lg">
@@ -284,6 +329,28 @@ const KelolaPimpinanJemaah = () => {
             </div>
             <ConfirmDialog />
             <Toast ref={toast} />
+            <div className='flex justify-between w-[100%]'>
+                        <p className='mt-2 py-2'>Showing {indexOfFirstRow + 1} to {indexOfLastRow} of {data.length} entries</p>
+                        <p className='mt-2 py-2'>{currentPage}</p>
+                        <div className='gap-0 flex'>
+                            {currentPage > 1 && (
+                                <button
+                                    className="mt-2 px-1 py-2 rounded"
+                                    onClick={handlePrevPage}
+                                >
+                                    <FaArrowLeft className='w-[25px]' />
+                                </button>
+                            )}
+                            {indexOfLastRow < data.length && (
+                                <button
+                                    className="mt-2 px-1 py-2 rounded"
+                                    onClick={handleNextPage}
+                                >
+                                    <FaArrowRight className='w-[25px]' />
+                                </button>
+                            )}
+                        </div>
+                    </div>
         </div>
     </div>
         // </div>
