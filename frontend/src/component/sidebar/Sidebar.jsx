@@ -85,6 +85,21 @@ const bidgarRoutes = [
         name: "Pengajian Rutin",
       },
     ],
+  },
+  {
+    path: "/dashboard/history-generate",
+    name: "History Generate",
+    icon: <RiAiGenerate />,
+    subRoutes: [
+      {
+        path: "/dashboard/history-generate/jumat",
+        name: "Khutbah Jum'at ",
+      },
+      {
+        path: "/dashboard/history-generate/pengajian",
+        name: "Pengajian Rutin",
+      },
+    ],
   }
 ]
 
