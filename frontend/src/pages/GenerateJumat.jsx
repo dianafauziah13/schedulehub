@@ -393,11 +393,7 @@ const GenerateJumat = () => {
             >
                 Buat
             </button>
-
-
-
             </div>
-
             {statusValidasi && (
             <div className='flex justify-center py-5 items-center w-[98%]'>
                 <span className="text-red-500 text-2xl">Jadwal Telah Disetujui</span>

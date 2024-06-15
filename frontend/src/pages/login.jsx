@@ -160,9 +160,7 @@ const Login = () => {
               />
             </form>
             {error && <div className="text-red-500 text-center mt-4">{error}</div>}
-            <div className="text-center pt-12 pb-12">
-              <p>Don't have an account? <a href="register.html" className="underline font-semibold">Register here.</a></p>
-            </div>
+            
           </div>
         </div>
         {/* Image Section */}

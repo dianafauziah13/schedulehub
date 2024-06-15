@@ -243,17 +243,17 @@ const GenerateJumat = () => {
                                                 </div>
                                                 {data2.map((v, i) => (
                                                     <div key={i} className="grid grid-cols-6 gap-3 bg-[#F5F5F5] rounded-md shadow-md mt-3">
-                                                    <div className="text-center max-w-[25px] h-auto px-4 py-2">{v.PimpinanJemaah}</div>
-                                                    <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_1}</div>
-                                                    <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_2}</div>
-                                                    <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_3}</div>
-                                                    <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_4}</div>
+                                                    <div className="px-4 py-1 font-normal">{v.PimpinanJemaah}</div>
+                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_1}</div>
+                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_2}</div>
+                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_3}</div>
+                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_4}</div>
                                                     {getFridays (startDate.getFullYear(), startDate.getMonth(), 4).getMonth() == getFridays (startDate.getFullYear(), startDate.getMonth(), 5).getMonth()
                                                         ?
-                                                    <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_5} </div> : <div className="text-center w-36 px-4 py-2"> </div> }
+                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_5} </div> : <div className="text-center w-36 px-4 py-2"> </div> }
                                                     </div>
                                                 ))}
-                                                </div>
+                                            </div>
                                                 <div className="flex items-center justify-between p-6 rounded-b">
                                                     <button
                                                         className="text-black bg-[#F4F4F4] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"

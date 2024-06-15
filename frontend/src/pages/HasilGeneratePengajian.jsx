@@ -188,7 +188,7 @@ const GeneratePengajian = () => {
                             return (
                             <tr className='bg-[#F5F5F5] rounded-md shadow-md' key={i}>
                             <td className="relative text-center px-10 py-2 rounded-l-lg">{i + 1}</td>    
-                            <td className="relative text-center px-10 py-2 rounded-l-lg">Hasil Generate Khutbah Jumat</td>
+                            <td className="relative text-center px-10 py-2 rounded-l-lg">Hasil Generate Pengajian Rutin</td>
                             <td className="relative text-center px-10 py-2 rounded-l-lg ">{v.HistoryBulan}</td>
                             <td className="relative text-center px-10 py-2 rounded-l-lg ">{v.HistoryTahun}</td>
                             <td className="relative text-center px-10 py-2 rounded-l-lg " >
