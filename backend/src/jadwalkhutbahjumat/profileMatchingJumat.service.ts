@@ -137,6 +137,9 @@ async generateProfileJumat(jadwalJumatDTO: JadwalJumatSchemaDto): Promise<any>{
   const hasil = await this.jadwalJumatModel.find({tahun: jadwalJumatDTO.tahun, bulan: jadwalJumatDTO.bulan})
   if(hasil.length >= 5) return true
 
+  const hasilGenrate = hasil.find(a=> a.statusValidasi == true)
+  if (hasilGenrate) return false
+  
   class BobotKriteria {
     nama = '';
     hasilPerhitungan = []
