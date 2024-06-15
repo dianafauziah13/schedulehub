@@ -289,23 +289,11 @@ const GenerateJumat = () => {
             if (result?.statusValidasi) {
                 setStatusValidasi(true);
             } else {
-<<<<<<< HEAD
                 console.log("sdfsdfsdf")
                 if (countBuat < 5) {
                     postDataJumat();
                     setStatusValidasi(false);
                     setCountBuat(countBuat + 1); // Tambahkan hitungan
-=======
-                // Pengecekan apakah sudah mencapai 5 kali buat
-                if (countBuat < 5 ) {
-                    try{
-                        postDataJumat();
-                        setStatusValidasi(false);
-                        setCountBuat(countBuat + 1); // Tambahkan hitungan
-                    }catch{
-                        console.log("tidak bisa membuat jadwal, data tidak valid")
-                    }
->>>>>>> 693da00380350f2c177030c067a8ce6f849c7644
                 } else {
                     alert("Anda sudah mencapai batas maksimal 5 kali pembuatan jadwal untuk bulan ini.");
                     setStatusValidasi(false);
@@ -424,13 +412,8 @@ const GenerateJumat = () => {
             <button
                 className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                 type="button"
-<<<<<<< HEAD
-                onClick={fetchDataJumat}
-                // disabled={countBuat >= 5}
-=======
                 onClick={postDataJumat}
                 disabled={countBuat >= 5}
->>>>>>> 693da00380350f2c177030c067a8ce6f849c7644
             >
                 Buat
             </button>

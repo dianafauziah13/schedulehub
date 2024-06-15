@@ -219,14 +219,15 @@ const HistoryGenerateJumat = () => {
                             <td className="relative text-center px-10 py-2 rounded-l-lg ">{v.HistoryTahun}</td>
                             <td className="relative text-center px-10 py-2 rounded-l-lg " >
                                 
-                                    <div className='flex justify-center m-1'>
+                            <button onClick={() => openModal(v._id)}>
+                                    <div className='flex justify-center m-2'>
                                             <td
                                                 className="text-sky-300 relative items-center px-4 py-2 rounded-r-lg"
                                                 key={v.statusValidasi}
                                                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                                             >
                                                 <span
-                                                    className="p-2 rounded-md "
+                                                    className="p-2 rounded-md"
                                                     style={makeStyle(v.statusValidasi)}
                                                 >
                                                {getStatusText(v.statusValidasi, v.komentar)}
@@ -234,13 +235,9 @@ const HistoryGenerateJumat = () => {
                                             </td>
               
                                     </div>
-<<<<<<< HEAD
-                                
-                                {/* {isModalOpen && (
-=======
-                                </button> 
+                                </button>
+                
                                 {isModalOpen && (
->>>>>>> 693da00380350f2c177030c067a8ce6f849c7644
                                 <>
                                 <div className="flex w-[98%] ml-[80px] justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                                     <div className="relative  w-auto my-6 mx-auto max-w-6xl mt-24">
