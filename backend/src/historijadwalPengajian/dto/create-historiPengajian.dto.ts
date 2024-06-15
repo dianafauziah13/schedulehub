@@ -7,7 +7,7 @@ export class jadwalDTO{
     Mubaligh: String;
 }
 
-export class PengajianSchemaDTO {
+export class historiPengajianSchemaDTO {
     bulan: number;
     tahun: number;
     statusValidasi: boolean = false;

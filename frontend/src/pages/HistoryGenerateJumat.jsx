@@ -27,7 +27,7 @@ const HistoryGenerateJumat = () => {
     
     const getHistory = async ()=> {
         try {
-            const response = await fetch("http://localhost:3000/generatejadwaljumat")
+            const response = await fetch("http://localhost:3000/historijumat")
             const tanggaljumat = await response.json()
             let tampilHistory = []
 
@@ -36,7 +36,8 @@ const HistoryGenerateJumat = () => {
                     "_id": value._id,
                     "statusValidasi": value.statusValidasi,
                     "HistoryBulan":value.bulan,
-                    "HistoryTahun":value.tahun
+                    "HistoryTahun":value.tahun,
+                    "komentar" : value.comment
                 })
                 
                 if(tampilHistory.statusValidasi === true){
@@ -55,7 +56,7 @@ const HistoryGenerateJumat = () => {
 
     const getJadwal = async (selectedId)=> {
         try {
-            const response = await fetch(`http://localhost:3000/generatejadwaljumat/${selectedId}`)
+            const response = await fetch(`http://localhost:3000/historijumat/${selectedId}`)
             const jadwaljumat = await response.json()
             console.log(jadwaljumat)
             let tampilJadwal = []
@@ -102,7 +103,7 @@ const HistoryGenerateJumat = () => {
 
     const deleteJadwalJumat = async () => {
         try {
-        const response = await fetch(`http://localhost:3000/generatejadwaljumat/${selectedId}`, {
+        const response = await fetch(`http://localhost:3000/historijumat/${selectedId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -173,6 +174,18 @@ const HistoryGenerateJumat = () => {
         }
     };
 
+    const getStatusText = (statusValidasi, komentar) => {
+        if (statusValidasi === true) {
+            return "Disetujui";
+        } else if (statusValidasi === false && komentar) {
+            return "Tidak Disetujui";
+        } else if (statusValidasi === false && !komentar) {
+            return "Belum Disetujui";
+        } else {
+            return "Unknown";
+        }
+    };
+
     return (
         <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
             <h1 className='text-[30px] font-montserrat mb-7'>History Generate Khutbah Jum'at</h1>
@@ -201,7 +214,7 @@ const HistoryGenerateJumat = () => {
                             return (
                             <tr className='bg-[#F5F5F5] rounded-md shadow-md' key={i}>
                             <td className="relative text-center px-10 py-2 rounded-l-lg">{i +indexOfFirstRow + 1}</td>    
-                            <td className="relative text-center px-10 py-2 rounded-l-lg">Hasil Generate Khutbah Jumat</td>
+                            <td className="relative text-center px-10 py-2 rounded-l-lg"> {v.komentar ? v.komentar : "Tidak ada Komentar"}</td>
                             <td className="relative text-center px-10 py-2 rounded-l-lg ">{v.HistoryBulan}</td>
                             <td className="relative text-center px-10 py-2 rounded-l-lg ">{v.HistoryTahun}</td>
                             <td className="relative text-center px-10 py-2 rounded-l-lg " >
@@ -216,13 +229,13 @@ const HistoryGenerateJumat = () => {
                                                     className="p-2 rounded-md"
                                                     style={makeStyle(v.statusValidasi)}
                                                 >
-                                                {v.statusValidasi ? "Disetujui" : "Belum Disetujui"}
+                                               {getStatusText(v.statusValidasi, v.komentar)}
                                                 </span>
                                             </td>
               
                                     </div>
                                 </button> 
-                                {/* {isModalOpen && (
+                                {isModalOpen && (
                                 <>
                                 <div className="flex w-[98%] ml-[80px] justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                                     <div className="relative  w-auto my-6 mx-auto max-w-6xl mt-24">
@@ -268,22 +281,22 @@ const HistoryGenerateJumat = () => {
                                                         type="button"
                                                         onClick={deleteJadwalJumat}
                                                         >
-                                                        Tidak Setuju
+                                                        Hapus
                                                         </button>
-                                                        <button
+                                                        {/* <button
                                                         className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                                         type="button"
                                                         onClick={() => updateStatus(selectedId)}
                                                         >
                                                         Setujui
-                                                        </button>
+                                                        </button> */}
                                                     </div>
                                                     </div>
                                               </div>
                                           </div>
                                       </div>
                               </>
-                                                )} */}
+                                                )}
                             </td>
                             </tr>
                             );

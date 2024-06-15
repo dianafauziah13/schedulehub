@@ -132,8 +132,10 @@ export class ProfileMatchingServiceJumat {
   }
 
   
-async generateProfileJumat(jadwalJumatDTO: JadwalJumatSchemaDto): Promise<JadwalJumatSchema>{
+async generateProfileJumat(jadwalJumatDTO: JadwalJumatSchemaDto): Promise<any>{
   const newJadwalJumat = new this.jadwalJumatModel(jadwalJumatDTO);
+  const hasil = await this.jadwalJumatModel.find({tahun: jadwalJumatDTO.tahun, bulan: jadwalJumatDTO.bulan})
+  if(hasil.length >= 5) return true
 
   class BobotKriteria {
     nama = '';
@@ -173,6 +175,12 @@ async generateProfileJumat(jadwalJumatDTO: JadwalJumatSchemaDto): Promise<Jadwal
 
     // Looping sebanyak penugasan
     penugasan.forEach(p => {
+
+      if(jadwalJumatDTO.bulan >  p.tgl_akhir.getMonth()+1 && jadwalJumatDTO.tahun == p.tgl_akhir.getFullYear() || jadwalJumatDTO.tahun > p.tgl_akhir.getFullYear()){
+       
+        return
+      }
+        
       const pimpinanJemaah = p.Penugasan.pimpinan;
       let mubaligh = p.Penugasan.mubaligh_khutbah_jumat;
 
@@ -252,7 +260,9 @@ async generateProfileJumat(jadwalJumatDTO: JadwalJumatSchemaDto): Promise<Jadwal
   });
 
   newJadwalJumat.Jadwal = jadwal;
-  
+  if( jadwal.length == 0)
+    return null
+
   return await newJadwalJumat.save();
 
   //  log(bobot_alternatif);

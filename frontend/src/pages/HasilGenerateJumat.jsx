@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import {FaArrowLeft, FaArrowRight} from "react-icons/fa";
 import 'react-datepicker/dist/react-datepicker.css';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
+
 
 const GenerateJumat = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [data, setData] = useState([]);
     const [data2, setData2] = useState([]);
+    const [data3, setData3] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [filteredData, setFilteredData] = useState([]);
+    const [newComment, setComment] = useState();
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     useEffect(() => { 
         getHistory()
@@ -53,6 +63,40 @@ const GenerateJumat = () => {
         }
     }
 
+    const postHistoriJumat = async (data) => {
+        try {
+            const response = await fetch("http://localhost:3000/historijumat", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }); 
+            const result = await response.json();
+            console.log("histori", result)
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+
+    const updateHistoriJumat = async (selectedId, data) => {
+        try {
+            const response = await fetch(`http://localhost:3000/historijumat/${selectedId}`, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }); 
+            const result = await response.json();
+            console.log("histori", result)
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+
     const getJadwal = async (selectedId)=> {
         try {
             const response = await fetch(`http://localhost:3000/generatejadwaljumat/${selectedId}`)
@@ -72,6 +116,7 @@ const GenerateJumat = () => {
             });
             
             setData2(tampilJadwal)
+            // setData3(jadwal)
 
         } catch (error) {
             console.log(error)
@@ -92,6 +137,7 @@ const GenerateJumat = () => {
                 )
             });
             const result = await response.json();
+            updateHistoriJumat(selectedId, result);
             console.log(result);
             window.location.reload();
             closeModal();
@@ -100,7 +146,31 @@ const GenerateJumat = () => {
         }
     }
 
-    const deleteJadwalJumat = async () => {
+    const updateComment = async (selectedId) => {
+        try {
+            const response = await fetch(`http://localhost:3000/generatejadwaljumat/${selectedId}`, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {
+                        comment: newComment
+                    }
+                )
+            });
+            const result = await response.json();
+            updateHistoriJumat(selectedId,result );
+            // console.log(result);
+            // window.location.reload();
+            closeModal();
+            deleteJadwalJumat(selectedId)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const deleteJadwalJumat = async (selectedId) => {
         try {
         const response = await fetch(`http://localhost:3000/generatejadwaljumat/${selectedId}`, {
             method: 'DELETE',
@@ -171,6 +241,15 @@ const GenerateJumat = () => {
         if (currentPage > 1) {
             setCurrentPage(currentPage - 1);
         }
+    };
+
+    const handleCommentChange = (event) => {
+        setComment(event.target.value);
+      };
+
+      const handleSaveComment = () => {
+        updateComment(selectedId);
+        handleClose();
     };
 
     return (
@@ -266,10 +345,34 @@ const GenerateJumat = () => {
                                                         <button
                                                         className="text-white bg-[#FA8072] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                                         type="button"
-                                                        onClick={deleteJadwalJumat}
+                                                        onClick={handleShow}
                                                         >
                                                         Tidak Setuju
                                                         </button>
+                                                        <Modal show={show} onHide={handleClose}>
+                                                            <Modal.Header closeButton>
+                                                            <Modal.Title>Keterangan Tidak Setuju</Modal.Title>
+                                                            </Modal.Header>
+                                                            <Modal.Body>
+                                                            <Form>
+                                                                <Form.Group
+                                                                className="mb-3"
+                                                                controlId="Masukan alasan tidak setuju"
+                                                                >
+                                                                <Form.Label>Keterangan</Form.Label>
+                                                                <Form.Control as="textarea" rows={3} value={newComment} onChange={handleCommentChange}  />
+                                                                </Form.Group>
+                                                            </Form>
+                                                            </Modal.Body>
+                                                            <Modal.Footer>
+                                                            <Button variant="secondary" onClick={handleClose}>
+                                                                Kembali
+                                                            </Button>
+                                                            <Button variant="primary" onClick={handleSaveComment}>
+                                                                Simpan
+                                                            </Button>
+                                                            </Modal.Footer>
+                                                        </Modal>
                                                         <button
                                                         className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                                         type="button"

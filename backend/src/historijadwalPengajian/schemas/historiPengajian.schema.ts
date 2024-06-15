@@ -19,7 +19,7 @@ export class jadwal extends Document {
 }
 
 @Schema()
-export class PengajianSchema extends Document {
+export class historiPengajianSchema extends Document {
   @Prop({ type: Number })
   bulan: number;
 
@@ -28,7 +28,7 @@ export class PengajianSchema extends Document {
 
   @Prop({type: Boolean})
   statusValidasi: boolean = false;
-
+  
   @Prop({ type: String  })
   comment : String = '';
   
@@ -37,5 +37,5 @@ export class PengajianSchema extends Document {
 
 }
 
-export const PengajianSchemaModel = SchemaFactory.createForClass(PengajianSchema);
+export const historiPengajianSchemaModel = SchemaFactory.createForClass(historiPengajianSchema);
 export const jadwalModel = SchemaFactory.createForClass(jadwal);

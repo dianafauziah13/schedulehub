@@ -36,22 +36,28 @@ const GenerateJumat = () => {
                     }
                 )
             });
-    
+
             let result;
             try {
                 result = await response.json();
             } catch {
+                setData([])
                 result = null;
+                return;
             }
     
             if (result?.statusValidasi) {
                 setStatusValidasi(true);
             } else {
                 // Pengecekan apakah sudah mencapai 5 kali buat
-                if (countBuat < 5) {
-                    postDataJumat();
-                    setStatusValidasi(false);
-                    setCountBuat(countBuat + 1); // Tambahkan hitungan
+                if (countBuat < 5 ) {
+                    try{
+                        postDataJumat();
+                        setStatusValidasi(false);
+                        setCountBuat(countBuat + 1); // Tambahkan hitungan
+                    }catch{
+                        console.log("tidak bisa membuat jadwal, data tidak valid")
+                    }
                 } else {
                     setStatusValidasi(false);
                     alert("Anda sudah mencapai batas maksimal 5 kali pembuatan jadwal untuk bulan ini.");
@@ -63,6 +69,22 @@ const GenerateJumat = () => {
         }
     }
     
+    const postHistoriJumat = async (data) => {
+        try {
+            const response = await fetch("http://localhost:3000/historijumat", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }); 
+            const result = await response.json();
+            console.log("histori", result)
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
 
     const postDataJumat = async () => {
         try {
@@ -78,13 +100,13 @@ const GenerateJumat = () => {
                         statusValidasi: false
                     }
                 )
-            });
+            }); 
             const result = await response.json();
-            console.log(result);
-
+            if(response.status == 400) throw result;
+            postHistoriJumat(result)
             // Setelah POST, tambahkan data baru ke state
             let tampilJadwal = [];
-            result.Jadwal.forEach(value => {
+            result?.Jadwal?.forEach(value => {
                 tampilJadwal.push({
                     "PimpinanJemaah":value.PimpinanJemaah,
                     "Minggu_ke_1": value.Jumat.find(m=>m.minggu_ke == 1)?.Mubaligh,
@@ -95,8 +117,14 @@ const GenerateJumat = () => {
                 })
             });
             setData(tampilJadwal);
+            if (result?.statusValidasi) {
+                setStatusValidasi(true);
+            }else {
+                setStatusValidasi(false);
+            }
         } catch (error) {
-            console.log(error);
+            console.log(error)
+            alert(error.message);
         }
     }
 
@@ -148,7 +176,7 @@ const GenerateJumat = () => {
             <button
                 className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                 type="button"
-                onClick={fetchDataJumat}
+                onClick={postDataJumat}
                 disabled={countBuat >= 5}
             >
                 Buat

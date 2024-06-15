@@ -11,10 +11,12 @@ import { TempatPenugasanModule } from './tempatpenugasan/penugasan.module';
 import { HitungKhutbahModule } from './hitungjumlahkhutbah/hitungkhutbah.module';
 import { JadwalJumatModule } from './jadwalkhutbahjumat/jumat.module';
 import { JadwalPengajianModule } from './jadwalpengajianrutin/pengajian.module';
+import { historiJumatModule } from './historijadwalJumat/historiJumat.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { RolesGuard } from './auth/roles.guard';
 import { JwtService } from '@nestjs/jwt';
+import { historiPengajianModule } from './historijadwalPengajian/historiPengajian.module';
 
 @Module({
   imports: [
@@ -58,6 +60,8 @@ import { JwtService } from '@nestjs/jwt';
     JadwalJumatModule,
     JadwalPengajianModule,
     AuthModule,
+    historiJumatModule,
+    historiPengajianModule
   ],
   controllers: [AppController],
   providers: [AppService, JwtService,

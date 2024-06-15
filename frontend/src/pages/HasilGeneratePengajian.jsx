@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import {FaArrowLeft, FaArrowRight} from "react-icons/fa";
 import 'react-datepicker/dist/react-datepicker.css';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 
 const GeneratePengajian = () => {
     const [data, setData] = useState([]);
@@ -8,6 +11,11 @@ const GeneratePengajian = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [filteredData, setFilteredData] = useState([]);
+    const [newComment, setComment] = useState()
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     useEffect(() => { 
         getHistory()
@@ -52,6 +60,23 @@ const GeneratePengajian = () => {
         }
     }
 
+    const updateHistoriPengajian = async (selectedId, data) => {
+        try {
+            const response = await fetch(`http://localhost:3000/historipengajian/${selectedId}`, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }); 
+            const result = await response.json();
+            console.log("histori", result)
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+
     const getJadwal = async (selectedId)=> {
         try {
             const response = await fetch(`http://localhost:3000/generatePengajian/${selectedId}`)
@@ -89,6 +114,7 @@ const GeneratePengajian = () => {
                 )
             });
             const result = await response.json();
+            updateHistoriPengajian(selectedId, result);
             console.log(result);
             window.location.reload();
             closeModal();
@@ -97,7 +123,31 @@ const GeneratePengajian = () => {
         }
     }
 
-    const deleteJadwalPengajian = async () => {
+    const updateComment = async (selectedId) => {
+        try {
+            const response = await fetch(`http://localhost:3000/generatePengajian/${selectedId}`, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(
+                    {
+                        comment: newComment
+                    }
+                )
+            });
+            const result = await response.json();
+            updateHistoriPengajian(selectedId,result );
+            // console.log(result);
+            // window.location.reload();
+            closeModal();
+            deleteJadwalPengajian(selectedId)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const deleteJadwalPengajian = async (selectedId) => {
         try {
         const response = await fetch(`http://localhost:3000/generatePengajian/${selectedId}`, {
             method: 'DELETE',
@@ -158,6 +208,14 @@ const GeneratePengajian = () => {
         }
     };
 
+    const handleCommentChange = (event) => {
+        setComment(event.target.value);
+      };
+
+      const handleSaveComment = () => {
+        updateComment(selectedId);
+        handleClose();
+    };
     
     return (
         <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
@@ -247,10 +305,35 @@ const GeneratePengajian = () => {
                                                         <button
                                                             className="text-white bg-[#FA8072] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                                             type="button"
-                                                            onClick={deleteJadwalPengajian}
+                                                            onClick={handleShow}
                                                         >
                                                             Tidak Setuju
                                                         </button>
+                                                        <Modal show={show} onHide={handleClose}>
+                                                            <Modal.Header closeButton>
+                                                            <Modal.Title>Keterangan Tidak Setuju</Modal.Title>
+                                                            </Modal.Header>
+                                                            <Modal.Body>
+                                                            <Form>
+                                                                <Form.Group
+                                                                className="mb-3"
+                                                                controlId="Masukan alasan tidak setuju"
+                                                                >
+                                                                <Form.Label>Keterangan</Form.Label>
+                                                                <Form.Control as="textarea" rows={3} value={newComment} onChange={handleCommentChange}  />
+                                                                </Form.Group>
+                                                            </Form>
+                                                            </Modal.Body>
+                                                            <Modal.Footer>
+                                                            <Button variant="secondary" onClick={handleClose}>
+                                                                Kembali
+                                                            </Button>
+                                                            <Button variant="primary" onClick={handleSaveComment}>
+                                                                Simpan
+                                                            </Button>
+                                                            </Modal.Footer>
+                                                        </Modal>            
+                                         
                                                         <button
                                                             className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                                             type="button"
