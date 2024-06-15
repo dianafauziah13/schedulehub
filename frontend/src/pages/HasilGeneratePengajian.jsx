@@ -264,7 +264,6 @@ const GeneratePengajian = () => {
                                                 {v.statusValidasi ? "Disetujui" : "Belum Disetujui"}
                                                 </span>
                                             </td>
-              
                                     </div>
                                 </button> 
                                 {isModalOpen && (
@@ -285,11 +284,11 @@ const GeneratePengajian = () => {
                                             </div>
                                                 {data2.map((v, i) => (
                                                     <div key={i} className="grid grid-cols-5 gap-3 bg-[#F5F5F5] rounded-md shadow-md mt-3">
-                                                    <div className="text-center max-w-[25px] h-auto px-4 py-2">{i+1}</div>
-                                                    <div className="text-center max-w-[25px] h-auto px-4 py-2">{v.PimpinanJemaah}</div>
-                                                    <div className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Minggu_ke}</div>
-                                                    <div className="text-center w-36 px-4 py-2 rounded-l-lg">{v.hari}</div>
-                                                    <div className="text-center w-36 px-4 py-2 rounded-l-lg">{v.Mubaligh}</div>                                                    
+                                                    <div className="px-4 py-1 font-normal">{i+1}</div>
+                                                    <div className="px-4 py-1 font-normal">{v.PimpinanJemaah}</div>
+                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke}</div>
+                                                    <div className="px-4 py-1 font-normal">{v.hari}</div>
+                                                    <div className="px-4 py-1 font-normal">{v.Mubaligh}</div>                                                    
                                                     </div>
                                                 ))}
                                                 </div>
