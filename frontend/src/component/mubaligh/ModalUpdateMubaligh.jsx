@@ -181,7 +181,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
         setKeahlianInputs(newKeahlianInputs);
     };
     
-    const handleEditKeahlian = () => {
+    const handleTambahKeahlian = () => {
         setKeahlianInputs([...keahlianInputs, { keahlian: null, minimal: '' }]);
     };
 
@@ -341,23 +341,24 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
                                                     onChange={(event) => handleMinimalChange(index, event)}
                                                 />
                                             </div>
-                                            <div className="w-full px-4 mb-4 flex justify-center space-x-4">
-                                                <button
-                                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                                    onClick={() => handleHapusKeahlian(index)}
-                                                >
-                                                    Hapus Keahlian
-                                                </button>
-                                                <button
-                                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                                                    onClick={handleEditKeahlian}
-                                                >
-                                                    Edit Keahlian
-                                                </button>
-                                            </div>
+                                            
                                         </React.Fragment>
                                     ))}
                                 </>
+                                <div className="w-full px-4 mb-4 flex justify-center space-x-4">
+                                    {/* <button
+                                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                        onClick={() => handleHapusKeahlian}
+                                    >
+                                        Hapus Keahlian
+                                    </button> */}
+                                    <button
+                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                        onClick={handleTambahKeahlian}
+                                    >
+                                        Tambah Keahlian
+                                    </button>
+                                </div>
                             </div>
 
                                 </div>
