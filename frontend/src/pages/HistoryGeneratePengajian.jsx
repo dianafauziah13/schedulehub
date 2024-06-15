@@ -26,7 +26,7 @@ const HistoryGeneratePengajian = () => {
     
     const getHistory = async ()=> {
         try {
-            const response = await fetch("http://localhost:3000/generatePengajian")
+            const response = await fetch("http://localhost:3000/historipengajian")
             const tanggaljumat = await response.json()
             let tampilHistory = []
 
@@ -35,7 +35,8 @@ const HistoryGeneratePengajian = () => {
                     "_id": value._id,
                     "statusValidasi": value.statusValidasi,
                     "HistoryBulan":value.bulan,
-                    "HistoryTahun":value.tahun
+                    "HistoryTahun":value.tahun,
+                    "komentar" : value.comment
                 })
                 
                 if(tampilHistory.statusValidasi === true){
@@ -54,7 +55,7 @@ const HistoryGeneratePengajian = () => {
 
     const getJadwal = async (selectedId)=> {
         try {
-            const response = await fetch(`http://localhost:3000/generatePengajian/${selectedId}`)
+            const response = await fetch(`http://localhost:3000/historipengajian/${selectedId}`)
             const jadwalpengajian = await response.json()
             console.log(jadwalpengajian)
             let tampilJadwal = []
@@ -99,7 +100,7 @@ const HistoryGeneratePengajian = () => {
 
     const deleteJadwalPengajian = async () => {
         try {
-        const response = await fetch(`http://localhost:3000/generatePengajian/${selectedId}`, {
+        const response = await fetch(`http://localhost:3000/historipengajian/${selectedId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -158,7 +159,17 @@ const HistoryGeneratePengajian = () => {
         }
     };
 
-    
+    const getStatusText = (statusValidasi, komentar) => {
+        if (statusValidasi === true) {
+            return "Disetujui";
+        } else if (statusValidasi === false && komentar) {
+            return "Tidak Disetujui";
+        } else if (statusValidasi === false && !komentar) {
+            return "Belum Disetujui";
+        } else {
+            return "Unknown";
+        }
+    };
     return (
         <div className='flex flex-col items-center w-[98%] ml-[80px] pt-6'>
             <h1 className='text-[30px] font-montserrat mb-7'>History Generate Pengajian Rutin</h1>
@@ -188,7 +199,7 @@ const HistoryGeneratePengajian = () => {
                             return (
                             <tr className='bg-[#F5F5F5] rounded-md shadow-md' key={i}>
                             <td className="relative text-center px-10 py-2 rounded-l-lg">{i + 1}</td>    
-                            <td className="relative text-center px-10 py-2 rounded-l-lg">Hasil Generate Pengajian Rutin</td>
+                            <td className="relative text-center px-10 py-2 rounded-l-lg">{v.komentar ? v.komentar : "Tidak ada Komentar"}</td>
                             <td className="relative text-center px-10 py-2 rounded-l-lg ">{v.HistoryBulan}</td>
                             <td className="relative text-center px-10 py-2 rounded-l-lg ">{v.HistoryTahun}</td>
                             <td className="relative text-center px-10 py-2 rounded-l-lg " >
@@ -203,13 +214,18 @@ const HistoryGeneratePengajian = () => {
                                                     className="p-2 rounded-md"
                                                     style={makeStyle(v.statusValidasi)}
                                                 >
-                                                {v.statusValidasi ? "Disetujui" : "Belum Disetujui"}
+                                                 {getStatusText(v.statusValidasi, v.komentar)}
                                                 </span>
                                             </td>
               
                                     </div>
+<<<<<<< HEAD
                                 
                                 {/* {isModalOpen && (
+=======
+                                </button> 
+                                {isModalOpen && (
+>>>>>>> 693da00380350f2c177030c067a8ce6f849c7644
                                 <>
                                 <div className="flex w-[98%] ml-[80px] justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                                     <div className="relative  w-auto my-6 mx-auto max-w-6xl mt-24">
@@ -249,22 +265,22 @@ const HistoryGeneratePengajian = () => {
                                                             type="button"
                                                             onClick={deleteJadwalPengajian}
                                                         >
-                                                            Tidak Setuju
+                                                            Hapus
                                                         </button>
-                                                        <button
+                                                        {/* <button
                                                             className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                                                             type="button"
                                                             onClick={() => updateStatus(selectedId)}
                                                         >
                                                             Setuju
-                                                        </button>
+                                                        </button> */}
                                                     </div>
                                                 </div>
                                               </div>
                                           </div>
                                       </div>
                               </>
-                                                )} */}
+                                                )}
                             </td>
                             </tr>
                             );

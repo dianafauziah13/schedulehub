@@ -109,7 +109,12 @@ const fetchMubalighJumat = async () => {
     }
   };
 
-  const handleTambahClick = async () => {
+  const handleTambahClick = async (event) => {
+    event.preventDefault();
+    if (!namaPJ || !selectedMubaligh || !selectedLingkup1|| !selectedLingkup2|| !selectedLingkup3||!selectedLingkup4||!selectedLingkup5) {
+      window.alert("Pastikan Input sudah benar!");
+      return; // Stop form submission
+    }
     const scope_dakwah_pengajian = {
         Keahlian: keahlianInputs
           .filter(input => input.keahlian && input.minimal)

@@ -14,9 +14,13 @@ export class JadwalPengajianController {
 //   }
 
 @Post()
-async generateJadwalJumat(@Body() jadwalPengajianDTO: PengajianSchemaDTO): Promise<PengajianSchema> {
-  const createdJadwalJumat = await this.profilematchingService.generateProfilePengajian(jadwalPengajianDTO);
-  return createdJadwalJumat;
+async generateJadwalPengajian(@Body() jadwalPengajianDTO: PengajianSchemaDTO): Promise<PengajianSchema> {
+  const createdJadwalPengajian = await this.profilematchingService.generateProfilePengajian(jadwalPengajianDTO);
+  if (createdJadwalPengajian == true )
+    throw new HttpException('Data jadwal sudah melebihi dari 5 kali generate', HttpStatus.BAD_REQUEST);
+  else if (createdJadwalPengajian == null)
+    throw new HttpException('Tidak ada data penugasan', HttpStatus.BAD_REQUEST)
+  return createdJadwalPengajian;
 }
 
 @Get()

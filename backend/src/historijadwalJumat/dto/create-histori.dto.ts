@@ -9,7 +9,7 @@ export class JadwalDto {
     Jumat : JumatDto[];
 }
 
-export class JadwalJumatSchemaDto {
+export class historiJadwalJumatSchemaDto {
     bulan : number; 
     tahun : number;
     statusValidasi: boolean;

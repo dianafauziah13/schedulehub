@@ -283,6 +283,23 @@ const GeneratePengajian = () => {
         }
     }
     
+    const postHistoriPengajian = async (data) => {
+        try {
+            const response = await fetch("http://localhost:3000/historipengajian", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }); 
+            const result = await response.json();
+            console.log("histori", result)
+        } catch (error) {
+            console.log(error)
+        }
+        
+    }
+
     const postData = async () => {
         try {
             const response = await fetch("http://localhost:3000/generatePengajian", {
@@ -299,12 +316,13 @@ const GeneratePengajian = () => {
                 )
             });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
+            // if (!response.ok) {
+            //     throw new Error('Network response was not ok');
+            // }
 
             const result = await response.json();
-            console.log(result);
+            if(response.status == 400) throw result;
+            postHistoriPengajian(result)
             
             // Setelah POST, tambahkan data baru ke state
             let tampilJadwal = [];
@@ -317,8 +335,14 @@ const GeneratePengajian = () => {
                 })
             });
             setData(tampilJadwal);
+            if (result?.statusValidasi) {
+                setStatusValidasi(true);
+            }else {
+                setStatusValidasi(false);
+            }
         } catch (error) {
-            console.log(error);
+            console.log(error)
+            alert(error.message);
         }
     }
 
@@ -360,7 +384,7 @@ const GeneratePengajian = () => {
                     className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                     type="button"
                    // Tambahkan event handler onClick untuk memanggil getData
-                    onClick={fetchData}
+                    onClick={postData}
                 >
                     Buat
                 </button>

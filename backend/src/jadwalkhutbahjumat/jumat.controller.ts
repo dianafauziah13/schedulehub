@@ -15,6 +15,10 @@ export class JadwalJumatController {
   @Post()
   async createJadwalJumat(@Body() jadwalJumatDTO: JadwalJumatSchemaDto): Promise<JadwalJumatSchema> {
     const createdJadwalJumat = await this.profileMatchingServiceJumat.generateProfileJumat(jadwalJumatDTO);
+    if (createdJadwalJumat == true )
+      throw new HttpException('Data jadwal sudah melebihi dari 5 kali generate', HttpStatus.BAD_REQUEST);
+    else if (createdJadwalJumat == null)
+      throw new HttpException('Tidak ada data penugasan', HttpStatus.BAD_REQUEST)
     return createdJadwalJumat;
   }
 

@@ -12,12 +12,10 @@ export class Jadwal extends Document {
 
   @Prop({ type: [{ minggu_ke: { type: Number}, Mubaligh: { type: String } }] })
   Jumat: { minggu_ke: Number ; Mubaligh: String }[] = [];
-
-
 }
 
 @Schema()
-export class JadwalJumatSchema extends Document {
+export class historiJadwalJumatSchema extends Document {
   @Prop({ type:  Number})
   bulan: number;  
 
@@ -34,5 +32,5 @@ export class JadwalJumatSchema extends Document {
   Jadwal : Jadwal[] = [];
 }
 
-export const JadwalJumatSchemaModel = SchemaFactory.createForClass(JadwalJumatSchema);
+export const historiJadwalJumatSchemaModel = SchemaFactory.createForClass(historiJadwalJumatSchema);
 export const jadwalModel = SchemaFactory.createForClass(Jadwal);

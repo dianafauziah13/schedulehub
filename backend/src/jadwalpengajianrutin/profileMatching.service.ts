@@ -81,8 +81,10 @@ export class ProfileMatchingService {
     return cfScore + sfScore;
   }
 
-  async generateProfilePengajian(jadwalPengajianDTO: PengajianSchemaDTO) : Promise <PengajianSchema>{
+  async generateProfilePengajian(jadwalPengajianDTO: PengajianSchemaDTO) : Promise <any>{
     const newJadwalPengajian = new this.pengajianModel (jadwalPengajianDTO);
+    const hasil = await this.pengajianModel.find({tahun: jadwalPengajianDTO.tahun, bulan: jadwalPengajianDTO.bulan})
+    if(hasil.length >= 5) return true
 
     // Pengambilan semua penugasan 
     const penugasan = await this.tempatPenugasanService.findAllTempatPenugasan();
@@ -98,6 +100,11 @@ export class ProfileMatchingService {
     let mubaligh_terjadwal = [];
 
     penugasan.forEach(a=>{
+
+      if(jadwalPengajianDTO.bulan >  a.tgl_akhir.getMonth()+1 && jadwalPengajianDTO.tahun == a.tgl_akhir.getFullYear() || jadwalPengajianDTO.tahun > a.tgl_akhir.getFullYear()){
+       
+        return
+      }
       keahlian_mubaligh = [];
       const PimpinanJemaah = a.Penugasan.pimpinan;
       const Mubaligh = a.Penugasan.Mubaligh_Khutbah_pengajian;
@@ -173,6 +180,9 @@ export class ProfileMatchingService {
 
     })
 
+    if( newJadwalPengajian.jadwal.length == 0)
+      return null
+    
     return await newJadwalPengajian.save();
 
   }

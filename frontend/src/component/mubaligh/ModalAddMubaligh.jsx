@@ -102,7 +102,12 @@ const ModalAddMubaligh = () => {
         { value: "jumat", label: "Jumat" },
         { value: "sabtu", label: "Sabtu" }
     ];
-    const handleTambahClick = async () => {
+    const handleTambahClick = async (event) => {
+        event.preventDefault();
+        if (!namaMubaligh || !selectedLingkup) {
+          window.alert("Pastikan Input sudah benar!");
+          return; // Stop form submission
+        }
         const data = {
             idScopeDakwah: selectedLingkup ? selectedLingkup.value : '',
             mubalighName: namaMubaligh,
