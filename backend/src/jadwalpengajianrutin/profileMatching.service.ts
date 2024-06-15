@@ -86,6 +86,9 @@ export class ProfileMatchingService {
     const hasil = await this.pengajianModel.find({tahun: jadwalPengajianDTO.tahun, bulan: jadwalPengajianDTO.bulan})
     if(hasil.length >= 5) return true
 
+    const hasilGenrate = hasil.find(a=> a.statusValidasi == true)
+    if (hasilGenrate) return false
+    
     // Pengambilan semua penugasan 
     const penugasan = await this.tempatPenugasanService.findAllTempatPenugasan();
 
