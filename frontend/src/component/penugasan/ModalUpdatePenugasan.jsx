@@ -136,7 +136,7 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
       };
     
       const handlePJChange = (selectedOption) => {
-        setSelectedPJ(selectedOption);
+        setSelectedPJ(selectedOption.value);
       };
     
       const handleTopikKajianChange = (event) => {

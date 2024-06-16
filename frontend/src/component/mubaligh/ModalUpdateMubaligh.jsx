@@ -139,7 +139,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
             setShowConfirmationModal(false);
             window.location.reload();
             console.log("Response from server:", response);
-            toast.current?.show({ severity: 'success', summary: 'Berhasil', detail: 'Mubaligh berhasil diperbarui', life: 3000 });
+            toast.current?.show({ severity: 'success', summary: 'Berhasil', detail: 'Mubaligh berhasil diperbarui', life: 5000 });
             } catch (error) {
                 console.error("Error posting data:", error);
                 toast.current?.show({ severity: 'error', summary: 'Error', detail: `Gagal Memperbarui Mubaligh: ${error.message}`, life: 3000 });
