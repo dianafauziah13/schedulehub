@@ -94,13 +94,13 @@ const ModalAddMubaligh = () => {
         { value: 5, label: '5' }
     ];
     const hariOptions = [
-        { value: "minggu", label: "Minggu"},
-        { value: "senin", label: "Senin" },
-        { value: "selasa", label: "Selasa" },
-        { value: "rabu", label: "Rabu" },
-        { value: "kamis", label: "Kamis" },
-        { value: "jumat", label: "Jumat" },
-        { value: "sabtu", label: "Sabtu" }
+        { value: "Minggu", label: "Minggu"},
+        { value: "Senin", label: "Senin" },
+        { value: "Selasa", label: "Selasa" },
+        { value: "Rabu", label: "Rabu" },
+        { value: "Kamis", label: "Kamis" },
+        { value: "Jumat", label: "Jumat" },
+        { value: "Sabtu", label: "Sabtu" }
     ];
     const handleTambahClick = async (event) => {
         event.preventDefault();
