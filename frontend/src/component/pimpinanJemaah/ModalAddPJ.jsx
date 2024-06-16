@@ -112,7 +112,7 @@ const fetchMubalighJumat = async () => {
   const handleTambahClick = async (event) => {
     event.preventDefault();
     if (!namaPJ || !selectedMubaligh || !selectedLingkup1|| !selectedLingkup2|| !selectedLingkup3||!selectedLingkup4||!selectedLingkup5) {
-      window.alert("Pastikan Input sudah benar!");
+      toast.current?.show({ severity: 'error', summary: 'Gagal Menambahkan pimpinan jamaah', detail: `Pastikan input data sudah benar`, life: 3000 });
       return; // Stop form submission
     }
     const scope_dakwah_pengajian = {

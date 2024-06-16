@@ -105,7 +105,7 @@ const ModalAddMubaligh = () => {
     const handleTambahClick = async (event) => {
         event.preventDefault();
         if (!namaMubaligh || !selectedLingkup) {
-          window.alert("Pastikan Input sudah benar!");
+            toast.current?.show({ severity: 'error', summary: 'Gagal Menambahkan Mubaligh', detail: `Pastikan input data sudah benar`, life: 3000 });
           return; // Stop form submission
         }
         const data = {

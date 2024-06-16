@@ -86,7 +86,7 @@ const ModalAddPenugasan = () => {
     const handleTambahClick = async (event) => {
       event.preventDefault();
       if (!selectedPJ || !selectedMubalighKhutbahJumat || !tglAwal || !tglAkhir ) {
-        window.alert("Pastikan Input sudah benar!");
+        toast.current?.show({ severity: 'error', summary: 'Gagal Menambahkan penugasan', detail: `Pastikan input benar`, life: 3000 });
         return; // Stop form submission
       }
         const formattedTglAwal = convertToISOFormat(tglAwal);
