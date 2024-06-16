@@ -329,7 +329,8 @@ const KelolaPimpinanJemaah = () => {
             </div>
             <ConfirmDialog />
             <Toast ref={toast} />
-            <div className='flex justify-between w-[100%]'>
+            
+                    <div className='flex justify-between w-[100%]'>
                         <p className='mt-2 py-2'>Showing {indexOfFirstRow + 1} to {indexOfLastRow} of {data.length} entries</p>
                         <p className='mt-2 py-2'>{currentPage}</p>
                         <div className='gap-0 flex'>
