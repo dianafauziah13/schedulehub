@@ -70,6 +70,7 @@ export class TempatPenugasanService {
    const MubalighPengajian = await this.mubalighModel.find({ _id: { $in: mubalighIds2 } }).exec();
 
    // Update data TempatPenugasan
+   existingTempatPenugasan.Penugasan.pimpinan._id = pimpinanjemaah._id;
    existingTempatPenugasan.Penugasan.pimpinan.Nama = pimpinanjemaah.Nama;
    existingTempatPenugasan.TopikKajian = tempatPenugasanDto.TopikKajian;
    existingTempatPenugasan.tgl_awal = tempatPenugasanDto.tgl_awal;

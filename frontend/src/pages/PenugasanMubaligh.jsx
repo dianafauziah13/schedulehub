@@ -48,8 +48,8 @@ const PenugasanMubaligh = () => {
             penugasan.forEach(value => {
                 tampilPenugasan.push({
                     "_id" : value._id,
-                    "tglAwal" : value.tgl_awal,
-                    "tglAkhir" : value.tgl_akhir,
+                    "tglAwal" : convertToIndTime(value.tgl_awal),
+                    "tglAkhir" : convertToIndTime(value.tgl_akhir),
                     "idPimpinan" : value.Penugasan.pimpinan._id,
                     "Nama": value.Penugasan.pimpinan ? value.Penugasan.pimpinan.Nama : null,
                     "idmubalighjumat" :value.Penugasan.mubaligh_khutbah_jumat.map(m => m._id),
@@ -114,6 +114,19 @@ const PenugasanMubaligh = () => {
             setCurrentPage(currentPage - 1);
         }
     };
+
+    const convertToIndTime = (utcDateStr) => {
+        // Create a Date object from the input UTC date string
+        const utcDate = new Date(utcDateStr);
+      
+        // Convert to Asia/Jakarta timezone
+        const jakartaTime = utcDate.toLocaleString('en-US', { timeZone: 'Asia/Jakarta', hour12: false });
+      
+        // Convert the locale string back to ISO format
+        const [date, time] = jakartaTime.split(', ');
+        const [month, day, year] = date.split('/');
+        return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}T${time}`
+      }
         if (!data) {
             return <div> Loading </div>
         }
@@ -163,8 +176,8 @@ const PenugasanMubaligh = () => {
                                             return <tr className={`bg-[#F5F5F5] rounded-md shadow-md ${isDisabled ? 'opacity-50' : ''}`} key={v._id}>
                                             <td className="text-center w-10 px-4 py-2 rounded-l-lg">{i+indexOfFirstRow + 1}</td>
                                             <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.Nama}</td>
-                                            <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.tglAwal.split('T')[0]}</td>
-                                            <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.tglAkhir.split('T')[0]}</td>
+                                            <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.tglAwal?.split('T')[0]}</td>
+                                            <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.tglAkhir?.split('T')[0]}</td>
                                             <td className="text-center px-50 py-2">{v.mubalighJumatName.join(", ")}</td>
                                             <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.mubalighPengajianName.join(", ")}</td>
                                             <td className="text-center px-4 py-2">{v.TopikKajian}</td>

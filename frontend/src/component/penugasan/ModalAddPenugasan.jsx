@@ -14,8 +14,8 @@ const ModalAddPenugasan = () => {
     const [selectedMubalighKhutbahJumat, setSelectedMubalighKhutbahJumat] = useState([]);
     const [selectedMubalighPengajian, setSelectedMubalighPengajian] = useState([]);
     const [selectedPJ, setSelectedPJ] = useState(null);
-    const [tglAwal, setTglAwal] = useState(new Date())
-    const [tglAkhir, setTglAkhir] = useState(new Date())
+    const [tglAwal, setTglAwal] = useState(null)
+    const [tglAkhir, setTglAkhir] = useState(null)
   
     const toast = useRef(null);
 
@@ -145,9 +145,13 @@ const ModalAddPenugasan = () => {
     };
     
     const convertToISOFormat = (dateStr) => {
-        const [day, month, year] = dateStr.split('/');
+      console.log("waktu", dateStr)
+        let date = new Date();
+        if (dateStr) date = dateStr;
+        const [day, month, year] = date.split('/');
         return `${year}-${month}-${day}`;
       };
+
 
     return (
         <>

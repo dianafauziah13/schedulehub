@@ -12,8 +12,8 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
     const [selectedMubalighKhutbahJumat, setSelectedMubalighKhutbahJumat] = useState(initialValues.selectedMubalighKhutbahJumat);
     const [selectedMubalighPengajian, setSelectedMubalighPengajian] = useState(initialValues.selectedMubalighPengajian);
     const [selectedPJ, setSelectedPJ] = useState(initialValues.pimpinan);
-    const [tglAwal, setTglAwal] = useState(initialValues.tgl_awal.split('T')[0])
-    const [tglAkhir, setTglAkhir] = useState(initialValues.tgl_akhir.split('T')[0])
+    const [tglAwal, setTglAwal] = useState(initialValues.tgl_awal?.split('T')[0])
+    const [tglAkhir, setTglAkhir] = useState(initialValues.tgl_akhir?.split('T')[0])
 
     const toast = useRef(null);
 
@@ -95,12 +95,17 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
         }
       };
     
-      const handleUpdateClick = async () => {
-        //   const formattedTglAwal = convertToISOFormat(tglAwal);
-        //   const formattedTglAkhir = convertToISOFormat(tglAkhir);
+      const handleUpdateClick = async (event) => {
+        event.preventDefault();
+        if (!selectedPJ || !selectedMubalighKhutbahJumat || !tglAwal || !tglAkhir ) {
+          toast.current?.show({ severity: 'error', summary: 'Gagal Menambahkan penugasan', detail: `Pastikan input benar`, life: 3000 });
+          return; // Stop form submission
+        }
+        const formattedTglAwal = convertToISOFormat(tglAwal);
+        const formattedTglAkhir = convertToISOFormat(tglAkhir);
         const data = {
-          tgl_awal: tglAwal,
-          tgl_akhir: tglAkhir,
+          tgl_awal: formattedTglAwal,
+          tgl_akhir: formattedTglAkhir,
           TopikKajian: topikKajian,
           Penugasan: {
             pimpinan: {
@@ -151,11 +156,13 @@ const ModalUpdatePenugasan = ({ initialValues, penugasan_id }) => {
         setTglAkhir(event.target.value);
       };
       
-    //   const convertToISOFormat = (dateStr) => {
-    //       const [day, month, year] = dateStr.split('/');
-    //       return `${year}-${month}-${day}`;
-    //     };
-  
+      const convertToISOFormat = (dateStr) => {
+        let date = new Date();
+        if (dateStr) date = dateStr;
+        const [day, month, year] = date.split('/');
+        return `${year}-${month}-${day}`;
+      };
+      
 
 return (
     <>
