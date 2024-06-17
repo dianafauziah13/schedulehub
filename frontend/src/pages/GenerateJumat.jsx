@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect , useRef} from 'react';
 import DatePicker from 'react-datepicker';
 import { FaCalendarAlt,  FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const GenerateJumat = () => {
@@ -11,7 +13,7 @@ const GenerateJumat = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredData, setFilteredData] = useState([]);
     const [countBuat, setCountBuat] = useState(0);
-
+    const toast = useRef(null);
 
     useEffect(() => {
         if (data) {
@@ -121,7 +123,7 @@ const GenerateJumat = () => {
             }
         } catch (error) {
             console.log(error)
-            alert(error.message);
+            toast.current?.show({ severity: 'error', summary: 'Error', detail: `Gagal menambahkan Generate Jadwal: ${error.message}`, life: 3000 });
         }
     }
 
@@ -264,10 +266,11 @@ const GenerateJumat = () => {
                             )}
                         </div>
                     </div>
+                    <ConfirmDialog />
+                    <Toast ref={toast} />
             </>
             
         )}
-       
         </div>
     );
 };

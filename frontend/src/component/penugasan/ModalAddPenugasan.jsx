@@ -14,8 +14,8 @@ const ModalAddPenugasan = () => {
     const [selectedMubalighKhutbahJumat, setSelectedMubalighKhutbahJumat] = useState([]);
     const [selectedMubalighPengajian, setSelectedMubalighPengajian] = useState([]);
     const [selectedPJ, setSelectedPJ] = useState(null);
-    const [tglAwal, setTglAwal] = useState(new Date())
-    const [tglAkhir, setTglAkhir] = useState(new Date())
+    const [tglAwal, setTglAwal] = useState(null)
+    const [tglAkhir, setTglAkhir] = useState(null)
   
     const toast = useRef(null);
 
@@ -85,7 +85,7 @@ const ModalAddPenugasan = () => {
   
     const handleTambahClick = async (event) => {
       event.preventDefault();
-      if (!selectedPJ || !selectedMubalighKhutbahJumat || !tglAwal || !tglAkhir ) {
+      if (!selectedPJ || selectedMubalighKhutbahJumat.length == 0 || !tglAwal || !tglAkhir ) {
         toast.current?.show({ severity: 'error', summary: 'Gagal Menambahkan penugasan', detail: `Pastikan input benar`, life: 3000 });
         return; // Stop form submission
       }
@@ -145,9 +145,13 @@ const ModalAddPenugasan = () => {
     };
     
     const convertToISOFormat = (dateStr) => {
-        const [day, month, year] = dateStr.split('/');
+      console.log("waktu", dateStr)
+        let date = new Date();
+        if (dateStr) date = dateStr;
+        const [day, month, year] = date.split('/');
         return `${year}-${month}-${day}`;
       };
+
 
     return (
         <>

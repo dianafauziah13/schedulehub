@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {FaArrowLeft, FaArrowRight} from "react-icons/fa";
 import 'react-datepicker/dist/react-datepicker.css';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 
 
 const GenerateJumat = () => {
@@ -16,6 +18,8 @@ const GenerateJumat = () => {
     const [filteredData, setFilteredData] = useState([]);
     const [newComment, setComment] = useState();
     const [show, setShow] = useState(false);
+    const [statusValidasi, setStatusValidasi]= useState(false)
+    const toast = useRef(null);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -103,7 +107,7 @@ const GenerateJumat = () => {
             const jadwaljumat = await response.json()
             console.log(jadwaljumat)
             let tampilJadwal = []
-
+            
             jadwaljumat.Jadwal.forEach(value => {
                 tampilJadwal.push({
                     "PimpinanJemaah":value.PimpinanJemaah,
@@ -114,7 +118,7 @@ const GenerateJumat = () => {
                     "Minggu_ke_5": value.Jumat.find(m=>m.minggu_ke == 5)?.Mubaligh,
                 })
             });
-            
+            setStatusValidasi(jadwaljumat.statusValidasi);
             setData2(tampilJadwal)
             // setData3(jadwal)
 
@@ -124,6 +128,10 @@ const GenerateJumat = () => {
     }
 
     const updateStatus = async (selectedId) => {
+        if(statusValidasi == true) {
+            toast.current?.show({ severity: 'error', summary: 'Gagal Menyetujui jadwal Jumat', detail: `Jadwal sudah disetujui`, life: 3000 });
+            return 
+        }
         try {
             const response = await fetch(`http://localhost:3000/generatejadwaljumat/${selectedId}`, {
                 method: "PUT",
@@ -139,7 +147,7 @@ const GenerateJumat = () => {
             const result = await response.json();
             updateHistoriJumat(selectedId, result);
             console.log(result);
-            window.location.reload();
+            // window.location.reload();
             closeModal();
         } catch (error) {
             console.log(error);
@@ -417,6 +425,8 @@ const GenerateJumat = () => {
                             )}
                         </div>
                     </div>
+                    <ConfirmDialog />
+                    <Toast ref={toast} />
         </div>
     );
 };

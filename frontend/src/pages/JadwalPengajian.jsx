@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {FaCalendarAlt, FaArrowLeft, FaArrowRight} from "react-icons/fa";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import * as XLSX from 'xlsx'
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 
 const JadwalPengajian = () => {
     const [startDate, setStartDate] = useState(new Date());
@@ -10,6 +12,8 @@ const JadwalPengajian = () => {
     const [statusValidasi, setStatusValidasi] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredData, setFilteredData] = useState([]);
+
+    const toast = useRef(null);
 
     useEffect(() => {
         if (data) {
@@ -62,7 +66,7 @@ const JadwalPengajian = () => {
                 setStatusValidasi(false);
             }
         } catch (error) {
-            console.log(error);
+            toast.current?.show({ severity: 'error', summary: 'Jadwal Pengajian Tidak Tersedia', detail: `Jadwal Khutbah Pengajian Belum Dibuat`, life: 3000 });
         }
     }
 
@@ -201,6 +205,8 @@ const JadwalPengajian = () => {
                 Download Jadwal Pengajian Rutin
             </button>
         </div>
+        <ConfirmDialog />
+        <Toast ref={toast} />
         </>
         )}
 
