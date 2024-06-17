@@ -249,6 +249,11 @@ const fetchMubalighJumat = async () => {
     newKeahlianInputs[index].keahlian = selectedOption;
     setKeahlianInputs(newKeahlianInputs);
   };
+  const handleHapusKeahlian = (index) => {
+    const newKeahlianInputs = [...keahlianInputs];
+    newKeahlianInputs.splice(index, 1);
+    setKeahlianInputs(newKeahlianInputs);
+};
 
   const handleMinimalChange = (index, event) => {
     const newKeahlianInputs = [...keahlianInputs];
@@ -291,7 +296,7 @@ const handleConfirmAccept = () => {
                           <div className="flex items-start justify-between p-5 rounded-t">
                               <h3 className="text-black text-xl font-semibold">Tambah Pimpinan Jemaah</h3>
                            </div>
-                                <div className="relative px-6 flex-auto flex flex-wrap relative px-6 flex-auto flex flex-wrap overflow-y-auto max-h-[calc(100vh-200px)] scrollable-content">
+                                <div className="relative px-6 flex-auto flex flex-wrap overflow-y-auto max-h-[calc(100vh-200px)] scrollable-content">
                                     {/* Kolom Kiri */}
                                     <div className="w-full lg:w-1/2 px-4 mb-4">
                                         <label className="flex justify-start text-black text-sm mt-4 mb-1">
@@ -486,13 +491,21 @@ const handleConfirmAccept = () => {
                                         <label className="flex justify-start text-black text-sm mt-4 mb-1">
                                             Minimal Keahlian
                                         </label>
-                                        <input
-                                            required
-                                            className="shadow appearance-none border border-line rounded w-full p-2 text-black"
-                                            placeholder="Masukan Minimal Keahlian" 
-                                            value={input.minimal}
-                                            onChange={(event) => handleMinimalChange(index, event)}
-                                        />
+                                        <div className="flex items-center">
+                                                    <input
+                                                        required
+                                                        className="shadow appearance-none border border-line rounded w-full p-2 text-black"
+                                                        placeholder="Masukan Minimal Keahlian"
+                                                        value={input.minimal}
+                                                        onChange={(event) => handleMinimalChange(index, event)}
+                                                    />
+                                                    <button
+                                                        className="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                                        onClick={() => handleHapusKeahlian(index)}
+                                                    >
+                                                        Hapus
+                                                    </button>
+                                                </div>
                                     </div>
                                     </React.Fragment>
                                     </> 
