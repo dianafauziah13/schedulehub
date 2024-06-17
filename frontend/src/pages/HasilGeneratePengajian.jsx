@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {FaArrowLeft, FaArrowRight} from "react-icons/fa";
 import 'react-datepicker/dist/react-datepicker.css';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 
 const GeneratePengajian = () => {
     const [data, setData] = useState([]);
@@ -13,6 +15,8 @@ const GeneratePengajian = () => {
     const [filteredData, setFilteredData] = useState([]);
     const [newComment, setComment] = useState()
     const [show, setShow] = useState(false);
+    const [statusValidasi, setStatusValidasi]= useState(false)
+    const toast = useRef(null);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -92,7 +96,7 @@ const GeneratePengajian = () => {
                     "Mubaligh":value.Mubaligh
                 })
             });
-            
+            setStatusValidasi(jadwalpengajian.statusValidasi)
             setData2(tampilJadwal)
 
         } catch (error) {
@@ -101,6 +105,10 @@ const GeneratePengajian = () => {
     }
 
     const updateStatus = async (selectedId) => {
+        if(statusValidasi == true) {
+            toast.current?.show({ severity: 'error', summary: 'Gagal Menyetujui Jadwal Pengajian', detail: `Jadwal sudah disetujui`, life: 3000 });
+            return 
+        }
         try {
             const response = await fetch(`http://localhost:3000/generatePengajian/${selectedId}`, {
                 method: "PUT",
@@ -378,6 +386,8 @@ const GeneratePengajian = () => {
                             )}
                         </div>
                     </div>
+                    <ConfirmDialog />
+                    <Toast ref={toast} />
         </div>
     );
 };

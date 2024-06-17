@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef} from 'react'
 import {FaCalendarAlt, FaArrowLeft, FaArrowRight} from "react-icons/fa"
 import DatePicker from 'react-datepicker'
 import "react-datepicker/dist/react-datepicker.css"
 import * as XLSX from 'xlsx'
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
 
 const JadwalJumat = () => {
     const [startDate, setStartDate] = useState(new Date())
@@ -10,6 +12,8 @@ const JadwalJumat = () => {
     const [statusValidasi, setStatusValidasi] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredData, setFilteredData] = useState([]);
+
+    const toast = useRef(null);
 
     useEffect(() => {
         if (data) {
@@ -73,7 +77,7 @@ const JadwalJumat = () => {
             }
 
         } catch (error) {
-            console.log(error)
+             toast.current?.show({ severity: 'error', summary: 'Jadwal Jumat Tidak Tersedia', detail: `Jadwal Khutbah Jumat Belum Dibuat`, life: 3000 });
         }
     }
 
@@ -105,6 +109,8 @@ const JadwalJumat = () => {
             setCurrentPage(currentPage - 1);
         }
     };
+
+
     
     return (
         // <div className='bg-bg h-screen w-screen overflow-hidden'>
@@ -212,7 +218,10 @@ const JadwalJumat = () => {
                     Download Jadwal Khutbah Jumat
                 </button>
         </div>
+        <ConfirmDialog />
+        <Toast ref={toast} />
             </>
+            
         )}
 
 

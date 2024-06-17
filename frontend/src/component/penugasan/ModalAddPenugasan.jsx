@@ -85,7 +85,7 @@ const ModalAddPenugasan = () => {
   
     const handleTambahClick = async (event) => {
       event.preventDefault();
-      if (!selectedPJ || !selectedMubalighKhutbahJumat || !tglAwal || !tglAkhir ) {
+      if (!selectedPJ || selectedMubalighKhutbahJumat.length == 0 || !tglAwal || !tglAkhir ) {
         toast.current?.show({ severity: 'error', summary: 'Gagal Menambahkan penugasan', detail: `Pastikan input benar`, life: 3000 });
         return; // Stop form submission
       }
