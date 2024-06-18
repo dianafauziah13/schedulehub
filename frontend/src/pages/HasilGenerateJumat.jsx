@@ -317,6 +317,7 @@ const GenerateJumat = () => {
                                             <div className="flex items-start justify-between p-5 rounded-t">
                                                 <h3 className='text-[30px] font-montserrat mb-7'>Jadwal Khutbah Jumat</h3>
                                             </div>
+                                            <div className="w-full overflow-y-auto max-h-[500px]">
                                             <div className="w-full">
                                                 <div className="grid grid-cols-6 gap-3 border-b-2 pb-2">
                                                     <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Pimpinan Jemaah</div>
@@ -340,6 +341,7 @@ const GenerateJumat = () => {
                                                     <div className="px-4 py-1 font-normal">{v.Minggu_ke_5} </div> : <div className="text-center w-36 px-4 py-2"> </div> }
                                                     </div>
                                                 ))}
+                                                </div>
                                             </div>
                                                 <div className="flex items-center justify-between p-6 rounded-b">
                                                     <button

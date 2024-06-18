@@ -282,6 +282,7 @@ const GeneratePengajian = () => {
                                             <div className="flex items-start justify-between p-5 rounded-t">
                                                 <h3 className='text-[30px] font-montserrat mb-7'>Jadwal Khutbah Pengajian</h3>
                                             </div>
+                                            <div className="w-full overflow-y-auto max-h-[500px]">
                                             <div className="w-full">
                                                 <div className="grid grid-cols-5 gap-3 border-b-2 pb-2">
                                                 <div className="px-4 py-1 border-line border-b-2 text-line font-normal">No</div>
@@ -299,6 +300,7 @@ const GeneratePengajian = () => {
                                                     <div className="px-4 py-1 font-normal">{v.Mubaligh}</div>                                                    
                                                     </div>
                                                 ))}
+                                                </div>
                                                 </div>
                                                 <div className="flex items-center justify-between p-6 rounded-b">
                                                     <button
