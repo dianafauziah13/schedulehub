@@ -146,8 +146,8 @@ const GeneratePengajian = () => {
             });
             const result = await response.json();
             updateHistoriPengajian(selectedId,result );
-            // console.log(result);
-            // window.location.reload();
+            console.log(result);
+            window.location.reload();
             closeModal();
             deleteJadwalPengajian(selectedId)
         } catch (error) {

@@ -147,7 +147,7 @@ const GenerateJumat = () => {
             const result = await response.json();
             updateHistoriJumat(selectedId, result);
             console.log(result);
-            // window.location.reload();
+            window.location.reload();
             closeModal();
         } catch (error) {
             console.log(error);
