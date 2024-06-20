@@ -62,10 +62,10 @@ export class ProfileMatchingService {
     let length = secondaryFactor.filter(q=> q != 0).length;
 
     if (length === 0) {
-      console.log('Calculated secondary factor', nilaiSecondary);
+      // console.log('Calculated secondary factor', nilaiSecondary);
       return 0;
     } else {
-      console.log('Calculated secondary factor', nilaiSecondary / length);
+      // console.log('Calculated secondary factor', nilaiSecondary / length);
       return nilaiSecondary / length;
     }
   }
@@ -147,7 +147,7 @@ export class ProfileMatchingService {
               // const total = this.calculateTotalGap(determinasi);
               keahlian.nama = element.mubalighName;
               keahlian.hasilPerhitungan.push(determinasi);
-              // console.log(hasil);
+              // console.log("Nama pimpinan jamaah: ",PimpinanJemaah.Nama, "\nMubaligh Terpilih: ", keahlian.nama, "GAP: ", hasil, "determinasi bobot: ", determinasi );
             }
           })
           if(indexKriteria !=-1) keahlian_mubaligh[indexKriteria] = keahlian;
@@ -165,7 +165,7 @@ export class ProfileMatchingService {
         return t;
         // console.log(t.hasilPerhitungan);
       }).sort((a,b)=>b.total_GAP - a.total_GAP);
-      // console.log(PimpinanJemaah.Nama, keahlian_mubaligh)
+      console.log(PimpinanJemaah.Nama, keahlian_mubaligh)
 
       const terpilih = keahlian_mubaligh.filter(m=> !mubaligh_terjadwal.includes(m)).at(0)
       if( !terpilih || mubaligh_terjadwal.find(m=> m.nama == terpilih.nama)) return;

@@ -239,10 +239,10 @@ async generateProfileJumat(jadwalJumatDTO: JadwalJumatSchemaDto): Promise<any>{
       alternatif_terpilih.sudahTerjadwal = true
       alternatif_terpilih.jmlKhutbah += 1
       pemenang.push({alternatif: alternatif_terpilih, minggu_ke: i, tempat: pimpinanJemaah.Nama})
-      // console.log('Mubaligh Terpilih: ', alternatif_terpilih.nama, ', Bobot:', alternatif_terpilih.hasilPerhitungan.find(a => a.minggu_ke == i).totalBobot, ' Tempat: ', pimpinanJemaah.Nama, 'jml khutbah', alternatif_terpilih.jmlKhutbah);
+      console.log('Tempat: ', pimpinanJemaah.Nama, 'jml khutbah', alternatif_terpilih.jmlKhutbah,'\nMubaligh Terpilih: ', alternatif_terpilih.nama, ', GAP:', alternatif_terpilih.hasilPerhitungan.find(a => a.minggu_ke == i).Value_calculateGAP,  ', Mapping GAP:',alternatif_terpilih.hasilPerhitungan.find(a => a.minggu_ke == i).Value_MappingGAP,  ', Total Bobot:', alternatif_terpilih.hasilPerhitungan.find(a => a.minggu_ke == i).totalBobot, '\n');
       
     })
-    // console.log('\n');
+    console.log('\n');
 
 
   }
