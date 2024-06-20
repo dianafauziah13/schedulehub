@@ -322,21 +322,35 @@ const ModalAddMubaligh = () => {
                                                 <label className="flex justify-start text-black text-sm mt-4 mb-1">
                                                     Rating Keahlian
                                                 </label>
-                                                <input
-                                                    required
-                                                    className="shadow appearance-none border border-line rounded w-full p-2 text-black"
-                                                    placeholder="Masukan Minimal Keahlian"
-                                                    value={input.minimal}
-                                                    onChange={(event) => handleMinimalChange(index, event)}
-                                                />
+                                                <div className="flex items-center">
+                                                    <input
+                                                        required
+                                                        className="shadow appearance-none border border-line rounded w-full p-2 text-black"
+                                                        placeholder="Masukan Minimal Keahlian"
+                                                        value={input.minimal}
+                                                        onChange={(event) => handleMinimalChange(index, event)}
+                                                    />
+                                                    <button
+                                                        className="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                                        onClick={() => handleHapusKeahlian(index)}
+                                                    >
+                                                        Hapus
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div className="w-full px-4 mb-4 flex justify-center space-x-4">
-                                                <button
+
+                                            
+                                        </React.Fragment>
+                                    ))}
+                                </>
+                            </div>
+                            <div className="w-full px-4 mb-4 flex justify-center space-x-4">
+                                                {/* <button
                                                     className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
                                                     onClick={() => handleHapusKeahlian(index)}
                                                 >
                                                     Hapus Keahlian
-                                                </button>
+                                                </button> */}
                                                 <button
                                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                                     onClick={handleTambahKeahlian}
@@ -344,10 +358,6 @@ const ModalAddMubaligh = () => {
                                                     Tambah Keahlian
                                                 </button>
                                             </div>
-                                        </React.Fragment>
-                                    ))}
-                                </>
-                            </div>
 
                                 </div>
                                     <div className="flex items-center justify-between p-6 rounded-b">

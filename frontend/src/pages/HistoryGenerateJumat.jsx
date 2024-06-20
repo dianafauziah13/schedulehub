@@ -220,54 +220,53 @@ const HistoryGenerateJumat = () => {
                             <td className="relative text-center px-10 py-2 rounded-l-lg " >
                                 
                             <button onClick={() => openModal(v._id)}>
-                                    <div className='flex justify-center m-2'>
-                                            <td
-                                                className="text-sky-300 relative items-center px-4 py-2 rounded-r-lg"
-                                                key={v.statusValidasi}
-                                                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                                            >
-                                                <span
-                                                    className="p-2 rounded-md"
-                                                    style={makeStyle(v.statusValidasi)}
-                                                >
-                                               {getStatusText(v.statusValidasi, v.komentar)}
-                                                </span>
-                                            </td>
-              
-                                    </div>
-                                </button>
-                
-                                {isModalOpen && (
+                                <div className='flex justify-center m-2'>
+                                    <td
+                                        className="text-sky-300 relative items-center px-4 py-2 rounded-r-lg"
+                                        key={v.statusValidasi}
+                                        sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                                    >
+                                        <span
+                                            className="p-2 rounded-md"
+                                            style={makeStyle(v.statusValidasi)}
+                                        >
+                                            {getStatusText(v.statusValidasi, v.komentar)}
+                                        </span>
+                                    </td>
+                                </div>
+                            </button>
+
+                            {isModalOpen && (
                                 <>
-                                <div className="flex w-[98%] ml-[80px] justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                                    <div className="relative  w-auto my-6 mx-auto max-w-6xl mt-24">
-                                        <div className="border-0 rounded-lg shadow relative flex flex-col w-full bg-white outline-none focus:outline-none px-10 font-montserrat">
-                                            <div className="flex items-start justify-between p-5 rounded-t">
-                                                <h3 className='text-[30px] font-montserrat mb-7'>Jadwal Khutbah Jumat</h3>
-                                            </div>
-                                            <div className="w-full">
-                                                <div className="grid grid-cols-6 gap-3 border-b-2 pb-2">
-                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Pimpinan Jemaah</div>
-                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-1 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 1).toLocaleDateString()}</p></div>
-                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-2 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 2).toLocaleDateString()}</p></div>
-                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-3 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 3).toLocaleDateString()}</p></div>
-                                                    <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-4 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 4).toLocaleDateString()}</p></div>
-                                                    {getFridays(startDate.getFullYear(), startDate.getMonth(), 4).getMonth() === getFridays(startDate.getFullYear(), startDate.getMonth(), 5).getMonth() && (
-                                                        <th className="px-4 py-1 border-line border-b-2 text-line font-normal text-center">Jumat ke-5 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 5).toLocaleDateString()}</p></th>
-                                                    )}
+                                    <div className="flex w-[98%] ml-[80px] justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                                        <div className="relative w-auto my-6 mx-auto max-w-6xl mt-24 bg-white rounded-lg shadow">
+                                            <div className="border-0 rounded-lg shadow relative flex flex-col w-full outline-none focus:outline-none px-10 font-montserrat">
+                                                <div className="flex items-start justify-between p-5 rounded-t">
+                                                    <h3 className='text-[30px] font-montserrat mb-7'>Jadwal Khutbah Jumat</h3>
                                                 </div>
-                                                {data2.map((v, i) => (
-                                                    <div key={i} className="grid grid-cols-6 gap-3 bg-[#F5F5F5] rounded-md shadow-md mt-3">
-                                                    <div className="text-center max-w-[25px] h-auto px-4 py-2">{v.PimpinanJemaah}</div>
-                                                    <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_1}</div>
-                                                    <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_2}</div>
-                                                    <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_3}</div>
-                                                    <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_4}</div>
-                                                    {getFridays (startDate.getFullYear(), startDate.getMonth(), 4).getMonth() == getFridays (startDate.getFullYear(), startDate.getMonth(), 5).getMonth()
-                                                        ?
-                                                    <div className="text-center w-36 px-4 py-2">{v.Minggu_ke_5} </div> : <div className="text-center w-36 px-4 py-2"> </div> }
+                                                <div className="w-full max-h-[500px] overflow-y-auto">
+                                                    <div className="grid grid-cols-6 gap-3 border-b-2 pb-2">
+                                                        <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Pimpinan Jemaah</div>
+                                                        <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-1 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 1).toLocaleDateString()}</p></div>
+                                                        <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-2 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 2).toLocaleDateString()}</p></div>
+                                                        <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-3 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 3).toLocaleDateString()}</p></div>
+                                                        <div className="px-4 py-1 border-line border-b-2 text-line font-normal">Minggu ke-4 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 4).toLocaleDateString()}</p></div>
+                                                        {getFridays(startDate.getFullYear(), startDate.getMonth(), 4).getMonth() === getFridays(startDate.getFullYear(), startDate.getMonth(), 5).getMonth() && (
+                                                            <th className="px-4 py-1 border-line border-b-2 text-line font-normal text-center">Jumat ke-5 <p>{getFridays(startDate.getFullYear(), startDate.getMonth(), 5).toLocaleDateString()}</p></th>
+                                                        )}
                                                     </div>
-                                                ))}
+                                                    {data2.map((v, i) => (
+                                                        <div key={i} className="grid grid-cols-6 gap-3 bg-[#F5F5F5] rounded-md shadow-md mt-3">
+                                                            <div className="px-4 py-1 font-normal">{v.PimpinanJemaah}</div>
+                                                            <div className="px-4 py-1 font-normal">{v.Minggu_ke_1}</div>
+                                                            <div className="px-4 py-1 font-normal">{v.Minggu_ke_2}</div>
+                                                            <div className="px-4 py-1 font-normal">{v.Minggu_ke_3}</div>
+                                                            <div className="px-4 py-1 font-normal">{v.Minggu_ke_4}</div>
+                                                            {getFridays(startDate.getFullYear(), startDate.getMonth(), 4).getMonth() == getFridays(startDate.getFullYear(), startDate.getMonth(), 5).getMonth()
+                                                                ? <div className="px-4 py-1 font-normal">{v.Minggu_ke_5}</div>
+                                                                : <div className="px-4 py-1 font-normal"></div>}
+                                                        </div>
+                                                    ))}
                                                 </div>
                                                 <div className="flex items-center justify-between p-6 rounded-b">
                                                     <button
@@ -279,11 +278,11 @@ const HistoryGenerateJumat = () => {
                                                     </button>
                                                     <div className="flex space-x-2">
                                                         <button
-                                                        className="text-white bg-[#FA8072] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                                        type="button"
-                                                        onClick={deleteJadwalJumat}
+                                                            className="text-white bg-[#FA8072] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                                            type="button"
+                                                            onClick={deleteJadwalJumat}
                                                         >
-                                                        Hapus
+                                                            Hapus
                                                         </button>
                                                         {/* <button
                                                         className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
@@ -293,12 +292,13 @@ const HistoryGenerateJumat = () => {
                                                         Setujui
                                                         </button> */}
                                                     </div>
-                                                    </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                              </>
-                                                )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+
                             </td>
                             </tr>
                             );
