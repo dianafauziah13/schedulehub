@@ -16,7 +16,7 @@ const ModalAddMubaligh = () => {
     const [selectedWaktuPengajian, setSelectedWaktuPengajian] = useState([])
     const [selectedHariPengajian, setSelectedHariPengajian] = useState([])
     const [KeahlianOptions, setKeahlianOptions] = useState([]);
-    const [keahlianInputs, setKeahlianInputs] = useState([{ keahlian: null, minimal: '' }]);
+    const [keahlianInputs, setKeahlianInputs] = useState([{ keahlian: null, minimal: null }]);
 
     const toast = useRef(null);
     
@@ -102,6 +102,15 @@ const ModalAddMubaligh = () => {
         { value: "Jumat", label: "Jumat" },
         { value: "Sabtu", label: "Sabtu" }
     ];
+
+    const minimalOptions = [
+        { value: 1, label: 1 },
+        { value: 2, label: 2 },
+        { value: 3, label: 3 },
+        { value: 4, label: 4 },
+        { value: 5, label: 5 }
+    ];
+
     const handleTambahClick = async (event) => {
         event.preventDefault();
         if (!namaMubaligh || !selectedLingkup) {
@@ -122,7 +131,7 @@ const ModalAddMubaligh = () => {
             .map(input => ({
                 idListKeahlian: input.keahlian.value,
                 nama: input.keahlian.label,
-                Rating: input.minimal
+                Rating: input.minimal.value
             }))
         };
         console.log("ini data", data);
@@ -160,14 +169,9 @@ const ModalAddMubaligh = () => {
         setKeahlianInputs(newKeahlianInputs);
     };
     
-    const handleMinimalChange = (index, event) => {
-    const newKeahlianInputs = [...keahlianInputs];
-    const minimalValue = parseInt(event.target.value, 10); // Mengonversi input menjadi integer
-        if (!isNaN(minimalValue)) {
-          newKeahlianInputs[index].minimal = minimalValue;
-        } else {
-          newKeahlianInputs[index].minimal = '';
-        }
+    const handleMinimalChange = (index, selectedOption) => {
+        const newKeahlianInputs = [...keahlianInputs];
+        newKeahlianInputs[index].minimal = selectedOption;
         setKeahlianInputs(newKeahlianInputs);
     };
     
@@ -323,11 +327,12 @@ const ModalAddMubaligh = () => {
                                                     Rating Keahlian
                                                 </label>
                                                 <div className="flex items-center">
-                                                    <input
+                                                    <Select
                                                         required
                                                         className="shadow appearance-none border border-line rounded w-full p-2 text-black"
                                                         placeholder="Masukan Minimal Keahlian"
                                                         value={input.minimal}
+                                                        options ={minimalOptions}
                                                         onChange={(event) => handleMinimalChange(index, event)}
                                                     />
                                                     <button
