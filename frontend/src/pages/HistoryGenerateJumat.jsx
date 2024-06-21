@@ -142,29 +142,29 @@ const HistoryGenerateJumat = () => {
     }
     };
 
-    const makeStyle=(currentStatus)=>{
-        if(currentStatus === true)
-            {
-              return {
+    const makeStyle = (currentStatus, komentar) => {
+        if (currentStatus === true) {
+            return {
                 background: 'rgb(145 254 159 / 47%)',
                 color: 'green'
-              }
-            }
-            else if(currentStatus === false)
-            {
-              return{
+            };
+        } else if (currentStatus === false && komentar) {
+            return {
                 background: '#ffadad8f',
                 color: 'red',
-              }
-            }
-            else{
-              return{
+            };
+        } else if (currentStatus === false && !komentar) {
+            return {
+                background: 'rgb(255 255 0 / 47%)', // yellow background
+                color: 'black', // black text
+            };
+        } else {
+            return {
                 background: '#59bfff',
                 color: 'white',
-              }
-            }
-    }
-
+            };
+        }
+    };
 
     const getFridays = (year, month, week) => {
         const firstDayOfMonth = new Date(year, month, 1).getDay();
@@ -249,7 +249,7 @@ const HistoryGenerateJumat = () => {
                                     >
                                         <span
                                             className="p-2 rounded-md"
-                                            style={makeStyle(v.statusValidasi)}
+                                            style={makeStyle(v.statusValidasi, v.komentar)}
                                         >
                                             {getStatusText(v.statusValidasi, v.komentar)}
                                         </span>
