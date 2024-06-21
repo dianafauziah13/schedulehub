@@ -111,6 +111,27 @@ const HistoryGenerateJumat = () => {
         });
         if (response.ok) {
             console.log("Data successfully deleted!");
+            deleteJadwalJumatHasil(selectedId)
+            getHistory(); // Setelah penghapusan berhasil, perbarui daftar PJ.
+            closeModal(); // Tutup modal setelah penghapusan selesai.
+        } else {
+            console.error("Failed to delete data");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    };
+
+    const deleteJadwalJumatHasil = async (selectedId) => {
+        try {
+        const response = await fetch(`http://localhost:3000/generatejadwaljumat/${selectedId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        if (response.ok) {
+            console.log("Data successfully deleted!");
             getHistory(); // Setelah penghapusan berhasil, perbarui daftar PJ.
             closeModal(); // Tutup modal setelah penghapusan selesai.
         } else {
