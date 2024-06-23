@@ -37,6 +37,11 @@ const ketuaRoutes = [
         name: "Pengajian Rutin",
       },
     ],
+  }, 
+  {
+    path: "/dashboard/detailMubaligh",
+    name: "List Mubaligh",
+    icon: <FaUser />,
   }
 ]
 

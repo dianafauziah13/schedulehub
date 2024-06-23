@@ -16,6 +16,7 @@ import JadwalPengajian from './pages/JadwalPengajian';
 import TampilHasilGenerate from './pages/TampilHasilGenerate';
 import HistoryGenerateJumat from './pages/HistoryGenerateJumat';
 import HistoryGeneratePengajian from './pages/HistoryGeneratePengajian';
+import DetailMubaligh from './pages/detailMubaligh'
 
 function App() {
   const isLoggedIn = true; 
@@ -49,6 +50,7 @@ function App() {
                       <Route path="/history-generate/jumat" element={<HistoryGenerateJumat />} />
                       <Route path="/history-generate/pengajian" element={<HistoryGeneratePengajian />} />
                       <Route path="/tampilGenerate" element={<TampilHasilGenerate />} />
+                      <Route path="/detailMubaligh" element={<DetailMubaligh />} />
                     </Routes>
                   </div>
                 </div>

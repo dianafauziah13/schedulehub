@@ -248,7 +248,7 @@ const ModalAddMubaligh = () => {
                                                 required
                                                 isMulti
                                                 className="appearance-none rounded w-full text-black"
-                                                placeholder="Pilih Ketersediaan Waktu"
+                                                placeholder="Pilih Ketersediaan Minggu-ke"
                                                 options={waktuOptions}
                                                 value={selectedWaktuJumat}
                                                 onChange={handleWaktuChangeJumat}
@@ -285,7 +285,7 @@ const ModalAddMubaligh = () => {
                                                 required
                                                 isMulti
                                                 className="appearance-none rounded w-full text-black"
-                                                placeholder="Pilih Ketersediaan Waktu"
+                                                placeholder="Pilih Ketersediaan Minggu-ke"
                                                 options={waktuOptions}
                                                 value={selectedWaktuPengajian}
                                                 onChange={handleWaktuChangePengajian}

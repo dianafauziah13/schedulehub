@@ -215,6 +215,12 @@ const ModalUpdatePJ = ({  idPJ, initialValues }) => {
     setSelectedDays(selectedOptions.value)
   }
 
+  const handleHapusKeahlian = (index) => {
+    const newKeahlianInputs = [...keahlianInputs];
+    newKeahlianInputs.splice(index, 1);
+    setKeahlianInputs(newKeahlianInputs);
+};
+
   const handleTimeChange = (selectedOptions)=>{
     setSelectedTimes(selectedOptions.label)
   }
@@ -483,6 +489,7 @@ const handleConfirmAccept = () => {
                                     <label className="flex justify-start text-black text-sm mt-4 mb-1">
                                         Minimal Keahlian
                                     </label>
+                                    <div className="flex items-center">
                                     <input
                                         required
                                         className="shadow appearance-none border border-line rounded w-full p-2 text-black"
@@ -490,6 +497,13 @@ const handleConfirmAccept = () => {
                                         value={input.minimal}
                                         onChange={(event) => handleMinimalChange(index, event)}
                                     />
+                                    <button
+                                        className="ml-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                        onClick={() => handleHapusKeahlian(index)}
+                                        >
+                                        Hapus
+                                    </button>
+                                    </div>
                                 </div>
                                 </React.Fragment>
                                 </> 

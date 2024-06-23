@@ -322,7 +322,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
                                                     <Select
                                                         required
                                                         className="appearance-none rounded w-full text-black"
-                                                        placeholder="Keahlian"
+                                                        placeholder="Pilih Keahlian"
                                                         options={KeahlianOptions}
                                                         defaultValue={input.keahlian}
                                                         onChange={(selectedOption) => handleKeahlianChange(index, selectedOption)}
@@ -333,6 +333,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
                                                 <label className="flex justify-start text-black text-sm mt-4 mb-1">
                                                     Rating Keahlian
                                                 </label>
+                                                <div className="flex items-center">
                                                 <input
                                                     required
                                                     className="shadow appearance-none border border-line rounded w-full p-2 text-black"
@@ -340,6 +341,13 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
                                                     value={input.minimal}
                                                     onChange={(event) => handleMinimalChange(index, event)}
                                                 />
+                                                <button
+                                                        className="ml-1 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                                        onClick={() => handleHapusKeahlian(index)}
+                                                    >
+                                                        Hapus
+                                                </button>
+                                                </div>
                                             </div>
                                             
                                         </React.Fragment>

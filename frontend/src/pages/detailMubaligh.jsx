@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import ModalAddMubaligh from "../component/mubaligh/ModalAddMubaligh";
-import ModalUpdateMubaligh from "../component/mubaligh/ModalUpdateMubaligh";
 import { FiAlertCircle } from "react-icons/fi";
-import { FaRegTrashAlt, FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { ConfirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
 
-const KelolaMubaligh = () => {
+const DetailMubaligh = () => {
     const [data, setData] = useState(null)
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isDetailOpen, setIsDetailOpen] = useState(false);
@@ -160,12 +158,8 @@ const KelolaMubaligh = () => {
 
         // <div className='bg-bg h-screen w-screen overflow-hidden'>
             <div className='flex flex-col items-center w-[100%] ml-[80px] pt-6'>
-                <h1 className='text-[30px] font-montserrat mb-7'>Kelola Mubaligh</h1>
-                <div  className='flex justify-start w-[100%] pb-10'>  
-                    <button className="text-white bg-[#20BFAA] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" >
-                    <ModalAddMubaligh />
-                    </button>
-                </div>
+                <h1 className='text-[30px] font-montserrat mb-7'>List Mubaligh</h1>
+               
                 <div className="flex flex-col items-center w-full bg-white px-0 py-0 shadow-md font-montserrat rounded-md">
                     <div className=" w-full">
                     <input
@@ -243,14 +237,14 @@ const KelolaMubaligh = () => {
                                                                 <span className="w-2/3">Hari {val.AvailablePengajianHari}</span>
                                                             </div>
                                                             <div className="text-[15px] font-montserrat mb-2">
-                                                                <span className="w-1/3 font-bold">======================= Khutbah Jumat ======================</span>
+                                                                <span className="w-1/3 font-bold">===================== Khutbah Jumat =========================</span>
                                                             </div>
                                                             <div className="flex text-[15px] font-montserrat mb-2">
                                                                 <span className="w-2/3">Ketersediaan Waktu </span>
                                                                 <span className="w-2/3">Minggu-ke {val.AvailableJumat}</span>
                                                             </div>
                                                             <div className="text-[15px] font-montserrat mb-2">
-                                                                <span className="w-1/3 font-bold">=================== List Keahlian ===================</span>
+                                                                <span className="w-1/3 font-bold">====================== List Keahlian ==========================</span>
                                                             </div>
                                                             {val.Keahlian.map((val2, i) => (
                                                             <div className="flex text-[15px] font-montserrat mb-2">
@@ -279,10 +273,7 @@ const KelolaMubaligh = () => {
                                             </div>
                                             </>
                                             )}
-                                           <ModalUpdateMubaligh idMubaligh = {v._id} initialValues={{NamaMubaligh: v.mubalighName, LingkupDakwah: v.idscopedakwah, AvailableKhutbahJumat:v.AvailableKhutbahJumat, AvailablePengajianRutin: v.Minggu_ke, hari:v.Hari, keahlian:v.Keahlian }}/>
-                                        <button onClick={() => openModal(v._id)}>
-                                            <FaRegTrashAlt className="mr-2"/>
-                                        </button>
+                                           
                                         {isModalOpen && (
                                             <div className="flex items-center justify-center fixed inset-0 z-50 outline-none focus:outline-none">
                                             <div className="bg-white p-8 rounded-lg shadow-md">
@@ -344,4 +335,4 @@ const KelolaMubaligh = () => {
         // </div>
     );
 };
-export default KelolaMubaligh;
+export default DetailMubaligh;

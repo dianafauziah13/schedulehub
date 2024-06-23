@@ -9,7 +9,8 @@ import { Toast } from 'primereact/toast';
 const ModalAddPenugasan = () => {
     const [showModal, setShowModal] = useState(false);
     const [topikKajian, setTopikKajian] = useState('');
-    const [mubalighOptions, setMubalighOptions] = useState([]);
+    const [mubalighJumatOptions, setMubalighJumatOptions] = useState([]);
+    const [mubalighPengajianOptions, setMubalighPengajianOptions] = useState([]);
     const [PJOptions, setPJOptions] = useState([]);
     const [selectedMubalighKhutbahJumat, setSelectedMubalighKhutbahJumat] = useState([]);
     const [selectedMubalighPengajian, setSelectedMubalighPengajian] = useState([]);
@@ -21,6 +22,7 @@ const ModalAddPenugasan = () => {
 
     useEffect(() => {
       fetchMubalighJumat();
+      fetchMubalighPengajian();
       fetchPimpinanJemaah();
     }, []);
   
@@ -52,15 +54,33 @@ const ModalAddPenugasan = () => {
     const fetchMubalighJumat = async () => {
       try {
         const response = await fetch("http://localhost:3000/mubaligh/");
-        const mubalighData = await response.json();
-        console.log(mubalighData);
+        const mubalighDataJumat = await response.json();
+        console.log(mubalighDataJumat);
   
-        const mubalighList = mubalighData.map((mubaligh) => ({
+        const mubalighListJumat = mubalighDataJumat.map((mubaligh) => ({
           value: mubaligh._id,
           label: mubaligh.mubalighName,
         }));
   
-        setMubalighOptions(mubalighList);
+        setMubalighJumatOptions(mubalighListJumat);
+      } catch (error) {
+        console.error("Error fetching mubaligh:", error);
+      }
+    };
+
+    const fetchMubalighPengajian = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/mubaligh/");
+        const mubalighDataPengajian = await response.json();
+        console.log(mubalighDataPengajian);
+        
+        const filteredMubaligh = mubalighDataPengajian.filter(mubaligh => mubaligh.scope_dakwah === "Cabang");
+        const mubalighListPengajian = filteredMubaligh.map((mubaligh) => ({
+          value: mubaligh._id,
+          label: mubaligh.mubalighName,
+        }));
+  
+        setMubalighPengajianOptions(mubalighListPengajian);
       } catch (error) {
         console.error("Error fetching mubaligh:", error);
       }
@@ -221,7 +241,7 @@ const ModalAddPenugasan = () => {
                                                 required
                                                 className="appearance-none rounded w-full text-black"
                                                 placeholder="Pilih Mubaligh"
-                                                options={mubalighOptions}
+                                                options={mubalighJumatOptions}
                                                 isMulti
                                                 value={selectedMubalighKhutbahJumat}
                                                 onChange={handleSelectChangeJumat}
@@ -251,7 +271,7 @@ const ModalAddPenugasan = () => {
                                                 required
                                                 className=" appearance-none rounded w-full text-black"
                                                 placeholder="Pilih Mubaligh"
-                                                options={mubalighOptions}
+                                                options={mubalighPengajianOptions}
                                                 isMulti
                                                 value={selectedMubalighPengajian}
                                                 onChange={handleSelectChangePengajian}
