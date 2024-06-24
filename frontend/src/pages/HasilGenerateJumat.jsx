@@ -424,14 +424,6 @@ const GenerateJumat = () => {
                                         <div className="border-0 rounded-lg shadow relative flex flex-col w-full bg-white outline-none focus:outline-none px-10 font-montserrat">
                                             <div className="flex items-start justify-between p-5 rounded-t">
                                                 <h3 className='text-[30px] font-montserrat mb-7'>Jadwal Khutbah Jumat</h3>
-                                                <button
-                                                    className="text-white bg-blue-500 text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
-                                                    type="button"
-                                                    onClick={updateJumat}
-                                                >
-                                                    Perbarui
-                                                </button>
-
                                             </div>
                                             <div className="w-full overflow-y-auto max-h-[500px]">
                                             <div className="w-full">
