@@ -39,9 +39,19 @@ const ketuaRoutes = [
     ],
   }, 
   {
+    path: "/dashboard/detailPimpinanJemaah",
+    name: "List Pimpinan Jamaah",
+    icon: <MdMosque />,
+  },
+  {
     path: "/dashboard/detailMubaligh",
     name: "List Mubaligh",
     icon: <FaUser />,
+  },
+  {
+    path: "/dashboard/detailPenugasan",
+    name: "List Penugasan",
+    icon: <FaFile />,
   }
 ]
 

@@ -17,6 +17,8 @@ import TampilHasilGenerate from './pages/TampilHasilGenerate';
 import HistoryGenerateJumat from './pages/HistoryGenerateJumat';
 import HistoryGeneratePengajian from './pages/HistoryGeneratePengajian';
 import DetailMubaligh from './pages/detailMubaligh'
+import DetailPimpinanJemaah from './pages/detailPimpinanJemaah';
+import DetailPenugasan from './pages/detailPenugasan';
 
 function App() {
   const isLoggedIn = true; 
@@ -51,6 +53,8 @@ function App() {
                       <Route path="/history-generate/pengajian" element={<HistoryGeneratePengajian />} />
                       <Route path="/tampilGenerate" element={<TampilHasilGenerate />} />
                       <Route path="/detailMubaligh" element={<DetailMubaligh />} />
+                      <Route path="/detailPimpinanJemaah" element={<DetailPimpinanJemaah />} />
+                      <Route path="/detailPenugasan" element={<DetailPenugasan />} />
                     </Routes>
                   </div>
                 </div>
