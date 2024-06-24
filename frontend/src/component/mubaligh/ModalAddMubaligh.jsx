@@ -329,7 +329,7 @@ const ModalAddMubaligh = () => {
                                                 <div className="flex items-center">
                                                     <Select
                                                         required
-                                                        className="shadow appearance-none border border-line rounded w-full p-2 text-black"
+                                                        className="appearance-none rounded w-full text-black"
                                                         placeholder="Masukan Minimal Keahlian"
                                                         value={input.minimal}
                                                         options ={minimalOptions}
