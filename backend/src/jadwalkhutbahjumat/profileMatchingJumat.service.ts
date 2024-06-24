@@ -1,10 +1,10 @@
 import { ConsoleLogger, Injectable, RequestTimeoutException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model, Mongoose } from 'mongoose';
 import { TempatPenugasanService } from 'src/tempatpenugasan/penugasan.service';
 import { TempatPenugasanSchema } from 'src/tempatpenugasan/schemas/penugasan.schema';
 import { Jadwal, JadwalJumatSchema } from './schemas/jumat.schema';
-import { JadwalJumatSchemaDto } from './dto/create-jumat.dto';
+import { JadwalJumatSchemaDto, jumatDTOBaru } from './dto/create-jumat.dto';
 import { jadwal } from 'src/jadwalpengajianrutin/schemas/pengajian.schema';
 
 @Injectable()
@@ -306,6 +306,35 @@ async findByDate(bulan : number, tahun: number): Promise<JadwalJumatSchema > {
 async updateStatusJumat(id: string, jadwalJumatDTO: JadwalJumatSchema): Promise<JadwalJumatSchema> {
   return await this.jadwalJumatModel.findByIdAndUpdate(id, jadwalJumatDTO, { new: true }).exec();
 }
+
+async updateMubaligh(id: string, jadwalJumatDTO: jumatDTOBaru[]): Promise<jumatDTOBaru[]> {
+// Construct the filter to find the document and the specific array element
+
+  try {
+    for (let a of jadwalJumatDTO) {
+      const filter = {
+        _id: id,
+        'Jadwal.PimpinanJemaah': a.pimpinanJamaah
+      };
+      
+      const update = {
+        $push: {
+          'Jadwal.$.Jumat': {
+            Mubaligh: a.mubaligh,
+            minggu_ke: a.mingguke
+          }
+        }
+      };
+
+      const result = await this.jadwalJumatModel.updateOne(filter, update);
+      console.log(`Updated ${result.modifiedCount} document.`);
+    }
+  } catch (error) {
+    console.error("Error updating documents:", error);
+  }
+  return null
+}
+
 
 async deleteJadwalJumat(id: string): Promise<JadwalJumatSchema> {
   return await this.jadwalJumatModel.findByIdAndDelete(id).exec();
