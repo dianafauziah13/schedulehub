@@ -121,7 +121,7 @@ const ModalUpdatePJ = ({  idPJ, initialValues }) => {
               .map(input => ({
                 idKeahlian: input.keahlian.value,
                 nama: input.keahlian.label,
-                MinimalKeahlian: input.minimal
+                MinimalKeahlian: input.minimal.value
               })),
             Minggu_ke: selectedNumbers,
             hari: selectedDays,
@@ -193,6 +193,14 @@ const ModalUpdatePJ = ({  idPJ, initialValues }) => {
         { value: 'night', label: 'Malam' }
     ];
 
+    const minimalOptions = [
+      { value: 1, label: 1 },
+      { value: 2, label: 2 },
+      { value: 3, label: 3 },
+      { value: 4, label: 4 },
+      { value: 5, label: 5 }
+  ];
+
     const numberOptions = Array.from({ length: 5 }, (_, i) => ({
         value: i + 1,
         label: i + 1
@@ -253,14 +261,9 @@ const ModalUpdatePJ = ({  idPJ, initialValues }) => {
     setKeahlianInputs(newKeahlianInputs);
   };
 
-  const handleMinimalChange = (index, event) => {
+  const handleMinimalChange = (index, selectedOption) => {
     const newKeahlianInputs = [...keahlianInputs];
-    const minimalValue = parseInt(event.target.value, 10); // Mengonversi input menjadi integer
-    if (!isNaN(minimalValue)) {
-      newKeahlianInputs[index].minimal = minimalValue;
-    } else {
-      newKeahlianInputs[index].minimal = '';
-    }
+    newKeahlianInputs[index].minimal = selectedOption;
     setKeahlianInputs(newKeahlianInputs);
   };
 
@@ -495,6 +498,7 @@ const handleConfirmAccept = () => {
                                         className="shadow appearance-none border border-line rounded w-full p-2 text-black"
                                         placeholder="Masukan Minimal Keahlian" 
                                         value={input.minimal}
+                                        options ={minimalOptions}
                                         onChange={(event) => handleMinimalChange(index, event)}
                                     />
                                     <button

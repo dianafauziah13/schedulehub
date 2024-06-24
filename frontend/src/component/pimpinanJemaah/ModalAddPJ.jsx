@@ -121,7 +121,7 @@ const fetchMubalighJumat = async () => {
           .map(input => ({
             idKeahlian: input.keahlian.value,
             nama: input.keahlian.label,
-            MinimalKeahlian: input.minimal
+            MinimalKeahlian: input.minimal.value
           })),
         Minggu_ke: selectedNumbers.value,
         hari: selectedDays.label,
@@ -202,6 +202,13 @@ const fetchMubalighJumat = async () => {
         { value: 'night', label: 'Malam' }
     ];
 
+    const minimalOptions = [
+      { value: 1, label: 1 },
+      { value: 2, label: 2 },
+      { value: 3, label: 3 },
+      { value: 4, label: 4 },
+      { value: 5, label: 5 }
+  ];
 
     const handlenamePJChange = (event) => {
         setNamaPJ(event.target.value);
@@ -255,16 +262,11 @@ const fetchMubalighJumat = async () => {
     setKeahlianInputs(newKeahlianInputs);
 };
 
-  const handleMinimalChange = (index, event) => {
-    const newKeahlianInputs = [...keahlianInputs];
-    const minimalValue = parseInt(event.target.value, 10); // Mengonversi input menjadi integer
-    if (!isNaN(minimalValue)) {
-      newKeahlianInputs[index].minimal = minimalValue;
-    } else {
-      newKeahlianInputs[index].minimal = '';
-    }
-    setKeahlianInputs(newKeahlianInputs);
-  };
+const handleMinimalChange = (index, selectedOption) => {
+  const newKeahlianInputs = [...keahlianInputs];
+  newKeahlianInputs[index].minimal = selectedOption;
+  setKeahlianInputs(newKeahlianInputs);
+};
 
   const handleTambahKeahlian = () => {
     setKeahlianInputs([...keahlianInputs, { keahlian: null, minimal: '' }]);
@@ -492,11 +494,12 @@ const handleConfirmAccept = () => {
                                             Minimal Keahlian
                                         </label>
                                         <div className="flex items-center">
-                                                    <input
+                                                    <Select
                                                         required
                                                         className="shadow appearance-none border border-line rounded w-full p-2 text-black"
                                                         placeholder="Masukan Minimal Keahlian"
                                                         value={input.minimal}
+                                                        options ={minimalOptions}
                                                         onChange={(event) => handleMinimalChange(index, event)}
                                                     />
                                                     <button

@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {FaArrowLeft, FaArrowRight} from "react-icons/fa";
 import 'react-datepicker/dist/react-datepicker.css';
+import Select from "react-select";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
+import {FaRegEdit } from "react-icons/fa";
 
 
 const GenerateJumat = () => {
@@ -20,19 +22,76 @@ const GenerateJumat = () => {
     const [show, setShow] = useState(false);
     const [statusValidasi, setStatusValidasi]= useState(false)
     const toast = useRef(null);
+    const [mubalighOption, setMubalighOptions] = useState([]);
+
+    const [minggu1, setMinggu1] = useState([]);
+    const [minggu2, setMinggu2] = useState([]);
+    const [minggu3, setMinggu3] = useState([]);
+    const [minggu4, setMinggu4] = useState([]);
+    const [minggu5, setMinggu5] = useState([]);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     useEffect(() => { 
-        getHistory()
+        getHistory();
+        getMubaligh();
     }, [])
 
-    const openModal = (Id) => {
+    
+    const [selectedMubaligh1, setSelectedMubaligh1] = useState([]);
+    const [selectedMubaligh2, setSelectedMubaligh2] = useState([]);
+    const [selectedMubaligh3, setSelectedMubaligh3] = useState([]);
+    const [selectedMubaligh4, setSelectedMubaligh4] = useState([]);
+    const [selectedMubaligh5, setSelectedMubaligh5] = useState([]);
+
+    const selectChangeMubaligh = async(pimpinanJamaah, mingguke, mubaligh)=>{
+        let newData = {
+            pimpinanJamaah : pimpinanJamaah, 
+            mingguke: mingguke, 
+            mubaligh: mubaligh
+        }
+        let selectedMubalighs = [];
+        if (mingguke == 1){ 
+            selectedMubalighs = [newData, ...selectedMubaligh1.filter(a=> a.pimpinanJamaah != pimpinanJamaah && a.mingguke != mingguke)]
+            setSelectedMubaligh1(selectedMubalighs)
+        }
+        else if (mingguke == 2){
+            selectedMubalighs = [newData, ...selectedMubaligh2.filter(a=> a.pimpinanJamaah != pimpinanJamaah && a.mingguke != mingguke)]
+            setSelectedMubaligh2(selectedMubalighs)
+        }
+        else if (mingguke == 3){
+            selectedMubalighs=[newData, ...selectedMubaligh3.filter(a=> a.pimpinanJamaah != pimpinanJamaah && a.mingguke != mingguke)]
+            setSelectedMubaligh3(selectedMubalighs)
+        }
+        else if (mingguke == 4){
+            selectedMubalighs=[newData, ...selectedMubaligh4.filter(a=> a.pimpinanJamaah != pimpinanJamaah && a.mingguke != mingguke)]
+            setSelectedMubaligh4(selectedMubalighs)
+        }
+        else if (mingguke == 5){
+            selectedMubalighs=[newData, ...selectedMubaligh5.filter(a=> a.pimpinanJamaah != pimpinanJamaah && a.mingguke != mingguke)]
+            setSelectedMubaligh5(selectedMubalighs)
+        }
+
+        const response = await fetch(`http://localhost:3000/generatejadwaljumat/${selectedId}/by-week`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(selectedMubalighs)
+        }); 
+        
+    }
+
+    const openModal = async (Id) => {
         // console.log(Id);
         setSelectedId(Id);
         setIsModalOpen(true);
-        getJadwal(Id);
+        const jadwal = await getJadwal(Id);
+        await saveJadwal(jadwal);
+        console.log("open", jadwal)
+        filterMubalighOptions(jadwal);
+            
     };
 
     const closeModal = () => {
@@ -67,10 +126,10 @@ const GenerateJumat = () => {
         }
     }
 
-    const postHistoriJumat = async (data) => {
+    const updateJumat = async (id, data) => {
         try {
-            const response = await fetch("http://localhost:3000/historijumat", {
-                method: "POST",
+            const response = await fetch(`http://localhost:3000/generatejadwaljumat/${selectedId}`, {
+                method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -107,25 +166,66 @@ const GenerateJumat = () => {
             const jadwaljumat = await response.json()
             console.log(jadwaljumat)
             let tampilJadwal = []
-            
-            jadwaljumat.Jadwal.forEach(value => {
-                tampilJadwal.push({
-                    "PimpinanJemaah":value.PimpinanJemaah,
-                    "Minggu_ke_1": value.Jumat.find(m=>m.minggu_ke == 1)?.Mubaligh,
-                    "Minggu_ke_2": value.Jumat.find(m=>m.minggu_ke == 2)?.Mubaligh,
-                    "Minggu_ke_3": value.Jumat.find(m=>m.minggu_ke == 3)?.Mubaligh,
-                    "Minggu_ke_4": value.Jumat.find(m=>m.minggu_ke == 4)?.Mubaligh,
-                    "Minggu_ke_5": value.Jumat.find(m=>m.minggu_ke == 5)?.Mubaligh,
-                })
-            });
-            setStatusValidasi(jadwaljumat.statusValidasi);
-            setData2(tampilJadwal)
-            // setData3(jadwal)
-
+                jadwaljumat.Jadwal.forEach(value => {
+                    tampilJadwal.push({
+                        "PimpinanJemaah":value.PimpinanJemaah,
+                        "Minggu_ke_1": value.Jumat.find(m=>m.minggu_ke == 1)?.Mubaligh,
+                        "Minggu_ke_2": value.Jumat.find(m=>m.minggu_ke == 2)?.Mubaligh,
+                        "Minggu_ke_3": value.Jumat.find(m=>m.minggu_ke == 3)?.Mubaligh,
+                        "Minggu_ke_4": value.Jumat.find(m=>m.minggu_ke == 4)?.Mubaligh,
+                        "Minggu_ke_5": value.Jumat.find(m=>m.minggu_ke == 5)?.Mubaligh,
+                    })
+                });
+            return tampilJadwal;
         } catch (error) {
             console.log(error)
         }
     }
+
+    const saveJadwal = async (jadwaljumat) => {
+            
+            setStatusValidasi(jadwaljumat.statusValidasi);
+            setData2(jadwaljumat)
+            console.log("asd 2", data2)
+            // setData3(jadwaljumat)
+            // console.log("asd 3", data3)
+    }
+
+    const getMubaligh = async () => {
+        try {
+            const response = await fetch("http://localhost:3000/mubaligh");
+            const mubalighData = await response.json();
+            const options = mubalighData.map(mubaligh => ({
+                value: mubaligh._id,
+                label: mubaligh.mubalighName
+            }));
+            setMubalighOptions(options);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const filterMubalighOptions = (jadwal) => {
+        // Collect all Mubaligh IDs that are already scheduled for any week
+        console.log("ini jadwal", jadwal)
+        const mubalighTerjadwal1 = jadwal.map(d=> d.Minggu_ke_1).filter(d=> d=d)
+        const mubalighTerjadwal2 = jadwal.map(d=> d.Minggu_ke_2).filter(d=> d=d)
+        const mubalighTerjadwal3 = jadwal.map(d=> d.Minggu_ke_3).filter(d=> d=d)
+        const mubalighTerjadwal4 = jadwal.map(d=> d.Minggu_ke_4).filter(d=> d=d)
+        const mubalighTerjadwal5 = jadwal.map(d=> d.Minggu_ke_5).filter(d=> d=d)
+        console.log("mg 4", mubalighTerjadwal4)
+        const MOption1 = mubalighOption.filter(m=> !mubalighTerjadwal1.includes(m.label));
+        const MOption2 = mubalighOption.filter(m=> !mubalighTerjadwal2.includes(m.label));
+        const MOption3 = mubalighOption.filter(m=> !mubalighTerjadwal3.includes(m.label));
+        const MOption4 = mubalighOption.filter(m=> !mubalighTerjadwal4.includes(m.label));
+        const MOption5 = mubalighOption.filter(m=> !mubalighTerjadwal5.includes(m.label));
+        console.log("option", MOption1)
+        setMinggu1(MOption1)
+        setMinggu2(MOption2)
+        setMinggu3(MOption3)
+        setMinggu4(MOption4)
+        setMinggu5(MOption5)
+    };
 
     const updateStatus = async (selectedId) => {
         if(statusValidasi == true) {
@@ -170,7 +270,7 @@ const GenerateJumat = () => {
             const result = await response.json();
             updateHistoriJumat(selectedId,result );
             // console.log(result);
-            // window.location.reload();
+            window.location.reload();
             closeModal();
             deleteJadwalJumat(selectedId)
         } catch (error) {
@@ -232,6 +332,14 @@ const GenerateJumat = () => {
 
         return date;
     };
+
+    // const mubalighOption = [
+    //     { value: 1, label: '1' },
+    //     { value: 2, label: '2' },
+    //     { value: 3, label: '3' },
+    //     { value: 4, label: '4' },
+    //     { value: 5, label: '5' }
+    // ];
     
     const maxRowsToShow = 5;
     const [currentPage, setCurrentPage] = useState(1);
@@ -332,13 +440,53 @@ const GenerateJumat = () => {
                                                 {data2.map((v, i) => (
                                                     <div key={i} className="grid grid-cols-6 gap-3 bg-[#F5F5F5] rounded-md shadow-md mt-3">
                                                     <div className="px-4 py-1 font-normal">{v.PimpinanJemaah}</div>
-                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_1}</div>
-                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_2}</div>
-                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_3}</div>
-                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_4}</div>
+                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_1 ? v.Minggu_ke_1 : 
+                                                        <Select
+                                                        required
+                                                        className="appearance-none rounded w-full text-black"
+                                                        placeholder="Pilih mubaligh"
+                                                        options={minggu1}
+                                                        onChange={(selectedOption) => selectChangeMubaligh(v.PimpinanJemaah, 1, selectedOption.label)}
+                                                         />
+                                                    }</div>
+                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_2 ? v.Minggu_ke_2 : 
+                                                        <Select
+                                                        required
+                                                        className="appearance-none rounded w-full text-black"
+                                                        placeholder="Pilih mubaligh"
+                                                        options={minggu2}
+                                                        onChange={(selectedOption) => selectChangeMubaligh(v.PimpinanJemaah, 2, selectedOption.label)}
+                                                        /> 
+                                                    }</div>
+                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_3 ? v.Minggu_ke_3 :  
+                                                        <Select
+                                                        required
+                                                        className="appearance-none rounded w-full text-black"
+                                                        placeholder="Pilih mubaligh"
+                                                        options={minggu3}
+                                                        onChange={(selectedOption) => selectChangeMubaligh(v.PimpinanJemaah, 3, selectedOption.label)}
+                                                        />     
+                                                    }</div>
+                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_4 ? v.Minggu_ke_4 : 
+                                                        <Select
+                                                        required
+                                                        className="appearance-none rounded w-full text-black"
+                                                        placeholder="Pilih mubaligh"
+                                                        options={minggu4}
+                                                        onChange={(selectedOption) => selectChangeMubaligh(v.PimpinanJemaah, 4, selectedOption.label)}
+                                                        /> 
+                                                    }</div>
                                                     {getFridays (startDate.getFullYear(), startDate.getMonth(), 4).getMonth() == getFridays (startDate.getFullYear(), startDate.getMonth(), 5).getMonth()
                                                         ?
-                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_5} </div> : <div className="text-center w-36 px-4 py-2"> </div> }
+                                                    <div className="px-4 py-1 font-normal">{v.Minggu_ke_5 ? v.Minggu_ke_5 : 
+                                                        <Select
+                                                        required
+                                                        className="appearance-none rounded w-full text-black"
+                                                        placeholder="Pilih mubaligh"
+                                                        options={minggu5}
+                                                        onChange={(selectedOption) => selectChangeMubaligh(v.PimpinanJemaah, 5, selectedOption.value)}
+                                                        /> 
+                                                    } </div> : <div className="text-center w-36 px-4 py-2"> </div> }
                                                     </div>
                                                 ))}
                                                 </div>

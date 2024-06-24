@@ -109,6 +109,15 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
         { value: "Jumat", label: "Jumat" },
         { value: "Sabtu", label: "Sabtu" }
     ];
+
+    const minimalOptions = [
+        { value: 1, label: 1 },
+        { value: 2, label: 2 },
+        { value: 3, label: 3 },
+        { value: 4, label: 4 },
+        { value: 5, label: 5 }
+    ];
+
     const handleEditClick = async () => {
         const data = {
             idScopeDakwah: selectedLingkup,
@@ -128,7 +137,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
             .map(input => ({
                 idListKeahlian: input.keahlian.value,
                 nama: input.keahlian.label,
-                Rating: input.minimal
+                Rating: input.minimal.value
             }))
         };
         console.log("ini data", selectedWaktuJumat);
@@ -170,14 +179,9 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
         setKeahlianInputs(newKeahlianInputs);
     };
     
-    const handleMinimalChange = (index, event) => {
-    const newKeahlianInputs = [...keahlianInputs];
-    const minimalValue = parseInt(event.target.value, 10); // Mengonversi input menjadi integer
-        if (!isNaN(minimalValue)) {
-          newKeahlianInputs[index].minimal = minimalValue;
-        } else {
-          newKeahlianInputs[index].minimal = '';
-        }
+    const handleMinimalChange = (index, selectedOption) => {
+        const newKeahlianInputs = [...keahlianInputs];
+        newKeahlianInputs[index].minimal = selectedOption;
         setKeahlianInputs(newKeahlianInputs);
     };
     
@@ -339,6 +343,7 @@ const ModalUpdateMubaligh = ({idMubaligh, initialValues}) => {
                                                     className="shadow appearance-none border border-line rounded w-full p-2 text-black"
                                                     placeholder="Minimal Keahlian"
                                                     value={input.minimal}
+                                                    options ={minimalOptions}
                                                     onChange={(event) => handleMinimalChange(index, event)}
                                                 />
                                                 <button

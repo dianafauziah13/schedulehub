@@ -1,7 +1,7 @@
 import { Body, Controller, Post,  Get, Param, Put, Delete, HttpException, HttpStatus} from '@nestjs/common';
 import { JadwalJumatService } from './jumat.service'
-import { JadwalJumatSchemaDto } from './dto/create-jumat.dto';
-import { JadwalJumatSchema } from './schemas/jumat.schema';
+import { JadwalJumatSchemaDto, jumatDTOBaru} from './dto/create-jumat.dto';
+import { Jadwal, JadwalJumatSchema } from './schemas/jumat.schema';
 import { ProfileMatchingServiceJumat } from './profileMatchingJumat.service';
 
 @Controller('generatejadwaljumat')
@@ -63,6 +63,16 @@ async updateJadwalJumat(
 ): Promise<JadwalJumatSchema> {
   return await this.profileMatchingServiceJumat.updateStatusJumat(id, jadwalJumatDTO);
 }
+
+@Put(':id/by-week')
+async updateJadwal(
+  @Param('id') id: string,
+  @Body() jadwalJumatDTO: jumatDTOBaru[],
+): Promise<jumatDTOBaru[]> {
+  return await this.profileMatchingServiceJumat.updateMubaligh(id, jadwalJumatDTO);
+}
+
+
   // @Get()
   // async generateJadwalJumat() {
   //   const generateJadwalJumat = await this.profileMatchingServiceJumat.generateProfileJumat();

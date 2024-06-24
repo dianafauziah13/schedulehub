@@ -16,3 +16,9 @@ export class JadwalJumatSchemaDto {
     comment : String;
     Jadwal :  JadwalDto [];
 }
+
+export class jumatDTOBaru {
+    pimpinanJamaah: String 
+    mingguke: number; 
+    mubaligh: String;
+}

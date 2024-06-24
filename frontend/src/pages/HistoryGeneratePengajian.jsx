@@ -108,6 +108,7 @@ const HistoryGeneratePengajian = () => {
         });
         if (response.ok) {
             console.log("Data successfully deleted!");
+            deleteJadwalPengajianHasil(selectedId)
             getHistory(); // Setelah penghapusan berhasil, perbarui daftar PJ.
             closeModal(); // Tutup modal setelah penghapusan selesai.
         } else {
@@ -118,28 +119,49 @@ const HistoryGeneratePengajian = () => {
     }
     };
 
-    const makeStyle=(currentStatus)=>{
-        if(currentStatus === true)
-            {
-              return {
+    const deleteJadwalPengajianHasil = async (selectedId) => {
+        try {
+        const response = await fetch(`http://localhost:3000/generatePengajian/${selectedId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        if (response.ok) {
+            console.log("Data successfully deleted!");
+            getHistory(); // Setelah penghapusan berhasil, perbarui daftar PJ.
+            closeModal(); // Tutup modal setelah penghapusan selesai.
+        } else {
+            console.error("Failed to delete data");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    };
+
+    const makeStyle = (currentStatus, komentar) => {
+        if (currentStatus === true) {
+            return {
                 background: 'rgb(145 254 159 / 47%)',
                 color: 'green'
-              }
-            }
-            else if(currentStatus === false)
-            {
-              return{
+            };
+        } else if (currentStatus === false && komentar) {
+            return {
                 background: '#ffadad8f',
                 color: 'red',
-              }
-            }
-            else{
-              return{
+            };
+        } else if (currentStatus === false && !komentar) {
+            return {
+                background: 'rgb(255 255 0 / 47%)', // yellow background
+                color: 'black', // black text
+            };
+        } else {
+            return {
                 background: '#59bfff',
                 color: 'white',
-              }
-            }
-    }
+            };
+        }
+    };
 
     const maxRowsToShow = 5;
     const [currentPage, setCurrentPage] = useState(1);
@@ -212,7 +234,7 @@ const HistoryGeneratePengajian = () => {
                                             >
                                                 <span
                                                     className="p-2 rounded-md"
-                                                    style={makeStyle(v.statusValidasi)}
+                                                    style={makeStyle(v.statusValidasi, v.komentar)}
                                                 >
                                                  {getStatusText(v.statusValidasi, v.komentar)}
                                                 </span>
