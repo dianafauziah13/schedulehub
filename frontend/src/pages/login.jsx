@@ -155,7 +155,7 @@ const Login = () => {
               </div>
               <input
                 type="submit"
-                value="Log In"
+                value="Masuk"
                 className="bg-black text-white font-bold text-lg hover:bg-gray-700 p-2 mt-8"
               />
             </form>

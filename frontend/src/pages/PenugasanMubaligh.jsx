@@ -179,7 +179,7 @@ const PenugasanMubaligh = () => {
                                             <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.tglAwal?.split('T')[0]}</td>
                                             <td className="text-center max-w-[25px] h-auto px-4 py-2">{v.tglAkhir?.split('T')[0]}</td>
                                             <td className="text-center px-50 py-2">{v.mubalighJumatName.join(", ")}</td>
-                                            <td className="text-center w-36 px-4 py-2 rounded-l-lg">{v.mubalighPengajianName.join(", ")}</td>
+                                            <td className="text-center px-50 py-2">{v.mubalighPengajianName.join(", ")}</td>
                                             <td className="text-center px-4 py-2">{v.TopikKajian}</td>
                                             <td className=" relative items-center px-4 py-2 rounded-r-lg">
                                                 <div className='flex justify-center m-2'>
