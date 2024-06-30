@@ -5,6 +5,7 @@ import {FaCalendarAlt} from "react-icons/fa";
 import DatePicker from 'react-datepicker';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
+import { FiAlertCircle } from "react-icons/fi";
 
 const ModalAddPenugasan = () => {
     const [showModal, setShowModal] = useState(false);
@@ -12,11 +13,15 @@ const ModalAddPenugasan = () => {
     const [mubalighJumatOptions, setMubalighJumatOptions] = useState([]);
     const [mubalighPengajianOptions, setMubalighPengajianOptions] = useState([]);
     const [PJOptions, setPJOptions] = useState([]);
+    const [selectedDetail, setSelectedDetail] = useState([]);
     const [selectedMubalighKhutbahJumat, setSelectedMubalighKhutbahJumat] = useState([]);
     const [selectedMubalighPengajian, setSelectedMubalighPengajian] = useState([]);
     const [selectedPJ, setSelectedPJ] = useState(null);
     const [tglAwal, setTglAwal] = useState(null)
     const [tglAkhir, setTglAkhir] = useState(null)
+    const [data, setData] = useState([])
+    const [isDetailOpen, setIsDetailOpen] = useState(false);
+    const [selectedId, setSelectedId] = useState(null);
   
     const toast = useRef(null);
 
@@ -137,6 +142,36 @@ const ModalAddPenugasan = () => {
         // Handle error if necessary
       }
     };
+
+    const fetchDataByID = async(selectedId)=>{
+      try{
+          const response = await fetch(`http://localhost:3000/mubaligh/${selectedId}`)
+          const mubaligh = await response.json()
+          let tampilProfil = [];
+
+      let profilMubaligh = {
+          "NamaMubaligh": mubaligh.mubalighName,
+          "LingkupDakwah": mubaligh.scope_dakwah,
+          "AvailableJumat": mubaligh.AvailableKhutbahJumat.toString(),
+          "AvailablePengajianMinggu": mubaligh.AvailablePengajianRutin.Minggu_ke.toString(),
+          "AvailablePengajianHari": mubaligh.AvailablePengajianRutin.Hari.toString(),
+          "Keahlian": []
+      };
+
+      mubaligh.ListKeahlian.forEach(keahlian => {
+          profilMubaligh.Keahlian.push({
+              "NamaKeahlian": keahlian.nama,
+              "RatingKeahlian": keahlian.Rating
+          });
+      });
+      tampilProfil.push(profilMubaligh); 
+          // console.log(tampilProfil)
+          setData(tampilProfil)
+
+      } catch (error) {
+          console.log(error)
+      }
+    }
   
     const handleSelectChangeJumat = (selectedOptions) => {
         setSelectedMubalighKhutbahJumat(selectedOptions);
@@ -171,7 +206,22 @@ const ModalAddPenugasan = () => {
         const [day, month, year] = date.split('/');
         return `${year}-${month}-${day}`;
       };
+    
+    const handleDetail = (selectedOption) => {
+        setSelectedDetail(selectedOption);
+        
+    };
 
+    const openDetail = (id) => {
+      fetchDataByID(id)
+      setIsDetailOpen(true);
+      console.log(data)
+  }
+  
+
+    const closeDetail = () => {
+      setIsDetailOpen(false);
+  }
 
     return (
         <>
@@ -278,6 +328,97 @@ const ModalAddPenugasan = () => {
                                             />
                                         </form>
                                     </div>
+                                    <div className="w-full lg:w-1/2 px-4 mb-4">
+                                        <form className="rounded w-full">
+                                            <label className="flex justify-start text-black text-sm mt-4 mb-1">
+                                                Detail
+                                            </label>
+                                            <div className="flex items-center">
+                                                <Select
+                                                    required
+                                                    className="appearance-none rounded w-full text-black"
+                                                    placeholder="Pilih Mubaligh"
+                                                    options={mubalighJumatOptions}
+                                                    value={selectedDetail}
+                                                    onChange={handleDetail}
+                                                />
+                                                <button type="button" className="text-black ml-2" onClick={() => openDetail(selectedDetail.value)}>
+                                                <FiAlertCircle className="mr-2 text-2xl" />
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    {/* // Coba-coba */}
+                                        {isDetailOpen && (
+                                        <>
+                                        <div className="flex w-[98%] ml-[80px] justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                                            <div className="relative  w-auto my-6 mx-auto max-w-6xl mt-24">
+                                                <div className="border-0 rounded-lg shadow relative flex flex-col w-full text-black bg-white outline-none focus:outline-none px-10 font-montserrat">
+                                                    <div className="flex items-start justify-between p-5 rounded-t">
+                                                        <h3 className='text-[20px] font-montserrat mb-5 font-bold'>Requirement Mubaligh</h3>
+                                                    </div>
+                                                    <div className="w-full">
+                                                        {data.map((val, i) => (
+                                                            <>
+                                                        <div className="mb-4">
+                                                            <div className="flex text-[15px] font-montserrat mb-2">
+                                                                <span className="w-2/3">Nama Mubaligh</span>
+                                                                <span className="w-2/3">{val.NamaMubaligh}</span>
+                                                            </div>
+                                                            <div className="flex text-[15px] font-montserrat mb-2">
+                                                                <span className="w-2/3">Lingkup Dakwah</span>
+                                                                <span className="w-2/3">{val.LingkupDakwah}</span>
+                                                            </div>
+                                                            
+                                                            <div className="text-[15px] font-montserrat mb-2">
+                                                                <span className="w-1/3 font-bold">=================== Khutbah Pengajian Rutin ===================</span>
+                                                            </div>
+                                                            <div className="flex text-[15px] font-montserrat mb-2">
+                                                                <span className="w-2/3">Ketersediaan Waktu</span>
+                                                                <span className="w-2/3">Minggu-ke {val.AvailablePengajianMinggu}</span>
+                                                            </div>
+                                                            <div className="flex text-[15px] font-montserrat mb-7">
+                                                                <span className="w-2/3">Detail Hari</span>
+                                                                <span className="w-2/3">Hari {val.AvailablePengajianHari}</span>
+                                                            </div>
+                                                            <div className="text-[15px] font-montserrat mb-2">
+                                                                <span className="w-1/3 font-bold">======================= Khutbah Jumat ======================</span>
+                                                            </div>
+                                                            <div className="flex text-[15px] font-montserrat mb-2">
+                                                                <span className="w-2/3">Ketersediaan Waktu </span>
+                                                                <span className="w-2/3">Minggu-ke {val.AvailableJumat}</span>
+                                                            </div>
+                                                            <div className="text-[15px] font-montserrat mb-2">
+                                                                <span className="w-1/3 font-bold">=================== List Keahlian ===================</span>
+                                                            </div>
+                                                            {val.Keahlian.map((val2, i) => (
+                                                            <div className="flex text-[15px] font-montserrat mb-2">
+                                                                <span className="w-2/3">Nama Keahlian: </span>
+                                                                <span className="w-2/3">{val2.NamaKeahlian}</span>
+                                                                <span className="w-2/3">Rating Keahlian: </span>
+                                                                <span className="w-2/3">{val2.RatingKeahlian}</span>
+                                                            </div>
+                                                        ))}
+
+                                                        </div>
+                                                            </>
+                                                        ))} 
+                                                        </div>
+                                                        <div className="flex items-center justify-between p-6 rounded-b">
+                                                            <button
+                                                                className="text-black bg-[#F4F4F4] text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                                                                type="button"
+                                                                onClick={closeDetail}
+                                                            >
+                                                                Kembali
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </>
+                                            )}
+                                    {/* // Batas coba-coba */}
                                 </div>
                                 <div className="flex items-center justify-between p-6 rounded-b">
                                     <button

@@ -158,7 +158,6 @@ const PenugasanMubaligh = () => {
                                         <th className="px-4 py-1 border-line border-b-2 text-line text-center font-normal">Penugasan Pengajian</th>
                                         <th className="px-4 py-1 border-line border-b-2 text-line text-center font-normal">Topik Kajian</th>
                                         <th className="px-4 py-1 border-line border-b-2 text-line text-center font-normal">Actions</th>
-
                                     </tr>
                                 </thead>
                                 <tbody className=''>
